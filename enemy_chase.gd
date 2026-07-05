@@ -22,10 +22,14 @@ func Exit() ->void:
 	
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
-	enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized()*Vector2(abs(enemy.direction.y),abs(enemy.direction.x)) + enemy.direction).normalized() * enemy.SPEED*(enemy.global_position - enemy.player.global_position).length()*0.016) , 0.1)
-	
+	if enemy.player!= null and ((enemy.global_position - enemy.player.global_position).normalized() - (enemy.direction)).length() < 0.7  and (enemy.global_position - enemy.player.global_position).length() > 30:
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.2).normalized()) * enemy.SPEED *1.5 , 0.1)
+	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position).length() > 30:
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*1.05).normalized()) * enemy.SPEED *1.5 , 0.1)
 	if enemy.player!= null and (enemy.global_position - enemy.player.global_position).length() > 80:
+		
 		enemy.direction = enemy.chase_dir
+		
 
 		
 		

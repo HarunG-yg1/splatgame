@@ -80,17 +80,21 @@ func boids():
 	for body in bodyIsee:
 		avgVel += body.velocity
 		avgPosition += body.position
-		steer_Away -= (body.global_position - global_position) *400/(body.global_position - global_position).length()
+		steer_Away -= (body.global_position - global_position) *200/(body.global_position - global_position).length()
 	if numOfbodies != 0:
-		secondary_vel  = Vector2.ZERO
+		
 		avgVel /=  numOfbodies
-		secondary_vel += (avgVel - secondary_vel)/3
+		if  !is_nan(avgVel.x):
+			secondary_vel += (avgVel - secondary_vel)/2
 		
 		avgPosition /= numOfbodies 
-		secondary_vel += (avgPosition- secondary_vel)
+		if  !is_nan(avgPosition.x):
+			secondary_vel += (avgPosition- secondary_vel)
 		
 		steer_Away/=numOfbodies 
-		secondary_vel += (steer_Away)
+		if  !is_nan(steer_Away.x):
+			secondary_vel += (steer_Away)
+			
 		print("poofart")
 		print(secondary_vel,avgVel,avgPosition,steer_Away)
 	
@@ -108,6 +112,7 @@ func _on_enemy_fov_body_entered(body: CharacterBody2D) -> void:
 func _on_enemy_fov_body_exited(body: CharacterBody2D) -> void:
 	if player == body and !chase:
 		player = null
-	bodyIsee.erase(body)
-	secondary_vel  = Vector2.ZERO
+	if (body.global_position - global_position).length() > 80:
+		bodyIsee.erase(body)
+		
 		
