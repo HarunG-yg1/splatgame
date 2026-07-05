@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://dcplmtby6psqj"]
+
+[ext_resource type="Texture2D" uid="uid://ci0mpvjc0ux73" path="res://Assets/memes.png" id="1_7k104"]
+
+[sub_resource type="GDScript" id="GDScript_xepy2"]
+script/source = "extends CharacterBody2D
+
+
+# damn bruh
+@export var health = 30
+
+func _ready() -> void:
+	add_to_group(\"enemies\")
+
+func damage(amount):
+	health -= amount
+	print(\"OW\")
+	
+	if health <= 0:
+		die()
+
+func die():
+	queue_free()
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xepy2"]
+
+[node name="Enemy" type="CharacterBody2D" unique_id=787295925]
+script = SubResource("GDScript_xepy2")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1172499792]
+position = Vector2(-2.9802322e-08, -2.3841858e-07)
+scale = Vector2(0.10544871, 0.07746139)
+texture = ExtResource("1_7k104")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1627196904]
+shape = SubResource("CircleShape2D_xepy2")
