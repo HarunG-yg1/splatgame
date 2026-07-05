@@ -102,3 +102,6 @@ func _on_attack_box_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemies"):
 		if body.has_method("damage"):
 			body.damage(player_damage)
+
+func damage(amnt : int , from : Vector2):
+	pass

@@ -3,9 +3,13 @@ class_name Enemy extends CharacterBody2D
 @onready var enemy_fov = $enemy_fov
 @export var sprite2 : Texture
 @onready var animation_player = $AnimationPlayer
+@onready var animfx = $AnimatedSprite2D
 @onready var state_machine  = $statemachine
+@onready var hitter  = $enemy_fov/the_hitter/CollisionShape2D
+
 var bodyIsee : Array[CharacterBody2D]
 var player
+var random_pt : Vector2 = Vector2.ZERO
 var secondary_vel : Vector2   = Vector2.ZERO
 var cardinal_direction : Vector2 = Vector2.DOWN
 var direction : Vector2 = Vector2.ZERO
@@ -27,7 +31,7 @@ func _process(delta: float) -> void:
 		chase = true
 
 	if player != null and chase == true:
-		chase_dir = (player.position-position).normalized()
+		chase_dir = (player.position-position + random_pt).normalized()
 	if velocity.length() > 0:
 		enemy_fov.position = velocity.normalized()*70
 		enemy_fov.rotation =  (velocity).angle()
@@ -115,4 +119,13 @@ func _on_enemy_fov_body_exited(body: CharacterBody2D) -> void:
 	if (body.global_position - global_position).length() > 80:
 		bodyIsee.erase(body)
 		
+		
+
+
+func _on_the_hitter_body_entered(body: Player) -> void:
+	if body.has_method("damage"):
+		body.damage(1,global_position)
+	
+	await get_tree().create_timer(0.1).timeout
+	hitter.disabled = true
 		

@@ -1,13 +1,16 @@
 class_name Enemy_State_Chase extends Enemy_State
 ##ref to what this state belongs to
-@onready var timer = $"../../StateTimer"
-@onready var idle_state =$"../idle"
 
+@onready var timer = $"../../StateTimer"
+@onready var attk_timer = $"../../AttkCDTimer"
+@onready var idle_state =$"../idle"
+@onready var attack_state = $"../attack"
 func init() -> void:
 	pass
 
 #what happens when player enters state
 func Enter() ->void:
+	enemy.random_pt =  Vector2(randi_range(-25,25),randi_range(-25,25))
 	#enemy.cardinal_direction = Vector2.ZERO
 	timer.start(10)
 	
@@ -22,13 +25,20 @@ func Exit() ->void:
 	
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
-	if enemy.player!= null and ((enemy.global_position - enemy.player.global_position).normalized() - (enemy.direction)).length() < 0.7  and (enemy.global_position - enemy.player.global_position).length() > 30:
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.2).normalized()) * enemy.SPEED *1.5 , 0.1)
-	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position).length() > 30:
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*1.05).normalized()) * enemy.SPEED *1.5 , 0.1)
 	if enemy.player!= null and (enemy.global_position - enemy.player.global_position).length() > 80:
 		
 		enemy.direction = enemy.chase_dir
+	if enemy.player!= null and ((enemy.global_position - enemy.player.global_position).normalized() - (enemy.direction)).length() < 0.7  and (enemy.global_position - enemy.player.global_position).length() > 60:
+		print("chase bro son")
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/4).normalized()) * enemy.SPEED * 2  , 0.1)
+	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position).length()   > 60:
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*1.05).normalized()) * enemy.SPEED *2 , 0.1)
+	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position).length()   <40:
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized()).normalized()) * enemy.SPEED * 2 , 0.1)
+		if attk_timer.get_time_left() <= 0.1:
+			attk_timer.start(10)
+			return attack_state
+	
 		
 
 		
