@@ -13,7 +13,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
 
-[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1623458088]
+[node name="Player" type="CharacterBody2D" unique_id=1623458088]
 script = ExtResource("1_ng0wg")
 
 [node name="statemachine" type="Node" parent="." unique_id=1719897067]
