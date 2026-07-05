@@ -1,0 +1,27 @@
+class_name dash extends state_class
+@onready var idle_state =  $"../idle"
+@onready var move_state = $"../move"
+@onready var jump_state = $"../jump"
+@onready var crouch_move_state = $"../slide"
+var dash_window : float
+var boost : float
+
+func Enter():
+	print("dash")
+	dash_window = 0.25
+	boost = 5
+	pass
+func Process(delta):
+
+	if dash_window > 0:
+		guy1.move(guy1.direction,boost)
+		boost -= delta * 16
+		dash_window -= delta
+	else:
+		guy1.finish_run = true
+
+		if guy1.crouch:
+			return crouch_move_state
+		return move_state
+func Exit():
+	pass

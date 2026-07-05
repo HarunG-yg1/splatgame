@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://dvtbswqn1p22u"]
+
+[ext_resource type="Script" uid="uid://d1b5oj6cyb215" path="res://character_body_2d.gd" id="1_ng0wg"]
+[ext_resource type="Script" uid="uid://bfc72of00srla" path="res://statemachine.gd" id="2_pqb02"]
+[ext_resource type="Script" uid="uid://d53u05kqm55o" path="res://idle.gd" id="3_3pafw"]
+[ext_resource type="Texture2D" uid="uid://bsqmrunjbrmor" path="res://icon.svg" id="3_ytgb6"]
+[ext_resource type="Script" uid="uid://b4as3f64ik0n4" path="res://move.gd" id="4_3odsw"]
+[ext_resource type="Script" uid="uid://bs7co188x4nb" path="res://dash.gd" id="5_woueq"]
+[ext_resource type="Script" uid="uid://qv5t40i41x55" path="res://jump.gd" id="6_bjfdx"]
+[ext_resource type="Script" uid="uid://ce4bwui3ccoi6" path="res://crouching.gd" id="7_hfcs4"]
+[ext_resource type="Script" uid="uid://chg0yu6jjvoau" path="res://slide.gd" id="8_sl0af"]
+[ext_resource type="Script" uid="uid://4ywngadnigil" path="res://crouch_move.gd" id="9_s33xd"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1623458088]
+script = ExtResource("1_ng0wg")
+
+[node name="statemachine" type="Node" parent="." unique_id=1719897067]
+script = ExtResource("2_pqb02")
+
+[node name="idle" type="Node" parent="statemachine" unique_id=1917666249]
+script = ExtResource("3_3pafw")
+
+[node name="move" type="Node" parent="statemachine" unique_id=1591690938]
+script = ExtResource("4_3odsw")
+
+[node name="dash" type="Node" parent="statemachine" unique_id=941925613]
+script = ExtResource("5_woueq")
+
+[node name="jump" type="Node" parent="statemachine" unique_id=646304993]
+script = ExtResource("6_bjfdx")
+
+[node name="slide" type="Node" parent="statemachine" unique_id=177876741]
+script = ExtResource("8_sl0af")
+
+[node name="crouch_move" type="Node" parent="statemachine" unique_id=1231933053]
+script = ExtResource("9_s33xd")
+
+[node name="crouching" type="Node" parent="statemachine" unique_id=897860163]
+script = ExtResource("7_hfcs4")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=93672060]
+position = Vector2(-1.4305115e-06, 0)
+scale = Vector2(0.15624997, 0.2265625)
+texture = ExtResource("3_ytgb6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1712918288]
+shape = SubResource("CapsuleShape2D_kl0as")
