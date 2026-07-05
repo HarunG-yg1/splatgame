@@ -1,12 +1,6 @@
-extends Enemy_State 
+class_name hovering extends Enemy_State 
 ##ref to what this state belongs to
-
-func _init() -> void:
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+var hoverPos : Array[Vector2]
 
 #what happens when player enters state
 func Enter() ->void:
@@ -18,4 +12,5 @@ func Exit() ->void:
 	
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
+	
 	return null

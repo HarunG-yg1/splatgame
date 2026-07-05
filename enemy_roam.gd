@@ -29,8 +29,8 @@ func Process(_delta:float)->Enemy_State:
 	else:
 		prev_pos = enemy.global_position
 		pos_recorder = 0.1
-
-	enemy.velocity = enemy.direction * enemy.SPEED
+	
+	enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized()*Vector2(abs(enemy.direction.y),abs(enemy.direction.x)) + enemy.direction).normalized() * enemy.SPEED) , 0.1)
 	if enemy.chase:
 		return chasing
 	if timer.get_time_left() <= 0.01 or (prev_pos == enemy.global_position and pos_recorder<0.01):

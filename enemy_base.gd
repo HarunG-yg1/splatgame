@@ -4,9 +4,9 @@ class_name Enemy extends CharacterBody2D
 @export var sprite2 : Texture
 @onready var animation_player = $AnimationPlayer
 @onready var state_machine  = $statemachine
+var bodyIsee : Array[CharacterBody2D]
 var player
-
-@export var group_str: String
+var secondary_vel : Vector2   = Vector2.ZERO
 var cardinal_direction : Vector2 = Vector2.DOWN
 var direction : Vector2 = Vector2.ZERO
 
@@ -28,12 +28,14 @@ func _process(delta: float) -> void:
 
 	if player != null and chase == true:
 		chase_dir = (player.position-position).normalized()
-	enemy_fov.position = cardinal_direction*190
-	enemy_fov.rotation =  (cardinal_direction).angle()
+	if velocity.length() > 0:
+		enemy_fov.position = velocity.normalized()*70
+		enemy_fov.rotation =  (velocity).angle()
 	pass
 	
 func _physics_process(delta: float) -> void:
-
+	boids()
+	
 	move_and_slide()
 	
 	
@@ -50,7 +52,7 @@ func SetDirection() -> bool:
 		#print(cardinal_direction)
 		return false
 	cardinal_direction = new_dir
-	sprite.scale.x = -1 if cardinal_direction == Vector2.LEFT else 1
+	#sprite.scale.x = -1 if cardinal_direction == Vector2.LEFT else 1
 	return true
 
 func UpdateAnimation(state : String) -> void:
@@ -69,9 +71,29 @@ func choose_randomly(list_of_entries):
 	return list_of_entries[randi() % list_of_entries.size()]
 	
 
-
+func boids():
+	print( bodyIsee.size())
+	var numOfbodies = bodyIsee.size()
+	var avgVel := Vector2.ZERO
+	var avgPosition := Vector2.ZERO
+	var steer_Away := Vector2.ZERO
+	for body in bodyIsee:
+		avgVel += body.velocity
+		avgPosition += body.position
+		steer_Away -= (body.global_position - global_position) *400/(body.global_position - global_position).length()
+	if numOfbodies != 0:
+		secondary_vel  = Vector2.ZERO
+		avgVel /=  numOfbodies
+		secondary_vel += (avgVel - secondary_vel)/3
+		
+		avgPosition /= numOfbodies 
+		secondary_vel += (avgPosition- secondary_vel)
+		
+		steer_Away/=numOfbodies 
+		secondary_vel += (steer_Away)
+		print("poofart")
+		print(secondary_vel,avgVel,avgPosition,steer_Away)
 	
-
 
 
 
@@ -80,8 +102,12 @@ func _on_enemy_fov_body_entered(body: CharacterBody2D) -> void:
 		print("chase start")
 		player = body
 
+	bodyIsee.append(body)
+
 
 func _on_enemy_fov_body_exited(body: CharacterBody2D) -> void:
 	if player == body and !chase:
 		player = null
+	bodyIsee.erase(body)
+	secondary_vel  = Vector2.ZERO
 		
