@@ -13,6 +13,9 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_xepy2"]
+radius = 22.0
+
 [node name="Player" type="CharacterBody2D" unique_id=1623458088]
 script = ExtResource("1_ng0wg")
 
@@ -47,3 +50,12 @@ texture = ExtResource("3_ytgb6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1712918288]
 shape = SubResource("CapsuleShape2D_kl0as")
+
+[node name="AttackBox" type="Area2D" parent="." unique_id=2121460003]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox" unique_id=1504445]
+position = Vector2(32, 0)
+shape = SubResource("CircleShape2D_xepy2")
+disabled = true
+
+[connection signal="body_entered" from="AttackBox" to="." method="_on_attack_box_body_entered"]
