@@ -3,13 +3,15 @@ extends CharacterBody2D
 var para_in_sinwave : float
 @onready var sprite = $Sprite2D
 @onready var statemachine = $statemachine
+@onready var attack_box: Area2D = $AttackBox
+@onready var attack_shape: CollisionShape2D = $AttackBox/CollisionShape2D
 
 
 
 var jumping : bool = false
 var jump_vel : float = 0.0
 var crouch : bool = false
-
+var player_damage : int = 10
 
 var run = false
 var finish_run = true
@@ -20,6 +22,8 @@ var direction : Vector2
 func _ready() -> void:
 	statemachine.player = self
 	statemachine.init()
+	attack_shape.disabled = true
+	
 
 
 func _process(delta: float) -> void:
@@ -33,7 +37,10 @@ func _process(delta: float) -> void:
 		finish_run = false
 		await get_tree().create_timer(1).timeout
 		run = false
-
+	
+	if Input.is_action_just_pressed("Attack"):
+		attack()
+		
 	
 	if Input.is_action_just_pressed("jump") and !jumping:
 		jumping = true
@@ -44,6 +51,12 @@ func _process(delta: float) -> void:
 		
 	
 	direction = Vector2(Input.get_axis("left","right"),Input.get_axis("up","down")).normalized()
+
+func attack():
+	attack_shape.disabled = false 
+	await get_tree().create_timer(0.2).timeout
+	attack_shape.disabled = true
+	
 
 func jump_and_fall(delta):
 	if jumping:
@@ -81,3 +94,11 @@ func jump()->void:
 
 func _physics_process(_delta: float) -> void:
 	move_and_slide()
+
+	
+
+
+func _on_attack_box_body_entered(body: Node2D) -> void:
+	if body.is_in_group("enemies"):
+		if body.has_method("damage"):
+			body.damage(player_damage)

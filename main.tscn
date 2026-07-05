@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dvtbswqn1p22u" path="res://player1.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://hl57fcb3w2jt" path="res://enemy_base.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://dcplmtby6psqj" path="res://enemy.tscn" id="3_h2yge"]
 
 [node name="Node2D" type="Node2D" unique_id=1267132106]
 
@@ -10,3 +11,6 @@ position = Vector2(142, 124)
 
 [node name="Enemy" parent="." unique_id=1466780452 instance=ExtResource("2_0xm2m")]
 position = Vector2(215, 202)
+
+[node name="Enemy2" parent="." unique_id=787295925 instance=ExtResource("3_h2yge")]
+position = Vector2(257, 108)
