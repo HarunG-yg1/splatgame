@@ -13,3 +13,5 @@ texture = ExtResource("1_vk1bi")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=1380267313]
 position = Vector2(24, -6)
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=1380571285]
