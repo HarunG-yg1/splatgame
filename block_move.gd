@@ -12,7 +12,7 @@ func Enter():
 func Process(_delta):
 	guy1.move(guy1.direction,0.4)
 	timer -= _delta
-	if guy1.stun>0 and timer > 0.2:
+	if guy1.stun>0 and timer > 0.16:
 		timer = 0
 		guy1.stun = 0
 		consecutive_block += 2

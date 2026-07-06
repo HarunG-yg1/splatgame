@@ -22,7 +22,7 @@ func Process(delta):
 		return move_state
 
 	if guy1.crouch and dash_window < 0.1:
-		
+
 		guy1.finish_run = true
 		return slide_state
 	

@@ -17,7 +17,7 @@ func Process(_delta):
 		return move_state
 	elif guy1.run and !guy1.finish_run and jump_time <=0:
 		return dash_state
-	elif guy1.blocking and jump_time <=0:
+	elif guy1.blocking and jump_time <=0 and guy1.stun < 0.5:
 		return block_state
 
 func Exit():

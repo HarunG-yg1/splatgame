@@ -11,7 +11,7 @@ var time_for_hit : Array[float]
 func Enter() ->void:
 	#print("noop")
 	enemy.random_pt =  Vector2(randi_range(-15,15),randi_range(-15,15))
-	time_for_hit = [0.5,0.7,0.7,0.7,0.7,0.7,0.7,0.7]
+	time_for_hit = [0.5,0.45,0.45,0.45,0.45,0.45,0.45,0.45]
 	random_pt = Vector2(randi_range(-25,25),randi_range(-25,25))
 	amount_hits= randi_range(3,8)
 	time_for_hit[amount_hits-1] += 0.5

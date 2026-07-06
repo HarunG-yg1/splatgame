@@ -21,7 +21,7 @@ func Enter():
 	
 func Process(_delta):
 	timer -= _delta
-	if guy1.stun>0 and timer > 0.2:
+	if guy1.stun>0.75 and timer > 0.18:
 		timer = 0
 		guy1.stun = 0
 		consecutive_block += 2
@@ -49,8 +49,6 @@ func Process(_delta):
 		guy1.velocity -= guy1.velocity/15  
 		if abs(guy1.velocity.length()) < 1:
 			guy1.velocity = Vector2(0,0)
-
-
 
 func Exit():
 

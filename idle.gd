@@ -8,7 +8,7 @@ func Enter():
 	#print("idle")
 	pass
 func Process(_delta):
-	if guy1.blocking:
+	if guy1.blocking  and guy1.stun < 0.5:
 		return block_state
 	if guy1.crouch:
 		return crouch_state

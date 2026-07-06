@@ -132,8 +132,8 @@ func _on_the_hitter_body_entered(body: Player) -> void:
 		
 func parried( from : Vector2):
 	print("sa parried")
-	
-	stun = 1
+	if stun <= 0:
+		stun = 1
 	velocity -=  (from - global_position).normalized() * 800
 	pass
 	

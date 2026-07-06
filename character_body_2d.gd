@@ -30,7 +30,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if stun > 0:
-		stun -= delta*2
+		stun -= delta*1.5
 	if Input.is_action_just_pressed("block"):
 		blocking = true
 	if Input.is_action_pressed("crouch"):
