@@ -9,8 +9,8 @@ var time_for_hit : Array[float]
 #what happens when player enters state
 func Enter() ->void:
 	print("noop")
-	enemy.random_pt =  Vector2(randi_range(-25,25),randi_range(-25,25))
-	time_for_hit = [0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5]
+	enemy.random_pt =  Vector2(randi_range(-15,15),randi_range(-15,15))
+	time_for_hit = [0.5,0.7,0.7,0.7,0.7,0.7,0.7,0.7]
 	random_pt = Vector2(randi_range(-25,25),randi_range(-25,25))
 	amount_hits= randi_range(3,8)
 	time_for_hit[amount_hits-1] += 0.5
@@ -27,19 +27,24 @@ func Process(_delta:float)->Enemy_State:
 	
 	
 	
-	if enemy.player!= null and (enemy.hitter.global_position - enemy.player.global_position + random_pt).length() > 27:
+	if enemy.player!= null and (enemy.hitter.global_position - enemy.player.global_position + random_pt).length() > 50:
 		if !was_out_of_range:
-			time_for_hit[amount_hits-1] += 0.5
+			time_for_hit[amount_hits-1] += 0.25
 		was_out_of_range = true
 		move()
-	elif  enemy.player!= null and (enemy.hitter.global_position - enemy.player.global_position+ random_pt).length() < 27:
+	elif  enemy.player!= null and (enemy.hitter.global_position - enemy.player.global_position+ random_pt).length() <50:
 		was_out_of_range =  false
-		enemy.velocity = lerp(enemy.velocity,Vector2.ZERO,0.1)
+		if (enemy.hitter.global_position - enemy.player.global_position+ random_pt).length() > 20:
+			enemy.velocity =  enemy.chase_dir * enemy.player.MAX_SPEED * 1.1
+		else:
+			enemy.velocity = lerp(enemy.velocity,Vector2.ZERO,0.1)
 		time_for_hit[amount_hits-1] -= _delta
-		if time_for_hit[amount_hits-1] <= 0.3:
+		if time_for_hit[amount_hits-1] <= 0.5:
 			enemy.animfx.play("shine")
 		if time_for_hit[amount_hits-1] <= 0:
 			attack_now()
+		
+			enemy.animsprite.play("hit")
 			amount_hits -= 1
 		
 	if enemy.SetDirection():
@@ -59,13 +64,13 @@ func attack_now():
 	pass
 
 func move():
-	if enemy.player!= null and (enemy.global_position - enemy.player.global_position ).length() > 80:
+	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() > 80:
 		
 		enemy.direction = enemy.chase_dir
-	if enemy.player!= null and ((enemy.global_position - enemy.player.global_position).normalized() - (enemy.direction)).length() < 0.7  and (enemy.global_position - enemy.player.global_position).length() > 60:
+	if enemy.player!= null and ((enemy.global_position - enemy.player.global_position + random_pt).normalized() - (enemy.direction)).length() < 0.7  and (enemy.hitter.global_position - enemy.player.global_position).length() > 60:
 		print("chase bro son")
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/4).normalized()) * enemy.SPEED * 2  , 0.1)
-	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position ).length() > 60:
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*1.05).normalized()) * enemy.SPEED *2 , 0.1)
-	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position ).length() <40:
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized()).normalized()) * enemy.SPEED * 2 , 0.1)
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/4).normalized()) * enemy.SPEED * 2.4  , 0.1)
+	elif enemy.player!= null and (enemy.hitter.global_position - enemy.player.global_position + random_pt).length() > 60:
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*1.05).normalized()) * enemy.SPEED *2.4 , 0.1)
+	elif enemy.player!= null and (enemy.hitter.global_position - enemy.player.global_position + random_pt).length() <50:
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.05).normalized()) * enemy.SPEED * 2 , 0.1)

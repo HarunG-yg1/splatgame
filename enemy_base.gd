@@ -1,9 +1,9 @@
 class_name Enemy extends CharacterBody2D
-@onready var sprite = $Sprite2D
+@onready var animsprite = $Sprite2D
 @onready var enemy_fov = $enemy_fov
-@export var sprite2 : Texture
+
 @onready var animation_player = $AnimationPlayer
-@onready var animfx = $AnimatedSprite2D
+@onready var animfx = $AnimatedFX
 @onready var state_machine  = $statemachine
 @onready var hitter  = $enemy_fov/the_hitter/CollisionShape2D
 
@@ -19,8 +19,7 @@ var chase_dir : Vector2
 var chase : bool = false 
 
 func _ready() -> void:
-	if sprite2:
-		sprite.texture = sprite2
+
 	state_machine.init()
 	#direction.y = 1
 	pass # Replace with function body.
@@ -126,6 +125,7 @@ func _on_the_hitter_body_entered(body: Player) -> void:
 	if body.has_method("damage"):
 		body.damage(1,global_position)
 	
-	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(0.2).timeout
 	hitter.disabled = true
+	animsprite.play("default")
 		

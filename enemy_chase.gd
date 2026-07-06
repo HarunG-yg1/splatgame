@@ -25,18 +25,19 @@ func Exit() ->void:
 	
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
-	if enemy.player!= null and (enemy.global_position - enemy.player.global_position).length() > 80:
+	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt ).length() > 80:
 		
 		enemy.direction = enemy.chase_dir
-	if enemy.player!= null and ((enemy.global_position - enemy.player.global_position).normalized() - (enemy.direction)).length() < 0.7  and (enemy.global_position - enemy.player.global_position).length() > 60:
+	if enemy.player!= null and ((enemy.global_position - enemy.player.global_position).normalized() - (enemy.direction)).length() < 0.7  and (enemy.hitter.global_position - enemy.player.global_position + enemy.random_pt).length() > 60:
 		print("chase bro son")
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/4).normalized()) * enemy.SPEED * 2  , 0.1)
-	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position).length()   > 60:
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*1.05).normalized()) * enemy.SPEED *2 , 0.1)
-	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position).length()   <40:
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized()).normalized()) * enemy.SPEED * 2 , 0.1)
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/4).normalized()) * enemy.SPEED * 1.8 , 0.1)
+	elif enemy.player!= null and (enemy.hitter.global_position - enemy.player.global_position + enemy.random_pt).length() > 60:
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*1.05).normalized()) * enemy.SPEED *1.8 , 0.1)
+	elif enemy.player!= null and (enemy.hitter.global_position - enemy.player.global_position + enemy.random_pt).length() <40:
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.05).normalized()) * enemy.SPEED * 2 , 0.1)
 		if attk_timer.get_time_left() <= 0.1:
 			attk_timer.start(10)
+			print("chase brobrovro son")
 			return attack_state
 	
 		

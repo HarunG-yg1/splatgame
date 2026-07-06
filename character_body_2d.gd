@@ -7,7 +7,7 @@ var para_in_sinwave : float
 @onready var attack_shape: CollisionShape2D = $AttackBox/CollisionShape2D
 
 
-
+var stun : float = 0
 var jumping : bool = false
 var jump_vel : float = 0.0
 var crouch : bool = false
@@ -49,9 +49,10 @@ func _process(delta: float) -> void:
 	jump_and_fall(delta)
 	
 		
-	
-	direction = Vector2(Input.get_axis("left","right"),Input.get_axis("up","down")).normalized()
-
+	if stun <= 0:
+		direction = Vector2(Input.get_axis("left","right"),Input.get_axis("up","down")).normalized()
+	else:
+		direction = Vector2.ZERO
 func attack():
 	attack_shape.disabled = false 
 	await get_tree().create_timer(0.2).timeout
@@ -104,4 +105,6 @@ func _on_attack_box_body_entered(body: Node2D) -> void:
 			body.damage(player_damage)
 
 func damage(amnt : int , from : Vector2):
+	stun = 1
+	velocity -=  (from - global_position).normalized() * 400
 	pass
