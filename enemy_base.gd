@@ -6,6 +6,8 @@ class_name Enemy extends CharacterBody2D
 @onready var animfx = $AnimatedFX
 @onready var state_machine  = $statemachine
 @onready var hitter  = $the_hitter/CollisionShape2D
+@onready var attack_state: enemy_attack = $statemachine/attack
+
 var stun : float = 0
 var bodyIsee : Array[CharacterBody2D]
 var player
@@ -137,3 +139,10 @@ func parried( from : Vector2):
 	velocity -=  (from - global_position).normalized() * 800
 	pass
 	
+
+func _on_the_hitter_area_entered(area: Area2D) -> void:
+	if area.is_in_group("player-attack-box"):
+		if attack_state.can_rhythm_be_beated:
+			print("Beated!")
+	
+		

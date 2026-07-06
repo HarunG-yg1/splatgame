@@ -4,8 +4,8 @@ var para_in_sinwave : float
 @onready var animfx = $animfx
 @onready var sprite = $Sprite2D
 @onready var statemachine = $statemachine
-@onready var attack_box: Area2D = $AttackBox
-@onready var attack_shape: CollisionShape2D = $AttackBox/CollisionShape2D
+@onready var attack_box: Area2D = $Marker2D/AttackBox
+@onready var attack_shape: CollisionShape2D = $Marker2D/AttackBox/CollisionShape2D
 
 var blocking : bool = false
 var stun : float = 0
@@ -58,6 +58,7 @@ func _process(delta: float) -> void:
 		direction = Vector2(Input.get_axis("left","right"),Input.get_axis("up","down")).normalized()
 	else:
 		direction = Vector2.ZERO
+		
 func attack():
 	attack_shape.disabled = false 
 	await get_tree().create_timer(0.2).timeout

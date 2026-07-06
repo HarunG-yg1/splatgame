@@ -5,6 +5,13 @@ var random_pt : Vector2
 var amount_hits : int
 var was_out_of_range := true
 var time_for_hit : Array[float]
+
+var hit_cooldown: float = 0.0 # time before next attack can commence
+const ATTACK_DELAY: float = 1.0 # seconds between hits
+
+var rhythm_count: int = 0 # how many beats left for the player to hit
+var can_rhythm_be_beated: bool = false # true if enemy is attacking
+
 @onready var idle_state =$"../idle"
 @onready var stun_state =$"../stun"
 #what happens when player enters state
@@ -42,13 +49,31 @@ func Process(_delta:float)->Enemy_State:
 		else:
 			enemy.velocity = lerp(enemy.velocity,Vector2.ZERO,0.1)
 		time_for_hit[amount_hits-1] -= _delta
-		if time_for_hit[amount_hits-1] <= 0.5:
-			enemy.animfx.play("shine")
-		if time_for_hit[amount_hits-1] <= 0:
-			attack_now()
 		
-			enemy.animsprite.play("hit")
-			amount_hits -= 1
+		# does not allow attack again if the enemy has attacked for a short duration
+		if hit_cooldown > 0:
+			hit_cooldown -= _delta
+		
+			# disable hitbox after a short duration
+			if hit_cooldown <= (ATTACK_DELAY - 0.2):
+				enemy.hitter.disabled = true
+				can_rhythm_be_beated = false
+				
+		if hit_cooldown <= 0 and amount_hits > 0:
+			attack_now()
+			hit_cooldown = ATTACK_DELAY
+		
+	#visual cue for the player to know when to m1 to negate
+	if hit_cooldown <= 0.2:
+		enemy.animfx.play("shine")
+		#if time_for_hit[amount_hits-1] <= 0.5:
+			#print("attack")
+			#enemy.animfx.play("shine")
+		#if time_for_hit[amount_hits-1] <= 0:
+			#attack_now()
+		#
+			#enemy.animsprite.play("hit")
+			#amount_hits -= 1
 		
 	if enemy.SetDirection():
 		enemy.AnimDirect()
@@ -64,6 +89,17 @@ func Process(_delta:float)->Enemy_State:
 func attack_now():
 	if enemy.player != null:
 		enemy.hitter.disabled = false
+		can_rhythm_be_beated = true
+		enemy.animsprite.play("hit")
+		amount_hits -= 1
+		
+		# so the hit window is 0.2 seconds
+		#await get_tree().create_timer(1.0).timeout
+		#can_rhythm_be_beated = false
+		#
+		# disabling the hitter box after the attack	
+		#await get_tree().create_timer(1.0).timeout
+		#enemy.hitter.disabled = true
 	pass
 
 func move():
@@ -77,3 +113,6 @@ func move():
 		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*1.05).normalized()) * enemy.SPEED *2.4 , 0.1)
 	elif enemy.player!= null and (enemy.hitter.global_position - enemy.player.global_position + random_pt).length() <40:
 		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.05).normalized()) * enemy.SPEED * 2 , 0.1)
+
+
+		

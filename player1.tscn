@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://bp3euxqpxje8q" path="res://parrythis.png" id="12_ak627"]
 [ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://penisForScale.png" id="14_6flp4"]
 [ext_resource type="PackedScene" uid="uid://ctog7ixvmi0mn" path="res://gun.tscn" id="15_y0uv2"]
+[ext_resource type="Script" uid="uid://cpx7r2sx0w0mg" path="res://marker_2d.gd" id="16_0aqdq"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kl0as"]
 animations = [{
@@ -36,9 +37,6 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_xepy2"]
-radius = 22.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xg66o"]
 atlas = ExtResource("14_6flp4")
@@ -119,6 +117,9 @@ animations = [{
 "speed": 24.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_xepy2"]
+radius = 22.0
+
 [node name="Player" type="CharacterBody2D" unique_id=1623458088]
 collision_layer = 10
 collision_mask = 8
@@ -163,17 +164,20 @@ sprite_frames = SubResource("SpriteFrames_kl0as")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1712918288]
 shape = SubResource("CapsuleShape2D_kl0as")
 
-[node name="AttackBox" type="Area2D" parent="." unique_id=2121460003]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox" unique_id=1504445]
-position = Vector2(32, 0)
-shape = SubResource("CircleShape2D_xepy2")
-disabled = true
-
 [node name="animfx" type="AnimatedSprite2D" parent="." unique_id=1686348014]
 sprite_frames = SubResource("SpriteFrames_y0uv2")
 animation = &"parried"
 
 [node name="Gun" parent="." unique_id=801267109 instance=ExtResource("15_y0uv2")]
 
-[connection signal="body_entered" from="AttackBox" to="." method="_on_attack_box_body_entered"]
+[node name="Marker2D" type="Marker2D" parent="." unique_id=1063306614]
+script = ExtResource("16_0aqdq")
+
+[node name="AttackBox" type="Area2D" parent="Marker2D" unique_id=2121460003]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Marker2D/AttackBox" unique_id=1504445]
+position = Vector2(32, 0)
+shape = SubResource("CircleShape2D_xepy2")
+disabled = true
+
+[connection signal="body_entered" from="Marker2D/AttackBox" to="." method="_on_attack_box_body_entered"]

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://s0q5outj6f5k"
+path="res://.godot/imported/3rd Hit.wav-d468e41c58716393c676c5f2dea9113c.sample"
+
+[deps]
+
+source_file="res://Sound Effects/Rythm/3rd Hit.wav"
+dest_files=["res://.godot/imported/3rd Hit.wav-d468e41c58716393c676c5f2dea9113c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

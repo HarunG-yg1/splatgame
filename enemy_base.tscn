@@ -172,7 +172,7 @@ sprite_frames = SubResource("SpriteFrames_7mdju")
 position = Vector2(0, 1)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_kl0as")
-animation = &"parried"
+animation = &"shine"
 
 [node name="the_hitter" type="Area2D" parent="." unique_id=184640184]
 collision_layer = 3
@@ -185,4 +185,5 @@ disabled = true
 
 [connection signal="body_entered" from="enemy_fov" to="." method="_on_enemy_fov_body_entered"]
 [connection signal="body_exited" from="enemy_fov" to="." method="_on_enemy_fov_body_exited"]
+[connection signal="area_entered" from="the_hitter" to="." method="_on_the_hitter_area_entered"]
 [connection signal="body_entered" from="the_hitter" to="." method="_on_the_hitter_body_entered"]
