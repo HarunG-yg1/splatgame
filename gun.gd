@@ -6,8 +6,12 @@ const BULLET = preload("res://bullet.tscn")
 
 @onready var muzzle: Marker2D = $Marker2D
 @onready var raycast: RayCast2D = $RayCast2D
+@onready var player = get_parent()
 
 @export var gun_range: float = 800.0
+@export var fire_cooldown: float = 0.3
+
+var can_fire: bool = true
 
 func _ready() -> void:
 	raycast.target_position = Vector2(gun_range, 0)
@@ -21,7 +25,12 @@ func _process(delta: float) -> void:
 	else:
 		scale.y = 1
  
-	if Input.is_action_just_pressed("shoot"):
+	if Input.is_action_just_pressed("shoot") and can_fire and player.stun <= 0:
+		shoot()
+		
+func shoot() -> void:
+		can_fire = false
+	
 		var bullet_instance = BULLET.instantiate()
 		get_tree().root.add_child(bullet_instance)
 		bullet_instance.global_position = muzzle.global_position
@@ -35,5 +44,11 @@ func _process(delta: float) -> void:
 			var hit_point = raycast.get_collision_point()
 			print("Hit object: ", hit_object.name)
 			print("Hit point: ", hit_point)
+			
+			if hit_object.has_method("parried"):
+				hit_object.parried(hit_point)
 		else:
 			print("No collision — reached max range")
+			
+		await get_tree().create_timer(fire_cooldown).timeout
+		can_fire = true

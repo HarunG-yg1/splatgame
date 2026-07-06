@@ -7,11 +7,12 @@
 script = ExtResource("1_v8qja")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1185349234]
-scale = Vector2(0.12, 0.12)
+position = Vector2(107.00001, 0)
+scale = Vector2(0.47921872, 0.12)
 texture = ExtResource("1_v7oki")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=297673078]
-position = Vector2(18, 4)
-rect = Rect2(-46, -19, 56, 29)
+position = Vector2(122, 7)
+rect = Rect2(-46, -19, 69, 29)
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
