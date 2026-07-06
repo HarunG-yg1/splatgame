@@ -1,7 +1,7 @@
 extends Node2D
  
  
-const SPEED: int = 600
+const SPEED: int = 800
  
  
 func _process(delta: float) -> void:

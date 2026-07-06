@@ -3,10 +3,15 @@ extends Node2D
  
 const BULLET = preload("res://bullet.tscn")
  
- 
+
 @onready var muzzle: Marker2D = $Marker2D
- 
- 
+@onready var raycast: RayCast2D = $RayCast2D
+
+@export var gun_range: float = 800.0
+
+func _ready() -> void:
+	raycast.target_position = Vector2(gun_range, 0)
+
 func _process(delta: float) -> void:
 	look_at(get_global_mouse_position())
  
@@ -21,3 +26,14 @@ func _process(delta: float) -> void:
 		get_tree().root.add_child(bullet_instance)
 		bullet_instance.global_position = muzzle.global_position
 		bullet_instance.rotation = rotation
+
+		raycast.force_raycast_update()
+		print("Gun Fired. Colliding: ", raycast.is_colliding())
+
+		if raycast.is_colliding():
+			var hit_object = raycast.get_collider()
+			var hit_point = raycast.get_collision_point()
+			print("Hit object: ", hit_object.name)
+			print("Hit point: ", hit_point)
+		else:
+			print("No collision — reached max range")
