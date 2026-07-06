@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://4q88mdlryyso" path="res://block_move.gd" id="11_lyl3y"]
 [ext_resource type="Texture2D" uid="uid://bp3euxqpxje8q" path="res://parrythis.png" id="12_ak627"]
 [ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://penisForScale.png" id="14_6flp4"]
+[ext_resource type="PackedScene" uid="uid://ctog7ixvmi0mn" path="res://gun.tscn" id="15_y0uv2"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kl0as"]
 animations = [{
@@ -172,5 +173,7 @@ disabled = true
 [node name="animfx" type="AnimatedSprite2D" parent="." unique_id=1686348014]
 sprite_frames = SubResource("SpriteFrames_y0uv2")
 animation = &"parried"
+
+[node name="Gun" parent="." unique_id=801267109 instance=ExtResource("15_y0uv2")]
 
 [connection signal="body_entered" from="AttackBox" to="." method="_on_attack_box_body_entered"]
