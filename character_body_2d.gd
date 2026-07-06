@@ -1,6 +1,7 @@
 class_name Player
 extends CharacterBody2D
 var para_in_sinwave : float
+@onready var animfx = $animfx
 @onready var sprite = $Sprite2D
 @onready var statemachine = $statemachine
 @onready var attack_box: Area2D = $AttackBox

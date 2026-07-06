@@ -21,12 +21,12 @@ func Enter():
 	
 func Process(_delta):
 	timer -= _delta
-	if guy1.stun>0 and timer > 0.125:
+	if guy1.stun>0 and timer > 0.2:
 		timer = 0
 		guy1.stun = 0
 		consecutive_block += 2
-		if guy1.curr_attker != null:
-			guy1.curr_attker.animfx.play("parried")
+		
+		guy1.animfx.play("parried")
 	if timer < 0:
 		if consecutive_block > 1:
 			consecutive_block -= 1
