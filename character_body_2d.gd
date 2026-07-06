@@ -6,7 +6,7 @@ var para_in_sinwave : float
 @onready var attack_box: Area2D = $AttackBox
 @onready var attack_shape: CollisionShape2D = $AttackBox/CollisionShape2D
 
-
+var blocking : bool = false
 var stun : float = 0
 var jumping : bool = false
 var jump_vel : float = 0.0
@@ -18,6 +18,7 @@ var finish_run = true
 const INITIAL_SPEED = 55.0
 const MAX_SPEED = 264.0
 var direction : Vector2
+var curr_attker : Enemy = null
 
 func _ready() -> void:
 	statemachine.player = self
@@ -27,7 +28,10 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-
+	if stun > 0:
+		stun -= delta*2
+	if Input.is_action_just_pressed("block"):
+		blocking = true
 	if Input.is_action_pressed("crouch"):
 		crouch = true
 	else:
@@ -104,7 +108,9 @@ func _on_attack_box_body_entered(body: Node2D) -> void:
 		if body.has_method("damage"):
 			body.damage(player_damage)
 
-func damage(amnt : int , from : Vector2):
+func damage(amnt : int , from : Vector2, attker : Enemy):
+	
+	curr_attker = attker
 	stun = 1
-	velocity -=  (from - global_position).normalized() * 400
+	velocity -=  (from - global_position).normalized() * 200
 	pass

@@ -12,7 +12,7 @@ func init() -> void:
 	pass
 	
 func Enter() ->void:
-	print("roam")
+#	print("roam")
 	timer.start(enemy.choose_randomly([2,4]))
 	enemy.UpdateAnimation("walk")
 	

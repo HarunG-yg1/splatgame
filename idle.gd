@@ -1,12 +1,15 @@
 class_name idle extends state_class
 @onready var crouch_state = $"../crouching"
+@onready var block_state =  $"../block"
 @onready var move_state = $"../move"
 @onready var dash_state =  $"../dash"
 @onready var jump_state = $"../jump"
 func Enter():
-	print("idle")
+	#print("idle")
 	pass
 func Process(_delta):
+	if guy1.blocking:
+		return block_state
 	if guy1.crouch:
 		return crouch_state
 	if (guy1.velocity.length()) > 1 and !guy1.jumping:

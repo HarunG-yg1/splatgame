@@ -7,7 +7,7 @@ var dash_window : float
 var boost : float
 
 func Enter():
-	print("dash")
+	#print("dash")
 	dash_window = 0.25
 	boost = 5
 	pass

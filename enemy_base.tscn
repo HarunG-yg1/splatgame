@@ -7,16 +7,15 @@
 [ext_resource type="Script" uid="uid://djnigfcyfhjda" path="res://enemy_chase.gd" id="5_ehd03"]
 [ext_resource type="Script" uid="uid://b0rku3fh7gytq" path="res://enemy_dir.gd" id="6_vop6o"]
 [ext_resource type="Script" uid="uid://bib6o2gc30wrk" path="res://enemy_base_attack.gd" id="7_vop6o"]
+[ext_resource type="Script" uid="uid://3sqscr1a0fhn" path="res://enemy_stun.gd" id="8_3vlx0"]
 [ext_resource type="Texture2D" uid="uid://bka8ruyptlus8" path="res://communityIcon_oi1dus1jkkvb1.png" id="8_vop6o"]
 [ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://penisForScale.png" id="9_gak77"]
+[ext_resource type="Texture2D" uid="uid://bp3euxqpxje8q" path="res://parrythis.png" id="11_xg66o"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7mdju"]
 size = Vector2(29, 166)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_sbbgc"]
-size = Vector2(74.75, 67)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7mdju"]
 animations = [{
@@ -68,6 +67,23 @@ animations = [{
 "texture": null
 }, {
 "duration": 1.0,
+"texture": ExtResource("11_xg66o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_xg66o")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": 0,
+"name": &"parried",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
 "texture": null
 }, {
 "duration": 1.0,
@@ -99,9 +115,11 @@ animations = [{
 "speed": 24.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sbbgc"]
+size = Vector2(74.75, 67)
+
 [node name="enemy" type="CharacterBody2D" unique_id=1466780452]
-collision_layer = 2
-collision_mask = 9
+collision_mask = 8
 script = ExtResource("1_8nqel")
 
 [node name="statemachine" type="Node" parent="." unique_id=1213086234]
@@ -123,6 +141,9 @@ script = ExtResource("6_vop6o")
 [node name="attack" type="Node" parent="statemachine" unique_id=695251757]
 script = ExtResource("7_vop6o")
 
+[node name="stun" type="Node" parent="statemachine" unique_id=1435013742]
+script = ExtResource("8_3vlx0")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1313416424]
 shape = SubResource("CapsuleShape2D_kl0as")
 
@@ -138,13 +159,6 @@ polygon = PackedVector2Array(-70, 100, 20, 0, -70, -100, 100, -100, 100, 100)
 position = Vector2(-103, -1)
 shape = SubResource("RectangleShape2D_7mdju")
 
-[node name="the_hitter" type="Area2D" parent="enemy_fov" unique_id=184640184]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_fov/the_hitter" unique_id=332105600]
-position = Vector2(-37.375, 0.99999994)
-shape = SubResource("RectangleShape2D_sbbgc")
-disabled = true
-
 [node name="StateTimer" type="Timer" parent="." unique_id=1208297385]
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1733464750]
@@ -158,8 +172,17 @@ sprite_frames = SubResource("SpriteFrames_7mdju")
 position = Vector2(0, 1)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_kl0as")
-animation = &"shine"
+animation = &"parried"
+
+[node name="the_hitter" type="Area2D" parent="." unique_id=184640184]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="the_hitter" unique_id=332105600]
+position = Vector2(18, 0)
+shape = SubResource("RectangleShape2D_sbbgc")
+disabled = true
 
 [connection signal="body_entered" from="enemy_fov" to="." method="_on_enemy_fov_body_entered"]
 [connection signal="body_exited" from="enemy_fov" to="." method="_on_enemy_fov_body_exited"]
-[connection signal="body_entered" from="enemy_fov/the_hitter" to="." method="_on_the_hitter_body_entered"]
+[connection signal="body_entered" from="the_hitter" to="." method="_on_the_hitter_body_entered"]

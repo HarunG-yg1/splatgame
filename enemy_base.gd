@@ -5,8 +5,8 @@ class_name Enemy extends CharacterBody2D
 @onready var animation_player = $AnimationPlayer
 @onready var animfx = $AnimatedFX
 @onready var state_machine  = $statemachine
-@onready var hitter  = $enemy_fov/the_hitter/CollisionShape2D
-
+@onready var hitter  = $the_hitter/CollisionShape2D
+var stun : float = 0
 var bodyIsee : Array[CharacterBody2D]
 var player
 var random_pt : Vector2 = Vector2.ZERO
@@ -26,11 +26,12 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if player != null and abs(player.velocity.x) + abs(player.velocity.y)>50:
-		print("chase start")
+		#print("chase start")
 		chase = true
 
 	if player != null and chase == true:
 		chase_dir = (player.position-position + random_pt).normalized()
+		hitter.get_parent().look_at(player.position)
 	if velocity.length() > 0:
 		enemy_fov.position = velocity.normalized()*70
 		enemy_fov.rotation =  (velocity).angle()
@@ -75,7 +76,7 @@ func choose_randomly(list_of_entries):
 	
 
 func boids():
-	print( bodyIsee.size())
+#	print( bodyIsee.size())
 	var numOfbodies = bodyIsee.size()
 	var avgVel := Vector2.ZERO
 	var avgPosition := Vector2.ZERO
@@ -98,15 +99,15 @@ func boids():
 		if  !is_nan(steer_Away.x):
 			secondary_vel += (steer_Away)
 			
-		print("poofart")
-		print(secondary_vel,avgVel,avgPosition,steer_Away)
+		#print("poofart")
+		#print(secondary_vel,avgVel,avgPosition,steer_Away)
 	
 
 
 
 func _on_enemy_fov_body_entered(body: CharacterBody2D) -> void:
 	if body is Player   :
-		print("chase start")
+	#	print("chase start")
 		player = body
 
 	bodyIsee.append(body)
@@ -123,9 +124,16 @@ func _on_enemy_fov_body_exited(body: CharacterBody2D) -> void:
 
 func _on_the_hitter_body_entered(body: Player) -> void:
 	if body.has_method("damage"):
-		body.damage(1,global_position)
+		body.damage(1,global_position, self)
 	
 	await get_tree().create_timer(0.2).timeout
 	hitter.disabled = true
 	animsprite.play("default")
 		
+func parried( from : Vector2):
+	print("sa parried")
+	
+	stun = 1
+	velocity -=  (from - global_position).normalized() * 800
+	pass
+	

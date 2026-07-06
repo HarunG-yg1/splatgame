@@ -8,7 +8,7 @@ class_name Enemy_State_Idle extends Enemy_State
 func init() -> void:
 	pass
 func Enter() ->void:
-	print("idle")
+	#print("idle")
 	timer.start(enemy.choose_randomly([0.5,1.5,2,1]))
 	enemy.UpdateAnimation("idle")
 	pass

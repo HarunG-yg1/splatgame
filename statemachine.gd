@@ -14,8 +14,10 @@ func init() -> void:
 	self.process_mode = Node.PROCESS_MODE_INHERIT
 func _ready() -> void:
 	for i : state_class in get_children():
+		
 		i.guy1 = player
 		i.statemachine = self
+		i._init()
 		states.push_back(i)
 	curr_state = states[0]
 	
