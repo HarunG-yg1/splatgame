@@ -1,0 +1,148 @@
+[gd_scene format=3 uid="uid://c7c862d18nrh"]
+
+[ext_resource type="Script" uid="uid://belh22gmnp0wt" path="res://ranged_enemy.gd" id="1_bee66"]
+[ext_resource type="Script" uid="uid://cgfju534j6ipg" path="res://enemystatemachine.gd" id="2_6bfrx"]
+[ext_resource type="Script" uid="uid://dii3uhkbrk5e8" path="res://enemy_idle.gd" id="3_edmtc"]
+[ext_resource type="Script" uid="uid://b6fo7mhli1rxa" path="res://enemy_roam.gd" id="4_0f7u5"]
+[ext_resource type="Script" uid="uid://b0rku3fh7gytq" path="res://enemy_dir.gd" id="6_1k2p4"]
+[ext_resource type="Script" uid="uid://cydx84lmnkdbx" path="res://run_away.gd" id="8_0f7u5"]
+[ext_resource type="Script" uid="uid://3sqscr1a0fhn" path="res://enemy_stun.gd" id="8_t03c4"]
+[ext_resource type="Script" uid="uid://delwpdu46jbqm" path="res://attack.gd" id="9_1k2p4"]
+[ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://penisForScale.png" id="10_1k2p4"]
+[ext_resource type="Texture2D" uid="uid://pv33ojdetmm3" path="res://penisForScale - Copy.png" id="11_6ryvo"]
+[ext_resource type="Texture2D" uid="uid://bka8ruyptlus8" path="res://communityIcon_oi1dus1jkkvb1.png" id="11_71gsf"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t03c4"]
+size = Vector2(79.5, 166)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xgwlu"]
+atlas = ExtResource("10_1k2p4")
+region = Rect2(0, 12, 32, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1k2p4"]
+atlas = ExtResource("11_6ryvo")
+region = Rect2(0, 0, 32, 6)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5wi53"]
+animations = [{
+"frames": [],
+"loop": 0,
+"name": &"parried",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xgwlu")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": 0,
+"name": &"shine",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1k2p4")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": 0,
+"name": &"shine2",
+"speed": 24.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8n2ib"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_71gsf")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_1k2p4")
+}],
+"loop": 1,
+"name": &"hit",
+"speed": 5.0
+}]
+
+[node name="ranged_enemy" type="CharacterBody2D" unique_id=6164640]
+collision_mask = 10
+motion_mode = 1
+script = ExtResource("1_bee66")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=976739497]
+shape = SubResource("CapsuleShape2D_kl0as")
+
+[node name="statemachine" type="Node" parent="." unique_id=1738913520]
+process_mode = 4
+script = ExtResource("2_6bfrx")
+
+[node name="idle" type="Node" parent="statemachine" unique_id=1522095480]
+script = ExtResource("3_edmtc")
+
+[node name="roam" type="Node" parent="statemachine" unique_id=463895008]
+script = ExtResource("4_0f7u5")
+
+[node name="dir" type="Node" parent="statemachine" unique_id=889731456]
+script = ExtResource("6_1k2p4")
+
+[node name="stun" type="Node" parent="statemachine" unique_id=712180619]
+script = ExtResource("8_t03c4")
+
+[node name="runAway" type="Node" parent="statemachine" unique_id=1364862130]
+script = ExtResource("8_0f7u5")
+
+[node name="attack" type="Node" parent="statemachine" unique_id=652207748]
+script = ExtResource("9_1k2p4")
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=1312088541]
+enabled = false
+exclude_parent = false
+target_position = Vector2(740, 0)
+collision_mask = 3
+
+[node name="enemy_fov" type="Area2D" parent="." unique_id=1404191692]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="enemy_fov" unique_id=1214558591]
+position = Vector2(-67, -1)
+polygon = PackedVector2Array(-70, 100, 20, 0, -70, -100, 100, -100, 100, 100)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="enemy_fov" unique_id=507739504]
+position = Vector2(-128.25, -1)
+shape = SubResource("RectangleShape2D_t03c4")
+
+[node name="StateTimer" type="Timer" parent="." unique_id=1807365877]
+
+[node name="AttkCDTimer" type="Timer" parent="." unique_id=738012581]
+
+[node name="AnimatedFX" type="AnimatedSprite2D" parent="." unique_id=2074240149]
+position = Vector2(0, 1)
+scale = Vector2(25, 1)
+sprite_frames = SubResource("SpriteFrames_5wi53")
+animation = &"shine"
+offset = Vector2(16.92, -6)
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=375650770]
+position = Vector2(-2.3841858e-07, -6)
+scale = Vector2(0.26562497, 0.29531252)
+sprite_frames = SubResource("SpriteFrames_8n2ib")
+
+[connection signal="body_entered" from="enemy_fov" to="." method="_on_enemy_fov_body_entered"]
+[connection signal="body_exited" from="enemy_fov" to="." method="_on_enemy_fov_body_exited"]

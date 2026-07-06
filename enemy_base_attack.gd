@@ -41,24 +41,9 @@ func Process(_delta:float)->Enemy_State:
 			enemy.velocity =  enemy.chase_dir * enemy.player.MAX_SPEED * 1.1
 		else:
 			enemy.velocity = lerp(enemy.velocity,Vector2.ZERO,0.1)
-		time_for_hit[amount_hits-1] -= _delta
-		if time_for_hit[amount_hits-1] <= 0.5:
-			enemy.animfx.play("shine")
-		if time_for_hit[amount_hits-1] <= 0:
-			attack_now()
-		
-			enemy.animsprite.play("hit")
-			amount_hits -= 1
-		
-	if enemy.SetDirection():
-		enemy.AnimDirect()
-		enemy.UpdateAnimation("walk")
+		attack_rythm(_delta)
 	
-	#enemy.AnimDirect()
-	if amount_hits <=0:
-		enemy.player = null
-		enemy.chase = false
-		return idle_state
+
 	return null
 
 func attack_now():
@@ -77,3 +62,18 @@ func move():
 		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*1.05).normalized()) * enemy.SPEED *2.4 , 0.1)
 	elif enemy.player!= null and (enemy.hitter.global_position - enemy.player.global_position + random_pt).length() <40:
 		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.05).normalized()) * enemy.SPEED * 2 , 0.1)
+
+func attack_rythm(_delta):
+	time_for_hit[amount_hits-1] -= _delta
+	if time_for_hit[amount_hits-1] <= 0.5:
+		enemy.animfx.play("shine")
+	if time_for_hit[amount_hits-1] <= 0:
+		attack_now()
+	
+		enemy.animsprite.play("hit")
+		amount_hits -= 1
+	if amount_hits <=0:
+		enemy.player = null
+		enemy.chase = false
+		return idle_state
+	

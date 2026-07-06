@@ -25,7 +25,7 @@ func Exit() ->void:
 func Process(_delta:float)->Enemy_State:
 	
 	enemy.direction = enemy.choose_randomly(move_list)
-	enemy.SetDirection()
+
 	if move_list.size() < 2:
 		move_list = [left,right,up,down]
 	return idle_state

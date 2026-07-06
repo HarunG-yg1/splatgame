@@ -14,16 +14,26 @@ func _init() -> void:
 func Enter():
 	guy1.sprite.play("block")
 	timer = 0.4
+	if Input.is_action_just_pressed("block"):
+		print(guy1.was_attk_time )
 	if statemachine.old_state == block_move_state:
 		timer = block_move_state.timer
 		consecutive_block = block_move_state.consecutive_block
+	if guy1.was_attk_time > 0.2:
+		guy1.stun = 0
+		guy1.i_time = 0.25
+		consecutive_block += 2
+		guy1.animfx.play("parried")
 	pass
 	
 func Process(_delta):
 	timer -= _delta
-	if guy1.stun>0.75 and timer > 0.18:
-		timer = 0
+	if Input.is_action_just_pressed("block"):
+		print(guy1.was_attk_time )
+	if guy1.was_attk_time > 0.2 and Input.is_action_just_pressed("block"):
+		timer = 0.4
 		guy1.stun = 0
+		guy1.i_time = 0.25
 		consecutive_block += 2
 		
 		guy1.animfx.play("parried")

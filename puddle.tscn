@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b8we0m3hslcy2"]
+
+[ext_resource type="Script" uid="uid://cgt6vmx20md74" path="res://area_2d.gd" id="1_3jn3q"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
+
+[node name="puddle" type="Node2D" unique_id=2012775745]
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1610107246]
+script = ExtResource("1_3jn3q")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1521033670]
+shape = SubResource("CapsuleShape2D_kl0as")

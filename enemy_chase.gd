@@ -11,12 +11,10 @@ func init() -> void:
 #what happens when player enters state
 func Enter() ->void:
 	enemy.random_pt =  Vector2(randi_range(-25,25),randi_range(-25,25))
-	#enemy.cardinal_direction = Vector2.ZERO
 	timer.start(10)
 	
 	await get_tree().create_timer(1).timeout
 
-	enemy.UpdateAnimation("walk")
 	pass
 	
 #what happens when player enters state
@@ -37,21 +35,8 @@ func Process(_delta:float)->Enemy_State:
 		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.05).normalized()) * enemy.SPEED * 2 , 0.1)
 		if attk_timer.get_time_left() <= 0.1:
 			attk_timer.start(3)
-			#print("chase brobrovro son")
 			return attack_state
-	
-		
 
-		
-		
-	
-	
-	#print(enemy.direction)
-	if enemy.SetDirection():
-		enemy.AnimDirect()
-		enemy.UpdateAnimation("walk")
-	
-	#enemy.AnimDirect()
 	if timer.get_time_left() <= 0.1:
 		enemy.player = null
 		enemy.chase = false

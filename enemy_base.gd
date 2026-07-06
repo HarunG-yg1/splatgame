@@ -2,7 +2,6 @@ class_name Enemy extends CharacterBody2D
 @onready var animsprite = $Sprite2D
 @onready var enemy_fov = $enemy_fov
 
-@onready var animation_player = $AnimationPlayer
 @onready var animfx = $AnimatedFX
 @onready var state_machine  = $statemachine
 @onready var hitter  = $the_hitter/CollisionShape2D
@@ -25,9 +24,7 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 func _process(delta: float) -> void:
-	if player != null and abs(player.velocity.x) + abs(player.velocity.y)>50:
-		#print("chase start")
-		chase = true
+	
 
 	if player != null and chase == true:
 		chase_dir = (player.position-position + random_pt).normalized()
@@ -43,33 +40,12 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	
-func SetDirection() -> bool:
-	var new_dir : Vector2 = cardinal_direction
-	if direction == Vector2.ZERO:
-		
-		return false
-	if direction.y == 0:
-		new_dir = Vector2.LEFT if direction.x < 0 else Vector2.RIGHT
-	elif direction.x == 0:
-		new_dir = Vector2.UP if direction.y < 0 else Vector2.DOWN
-	if new_dir == cardinal_direction:
-		#print(cardinal_direction)
-		return false
-	cardinal_direction = new_dir
-	#sprite.scale.x = -1 if cardinal_direction == Vector2.LEFT else 1
-	return true
 
 func UpdateAnimation(state : String) -> void:
 	#animation_player.play(state + "_" + AnimDirect())
 	pass
 	
-func AnimDirect() -> String:
-	if cardinal_direction == Vector2.DOWN:
-		return "down"
-	elif cardinal_direction == Vector2.UP:
-		return "up"
-	else:
-		return "side"
+
 
 func choose_randomly(list_of_entries):
 	return list_of_entries[randi() % list_of_entries.size()]
@@ -103,11 +79,12 @@ func boids():
 		#print(secondary_vel,avgVel,avgPosition,steer_Away)
 	
 
-
+func damage():
+	pass
 
 func _on_enemy_fov_body_entered(body: CharacterBody2D) -> void:
 	if body is Player   :
-	#	print("chase start")
+		chase = true
 		player = body
 
 	bodyIsee.append(body)
@@ -124,7 +101,7 @@ func _on_enemy_fov_body_exited(body: CharacterBody2D) -> void:
 
 func _on_the_hitter_body_entered(body: Player) -> void:
 	if body.has_method("damage"):
-		body.damage(1,global_position, self)
+		body.damage(1,global_position, self, 200,true)
 	
 	await get_tree().create_timer(0.2).timeout
 	hitter.disabled = true

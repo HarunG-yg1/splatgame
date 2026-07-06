@@ -9,6 +9,8 @@ func Enter():
 	
 	prior_rotation = guy1.sprite.rotation
 	guy1.velocity*= 1.6
+	if guy1.velocity.length() > 600:
+		guy1.i_time = 0.25
 	prior_vel_dir = guy1.velocity
 	print(prior_vel_dir)
 

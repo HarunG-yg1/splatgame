@@ -10,6 +10,8 @@ func Enter():
 	#print("dash")
 	dash_window = 0.25
 	boost = 5
+	guy1.stun = 0
+	guy1.i_time = 0.25
 	pass
 func Process(delta):
 

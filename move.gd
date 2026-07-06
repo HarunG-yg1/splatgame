@@ -12,7 +12,7 @@ func Process(_delta):
 	guy1.move(guy1.direction)
 	if guy1.direction.length() == 0.0:
 		return idle_state
-	elif guy1.blocking and guy1.stun < 0.5:
+	elif guy1.blocking and guy1.stun < 0.75:
 		return block_state
 	elif guy1.crouch:
 		#print("fuck you")

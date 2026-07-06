@@ -2,7 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://penisForScale.png" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://dvtbswqn1p22u" path="res://player1.tscn" id="1_ig7tw"]
-[ext_resource type="PackedScene" uid="uid://hl57fcb3w2jt" path="res://enemy_base.tscn" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://c7c862d18nrh" path="res://ranged_enemy.tscn" id="3_h2yge"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kl0as"]
@@ -52,15 +51,10 @@ position = Vector2(250.5, -34)
 shape = SubResource("RectangleShape2D_o48g2")
 
 [node name="ranged_enemy" parent="." unique_id=6164640 instance=ExtResource("3_h2yge")]
+position = Vector2(180, 198)
 
-[node name="ranged_enemy2" parent="." unique_id=405012367 instance=ExtResource("3_h2yge")]
-position = Vector2(6, 379)
+[node name="ranged_enemy2" parent="." unique_id=376396608 instance=ExtResource("3_h2yge")]
+position = Vector2(474, 223)
 
-[node name="ranged_enemy3" parent="." unique_id=640237211 instance=ExtResource("3_h2yge")]
-position = Vector2(497, 322)
-
-[node name="enemy" parent="." unique_id=1466780452 instance=ExtResource("2_0xm2m")]
-
-[node name="enemy2" parent="." unique_id=950090689 instance=ExtResource("2_0xm2m")]
-
-[node name="enemy3" parent="." unique_id=741883607 instance=ExtResource("2_0xm2m")]
+[node name="ranged_enemy3" parent="." unique_id=302000743 instance=ExtResource("3_h2yge")]
+position = Vector2(241, 496)
