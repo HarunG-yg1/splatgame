@@ -8,7 +8,7 @@ func Enter():
 	
 	
 	prior_rotation = guy1.sprite.rotation
-	guy1.velocity*= 2
+	guy1.velocity*= 1.6
 	prior_vel_dir = guy1.velocity
 	print(prior_vel_dir)
 

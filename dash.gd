@@ -2,7 +2,7 @@ class_name dash extends state_class
 @onready var idle_state =  $"../idle"
 @onready var move_state = $"../move"
 @onready var jump_state = $"../jump"
-@onready var crouch_move_state = $"../slide"
+@onready var slide_state = $"../crouching"
 var dash_window : float
 var boost : float
 
@@ -19,9 +19,12 @@ func Process(delta):
 		dash_window -= delta
 	else:
 		guy1.finish_run = true
-
-		if guy1.crouch:
-			return crouch_move_state
 		return move_state
+
+	if guy1.crouch and dash_window < 0.1:
+		
+		guy1.finish_run = true
+		return slide_state
+	
 func Exit():
 	pass

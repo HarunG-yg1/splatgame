@@ -21,7 +21,7 @@ func Enter():
 	
 func Process(_delta):
 	timer -= _delta
-	if guy1.stun>0 and timer > 0.1:
+	if guy1.stun>0 and timer > 0.125:
 		timer = 0
 		guy1.stun = 0
 		consecutive_block += 2
