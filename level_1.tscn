@@ -11,7 +11,6 @@ modulate = Color(1, 1, 1, 0.27450982)
 position = Vector2(190, 169)
 collision_layer = 2
 collision_mask = 2
-puddle_val = 1
 
 [node name="Player" parent="." unique_id=1623458088 instance=ExtResource("1_hbghi")]
 position = Vector2(48, 75)

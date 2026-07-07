@@ -3,6 +3,7 @@ class_name blood_puddle extends Area2D
 enum puddle_colors {RED,BLUE,GREEN}
 @export var puddle_val : puddle_colors
 func _ready() -> void:
+	$Timer.start(20)
 	match puddle_val:
 		puddle_colors.RED:
 			modulate = Color("red")
