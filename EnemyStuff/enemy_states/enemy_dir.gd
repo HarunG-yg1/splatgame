@@ -13,7 +13,7 @@ func init() -> void:
 	pass
 #what happens when player enters state
 func Enter() ->void:
-	#print("dir")
+	print("dir" , enemy)
 	move_list.erase(enemy.direction)
 	pass
 	

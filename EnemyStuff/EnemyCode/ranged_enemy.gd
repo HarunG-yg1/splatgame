@@ -1,10 +1,11 @@
 class_name ranged extends Enemy
 
-var check_if_ray_hit : PhysicsBody2D
+@onready var hitter2 : =$RayCast2D
+
 func _ready() -> void:
 	
 	state_machine.init()
-	hitter = $RayCast2D
+	#hitter = $RayCast2D
 	pass # Replace with function body.
 
 func _process(delta: float) -> void:
@@ -12,7 +13,7 @@ func _process(delta: float) -> void:
 		
 	if player != null and chase == true:
 		chase_dir = (player.position-position).normalized()
-	#	hitter.look_at(player.position)
+
 	if velocity.length() > 0:
 		enemy_fov.position = velocity.normalized()*70
 		enemy_fov.rotation =  (velocity).angle()
@@ -90,7 +91,7 @@ func parried( from : Vector2):
 	print("sa parried")
 	if stun <= 0:
 		stun = 1
-	velocity -=  (from - global_position).normalized() * 800
+	velocity -=  (from - global_position).normalized() * 400
 	pass
 
 func queue_anim(anim:String = "", resize_y : float = 1, resize_x : float = 1, state : enemy_attack = null):
@@ -98,8 +99,7 @@ func queue_anim(anim:String = "", resize_y : float = 1, resize_x : float = 1, st
 
 	animfx.scale.y = resize_y
 	animfx.scale.x = resize_x
-	
-#await animfx.animation_finished
+
 	
 	state.attack_now()
 	await get_tree().create_timer(0.12).timeout

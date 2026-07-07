@@ -7,14 +7,15 @@ class_name Enemy_State_Roam extends Enemy_State
 @onready var runaway = $"../runAway"
 var pos_recorder : float = 0.1
 var prev_pos : Vector2
-var result
+
+var range_chase := false
 #what happens when player enters state
 func init() -> void:
 	pass
 	
 func Enter() ->void:
-#	print("roam")
-
+	print("roam" , enemy)
+	range_chase = false
 	timer.start(enemy.choose_randomly([2,4]))
 	enemy.UpdateAnimation("walk")
 	
@@ -27,12 +28,12 @@ func Exit() ->void:
 	
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
-	if enemy.hitter is RayCast2D:
-		enemy.hitter.rotation += deg_to_rad(0.1)
-		if enemy.hitter.get_collider() != null and  enemy.hitter.get_collider() is Player:
-			enemy.player =  enemy.hitter.get_collider()
+	if enemy is ranged:
+		enemy.hitter2.rotation += deg_to_rad(0.1)
+		if enemy.hitter2.get_collider() != null and  enemy.hitter2.get_collider() is Player and (enemy.global_position - enemy.hitter2.get_collider().global_position).length()>180:
+			enemy.player =  enemy.hitter2.get_collider()
 			enemy.chase = true
-			
+			range_chase = true
 	if pos_recorder>0:
 		pos_recorder-=_delta
 	else:
@@ -40,12 +41,14 @@ func Process(_delta:float)->Enemy_State:
 		pos_recorder = 0.1
 	
 	enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.1).normalized()) * enemy.SPEED  , 0.1)
+	
 	if enemy.chase and chasing != null:
-	#	print("run bro")
+		if runaway != null and range_chase:
+			return runaway
 		return chasing
 		
 	elif  enemy.chase  and runaway != null:
-		print("run bro")
+		
 		return runaway
 	if timer.get_time_left() <= 0.01 or (prev_pos == enemy.global_position and pos_recorder<0.01):
 		

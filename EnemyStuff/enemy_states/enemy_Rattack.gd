@@ -5,6 +5,7 @@ var player : Player
 var changed : bool = false
 var init_time : float
 func _ready() -> void:
+	chase_state = $"../chase"
 	idle_state = $"../idle"
 	stun_state = $"../stun"
 	pass
@@ -13,7 +14,7 @@ func Exit() ->void:
 	pass
 	
 func Enter() ->void:
-	
+	print("range" , enemy)
 	player =  enemy.player
 	#print("noop")
 	enemy.random_pt =  Vector2(randi_range(-15,15),randi_range(-15,15))
@@ -28,28 +29,33 @@ func Enter() ->void:
 
 func Process(_delta:float)->Enemy_State:
 	if enemy.stun > 0:
+		enemy.enemy_fov.get_child(0).disabled = true
+		enemy.enemy_fov.get_child(1).disabled = true
+		enemy.player = null
+		enemy.chase = false
 		return stun_state 
 
-	if abs(rad_to_deg(enemy.hitter.rotation - enemy.get_angle_to(player.global_position))) > 20:
+	if abs(rad_to_deg(enemy.hitter2.rotation - enemy.get_angle_to(player.global_position))) > 20:
 		
-		enemy.hitter.rotation = move_toward(enemy.hitter.rotation ,enemy.get_angle_to(player.global_position),0.06)
+		enemy.hitter2.rotation = move_toward(enemy.hitter2.rotation ,enemy.get_angle_to(player.global_position),0.06)
 	else:
-		enemy.hitter.rotation = move_toward(enemy.hitter.rotation ,enemy.get_angle_to(player.global_position),0.0099)
-	if player != null and (enemy.global_position - player.global_position).length() > 120 and (enemy.global_position - player.global_position).length() < 720 and abs(rad_to_deg(enemy.hitter.rotation - enemy.get_angle_to(player.global_position))) <6:
+		enemy.hitter2.rotation = move_toward(enemy.hitter2.rotation ,enemy.get_angle_to(player.global_position),0.0099)
+	if player != null and (enemy.global_position - player.global_position).length() > 120 and (enemy.global_position - player.global_position).length() < 720 and abs(rad_to_deg(enemy.hitter2.rotation - enemy.get_angle_to(player.global_position))) <6:
 		
 		was_out_of_range = false
-		if enemy.hitter.get_collider() is Player:
+		if enemy.hitter2.get_collider() is Player:
 			return attack_rythm(_delta)
 	else: 
 		if !was_out_of_range:
 			time_for_hit[amount_hits-1] = 1
+		
 		was_out_of_range = true
-		move()
+		return move()
 
 	return null
 
 func attack_now():
-	if enemy.hitter.get_collider() is Player:
+	if enemy.hitter2.get_collider() is Player:
 		await get_tree().create_timer(0.05).timeout
 		enemy.attk_hitted(enemy.player)
 	
@@ -60,7 +66,7 @@ func attack_rythm(_delta):
 	if (time_for_hit[amount_hits-1] < init_time * 0.9 and time_for_hit[amount_hits-1] > init_time * 0.01) ||(time_for_hit[amount_hits-1] <= 0.5 and time_for_hit[amount_hits-1] > 0.005):
 		
 
-		enemy.animfx.rotation = enemy.hitter.rotation
+		enemy.animfx.rotation = enemy.hitter2.rotation
 		if !changed:
 			enemy.animfx.scale.y =1
 			enemy.animfx.scale.x =25
@@ -84,16 +90,17 @@ func attack_rythm(_delta):
 		init_time = time_for_hit[amount_hits-1]
 		changed= false
 	if amount_hits <=0:
-		
+		enemy.enemy_fov.get_child(0).disabled = true
+		enemy.enemy_fov.get_child(1).disabled = true
 		enemy.player = null
 		enemy.chase = false
 		return idle_state
 	
 
 func move():
+	if player != null and (enemy.global_position - player.global_position).length() < 70:
+			return chase_state
 	if juke:
-
-		
 		enemy.velocity =  lerp(enemy.velocity,((enemy.direction).normalized()) * enemy.SPEED * 1.8 , 0.1)
 	if !juke and enemy.player!= null and  enemy.player!= null and( enemy.direction - enemy.player.velocity.normalized()).length() < 1.4 and enemy.player.velocity.length() > 0 and (enemy.global_position - enemy.player.global_position ).length() <80:
 		enemy.direction = enemy.chase_dir

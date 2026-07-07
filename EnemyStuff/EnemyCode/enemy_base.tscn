@@ -32,7 +32,7 @@ animations = [{
 "texture": ExtResource("9_gak77")
 }],
 "loop": 1,
-"name": &"hit",
+"name": &"hitMelee",
 "speed": 5.0
 }]
 
@@ -40,7 +40,7 @@ animations = [{
 atlas = ExtResource("9_gak77")
 region = Rect2(0, 6, 32, 6)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xgwlu"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_c27ac"]
 atlas = ExtResource("9_gak77")
 region = Rect2(0, 12, 32, 6)
 
@@ -90,7 +90,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_xg66o")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_xgwlu")
+"texture": SubResource("AtlasTexture_c27ac")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_txhf7")
@@ -111,7 +111,7 @@ animations = [{
 "texture": null
 }],
 "loop": 0,
-"name": &"shine",
+"name": &"shineMelee",
 "speed": 24.0
 }]
 
@@ -139,7 +139,7 @@ script = ExtResource("5_ehnrd")
 [node name="dir" type="Node" parent="statemachine" unique_id=1013323640]
 script = ExtResource("6_ehnrd")
 
-[node name="attack" type="Node" parent="statemachine" unique_id=695251757]
+[node name="attackMelee" type="Node" parent="statemachine" unique_id=695251757]
 script = ExtResource("7_ehnrd")
 
 [node name="stun" type="Node" parent="statemachine" unique_id=1435013742]
@@ -166,6 +166,7 @@ shape = SubResource("RectangleShape2D_7mdju")
 position = Vector2(-2.3841858e-07, -6)
 scale = Vector2(0.26562497, 0.29531252)
 sprite_frames = SubResource("SpriteFrames_7mdju")
+animation = &"hitMelee"
 
 [node name="AttkCDTimer" type="Timer" parent="." unique_id=1078823862]
 
@@ -173,7 +174,7 @@ sprite_frames = SubResource("SpriteFrames_7mdju")
 position = Vector2(0, 1)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_kl0as")
-animation = &"shine"
+animation = &"shineMelee"
 
 [node name="the_hitter" type="Area2D" parent="." unique_id=184640184]
 collision_layer = 3
