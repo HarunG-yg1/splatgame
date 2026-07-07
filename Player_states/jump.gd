@@ -3,6 +3,7 @@ class_name jumpin extends state_class
 @onready var move_state = $"../move"
 @onready var dash_state =  $"../dash"
 @onready var block_state = $"../block"
+@onready var attack_state = $"../attack"
 
 func Enter():
 	guy1.jump_vel = 0
@@ -19,6 +20,8 @@ func Process(_delta):
 		return dash_state
 	elif guy1.blocking and  guy1.jump_vel >=0 and guy1.stun < 0.75:
 		return block_state
+	elif guy1.signal_attk and guy1.jump_vel >=0:
+		return attack_state
 
 func Exit():
 	pass

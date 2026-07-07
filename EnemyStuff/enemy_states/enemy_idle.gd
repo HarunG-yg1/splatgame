@@ -5,6 +5,7 @@ class_name Enemy_State_Idle extends Enemy_State
 @onready var roam =$"../roam"
 @onready var chasing =$"../chase"
 @onready var runaway =$"../runAway"
+@onready var stun_state = $"../stun"
 var range_chase := false
 #what happens when player enters state
 func init() -> void:
@@ -27,7 +28,13 @@ func Exit() ->void:
 	
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
-
+	if enemy.stun > 0:
+		print("penis")
+		enemy.enemy_fov.get_child(0).disabled = true
+		enemy.enemy_fov.get_child(1).disabled = true
+		enemy.player = null
+		enemy.chase = false
+		return stun_state 
 	if enemy is ranged:
 		enemy.hitter2.rotation += deg_to_rad(0.5)
 		if enemy.hitter2.get_collider() != null and  enemy.hitter2.get_collider() is Player and (enemy.global_position - enemy.hitter2.get_collider().global_position ).length()>180:

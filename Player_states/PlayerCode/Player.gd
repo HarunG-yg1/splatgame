@@ -7,6 +7,8 @@ var para_in_sinwave : float
 @onready var attack_box: Area2D = $AttackBox
 @onready var attack_shape: CollisionShape2D = $AttackBox/CollisionShape2D
 
+
+
 var i_time : float = 0
 var blocking : bool = false
 var stun : float = 0
@@ -19,13 +21,18 @@ var dive_in : = false
 var last_puddle : blood_puddle
 var arr_of_blood : Array[int] = [0]
 
-var was_attk_time  : float 
+var in_attk_time  : float 
+var out_attk_time  : float 
+var signal_attk : bool = false
+
 var run = false
 var finish_run = true
 const INITIAL_SPEED = 55.0
 const MAX_SPEED = 320
 var direction : Vector2
 var curr_attker : Enemy = null
+var curr_hitEnemy : Enemy = null
+var same_guy : = false
 
 func _ready() -> void:
 	statemachine.player = self
@@ -41,7 +48,14 @@ func _process(delta: float) -> void:
 		i_time -= delta
 	if stun > 0:
 		stun -= delta*2
-	was_attk_time-=delta
+	in_attk_time-=delta
+	out_attk_time-= delta
+
+	if out_attk_time < 0.4 and out_attk_time > 0.39:
+		print("pls bro")
+		animfx.stop()
+		animfx.play("shine2")
+	
 	if Input.is_action_just_pressed("block"):
 		blocking = true
 	else:
@@ -57,7 +71,7 @@ func _process(delta: float) -> void:
 		run = false
 	
 	if Input.is_action_just_pressed("Attack"):
-		attack()
+		attack_fr()
 		
 	
 	if Input.is_action_just_pressed("jump") and !jumping:
@@ -72,10 +86,13 @@ func _process(delta: float) -> void:
 		direction = Vector2(Input.get_axis("left","right"),Input.get_axis("up","down")).normalized()
 	else:
 		direction = Vector2.ZERO
-func attack():
+func attack_fr():
+	signal_attk = true
 	attack_shape.disabled = false 
-	await get_tree().create_timer(0.2).timeout
+	await get_tree().create_timer(0.1).timeout
 	attack_shape.disabled = true
+
+	
 	
 
 func jump_and_fall(delta):
@@ -120,13 +137,33 @@ func _physics_process(_delta: float) -> void:
 
 
 func _on_attack_box_body_entered(body: Enemy) -> void:
-	if body.is_in_group("enemies"):
-		if body.has_method("damage"):
-			body.parried(global_position)
-			body.damage()#player_damage
+	if body != curr_hitEnemy and curr_hitEnemy ==null :
+		curr_hitEnemy = body
+		body.damage(global_position,1)
+		#body.parried(global_position)
+		if body.in_attk_time_index < body.in_attk_time.size():
+			out_attk_time =  body.in_attk_time[body.in_attk_time_index]
+		else:
+			body.in_attk_time_index = 0
+			
+	elif body != curr_hitEnemy and curr_hitEnemy !=null :
+		curr_hitEnemy = body
+		body.damage(global_position,1)
+		#body.parried(global_position)
+		same_guy = false
+	elif body == curr_hitEnemy and curr_hitEnemy !=null :
+
+		same_guy = true
+	
+	
+	
+	
+	animfx.play("shine")
+
+
 
 func damage(amnt : int , from : Vector2, attker : Enemy, pwer : float, melee : bool):
-	was_attk_time = 0.5
+	in_attk_time = 0.4
 	curr_attker = attker
 	if i_time <= 0 and stun <= 0:
 		stun = 1
@@ -158,3 +195,9 @@ func exit_puddle(this_puddle : blood_puddle):
 		dive_in = false
 	pass
 	
+
+
+func _on_attack_box_body_exited(body: Enemy) -> void:
+
+	
+	pass # Replace with function body.

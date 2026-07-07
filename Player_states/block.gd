@@ -3,6 +3,7 @@ class_name block extends state_class
 @onready var move_state = $"../move"
 @onready var jump_state = $"../jump"
 @onready var dash_state = $"../dash"
+@onready var attack_state = $"../attack"
 @onready var block_move_state = $block_move
 var timer :=0.4
 var consecutive_block := 0
@@ -15,23 +16,24 @@ func Enter():
 	guy1.sprite.play("block")
 	timer = 0.4
 	if Input.is_action_just_pressed("block"):
-		print(guy1.was_attk_time )
+		print(guy1.in_attk_time )
 	if statemachine.old_state == block_move_state:
 		timer = block_move_state.timer
 		consecutive_block = block_move_state.consecutive_block
-	if guy1.was_attk_time > 0.2:
+	if guy1.in_attk_time > 0.2:
 		guy1.stun = 0
 		timer = 0
 		guy1.i_time = 0.25
 		consecutive_block += 2
 		guy1.animfx.play("parried")
+	
 	pass
 	
 func Process(_delta):
 	timer -= _delta
-	if Input.is_action_just_pressed("block"):
-		print(guy1.was_attk_time )
-	if guy1.was_attk_time > 0.2 and Input.is_action_just_pressed("block") and timer >0.2:
+#	if Input.is_action_just_pressed("block"):
+#		print(guy1.in_attk_time)
+	if guy1.in_attk_time> 0 and Input.is_action_just_pressed("block") and timer >= 0:
 		timer = 0
 		guy1.stun = 0
 		guy1.i_time = 0.25
@@ -42,8 +44,9 @@ func Process(_delta):
 		if consecutive_block > 1:
 			consecutive_block -= 1
 		guy1.blocking = false
-		return idle_state
-		
+		return idle_state 
+	elif guy1.signal_attk:
+		return attack_state
 		
 	elif guy1.jumping:
 		guy1.blocking = false

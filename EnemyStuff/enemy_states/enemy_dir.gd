@@ -1,6 +1,6 @@
 class_name Enemy_State_Dir extends Enemy_State
 ##ref to what this state belongs to
-
+@onready var stun_state = $"../stun"
 @onready var idle_state = $"../idle"
 var left = Vector2.LEFT
 var right = Vector2.RIGHT
@@ -23,6 +23,13 @@ func Exit() ->void:
 	
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
+	if enemy.stun > 0:
+		print("penis")
+		enemy.enemy_fov.get_child(0).disabled = true
+		enemy.enemy_fov.get_child(1).disabled = true
+		enemy.player = null
+		enemy.chase = false
+		return stun_state 
 	
 	enemy.direction = enemy.choose_randomly(move_list)
 

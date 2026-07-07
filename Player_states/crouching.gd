@@ -5,6 +5,7 @@ class_name crouch_idle extends state_class
 @onready var slide_state = $"slide"
 @onready var dash_state =  $"../dash"
 @onready var jump_state = $"../jump"
+@onready var attack_state = $"../attack"
 var had_prior_vel : Vector2
 
 func _init() -> void:
@@ -15,7 +16,7 @@ func _init() -> void:
 		for j in i.get_children():
 			j.guy1 = self.guy1
 			j.statemachine = self.statemachine
-
+	
 
 func Enter():
 	
@@ -44,6 +45,8 @@ func Process(_delta):
 		guy1.velocity -= guy1.velocity/15  
 		if abs(guy1.velocity.length()) < 1:
 			guy1.velocity = Vector2(0,0)
+	elif guy1.signal_attk:
+		return attack_state
 
 
 

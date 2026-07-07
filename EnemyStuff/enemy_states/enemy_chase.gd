@@ -5,6 +5,7 @@ class_name Enemy_State_Chase extends Enemy_State
 @onready var attk_timer = $"../../AttkCDTimer"
 @onready var idle_state =$"../idle"
 @onready var attack_state = $"../attackMelee"
+@onready var stun_state = $"../stun"
 
 func init() -> void:
 	pass
@@ -26,6 +27,13 @@ func Exit() ->void:
 	
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
+	if enemy.stun > 0:
+		print("penis")
+		enemy.enemy_fov.get_child(0).disabled = true
+		enemy.enemy_fov.get_child(1).disabled = true
+		enemy.player = null
+		enemy.chase = false
+		return stun_state 
 	if enemy.player!= null and (enemy.hitter.global_position - enemy.player.global_position + enemy.random_pt ).length() > 160:
 		return runAway_state
 	if enemy.player!= null and (enemy.hitter.global_position - enemy.player.global_position + enemy.random_pt ).length() > 80:

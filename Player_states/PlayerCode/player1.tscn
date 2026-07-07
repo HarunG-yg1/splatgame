@@ -14,8 +14,10 @@
 [ext_resource type="Script" uid="uid://bx1x6kna03n5l" path="res://Player_states/block.gd" id="10_s33xd"]
 [ext_resource type="Script" uid="uid://4q88mdlryyso" path="res://Player_states/block_move.gd" id="11_lyl3y"]
 [ext_resource type="Texture2D" uid="uid://bp3euxqpxje8q" path="res://Assets/parrythis.png" id="12_ak627"]
+[ext_resource type="Script" uid="uid://cq6n43t78u2vx" path="res://Player_states/attack.gd" id="13_8kudq"]
 [ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/penisForScale.png" id="14_h1fcx"]
 [ext_resource type="PackedScene" uid="uid://ctog7ixvmi0mn" path="res://gun.tscn" id="15_y0uv2"]
+[ext_resource type="Texture2D" uid="uid://ci0mpvjc0ux73" path="res://Assets/memes.png" id="17_22o57"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kl0as"]
 animations = [{
@@ -64,6 +66,22 @@ region = Rect2(32, 6, 32, 6)
 [sub_resource type="AtlasTexture" id="AtlasTexture_qo0va"]
 atlas = ExtResource("14_h1fcx")
 region = Rect2(32, 12, 32, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5iiq8"]
+atlas = ExtResource("17_22o57")
+region = Rect2(0, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v0e8s"]
+atlas = ExtResource("17_22o57")
+region = Rect2(48, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4rtgo"]
+atlas = ExtResource("17_22o57")
+region = Rect2(96, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f6lud"]
+atlas = ExtResource("17_22o57")
+region = Rect2(144, 0, 48, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_y0uv2"]
 animations = [{
@@ -118,6 +136,29 @@ animations = [{
 "loop": 0,
 "name": &"shine",
 "speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5iiq8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v0e8s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4rtgo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f6lud")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": 0,
+"name": &"shine2",
+"speed": 12.0
 }]
 
 [node name="Player" type="CharacterBody2D" unique_id=1623458088]
@@ -160,6 +201,9 @@ script = ExtResource("10_s33xd")
 [node name="block_move" type="Node" parent="statemachine/block" unique_id=716222847]
 script = ExtResource("11_lyl3y")
 
+[node name="attack" type="Node" parent="statemachine" unique_id=1556993684]
+script = ExtResource("13_8kudq")
+
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1120457136]
 position = Vector2(-1.4305115e-06, 0)
 scale = Vector2(0.15624997, 0.2265625)
@@ -169,6 +213,8 @@ sprite_frames = SubResource("SpriteFrames_kl0as")
 shape = SubResource("CapsuleShape2D_kl0as")
 
 [node name="AttackBox" type="Area2D" parent="." unique_id=2121460003]
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox" unique_id=1504445]
 position = Vector2(32, 0)

@@ -43,6 +43,8 @@ func Process(_delta):
 	if guy1.jumping:
 		guy1.crouch=false
 		return crouch_state.jump_state
+	elif guy1.signal_attk:
+		return crouch_state.attack_state
 
 func Exit():
 	

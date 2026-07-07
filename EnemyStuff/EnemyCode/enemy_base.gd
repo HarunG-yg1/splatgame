@@ -13,6 +13,9 @@ var secondary_vel : Vector2   = Vector2.ZERO
 var cardinal_direction : Vector2 = Vector2.DOWN
 var direction : Vector2 = Vector2.ZERO
 
+var in_attk_time : Array[float] = [0.75,0.75,0.75,0.75]
+var in_attk_time_index : int = 0
+
 const SPEED = 150.0
 var chase_dir : Vector2
 var chase : bool = false 
@@ -79,7 +82,9 @@ func boids():
 		#print(secondary_vel,avgVel,avgPosition,steer_Away)
 	
 
-func damage():
+func damage(from : Vector2 , amount : int):
+	stun = 2
+	#parried( from )
 	pass
 
 func _on_enemy_fov_body_entered(body: CharacterBody2D) -> void:
@@ -108,7 +113,7 @@ func _on_the_hitter_body_entered(body: Player) -> void:
 	animsprite.play("default")
 		
 func parried( from : Vector2):
-	print("sa parried")
+
 	if stun <= 0:
 		stun = 1
 	velocity -=  (from - global_position).normalized() * 800
