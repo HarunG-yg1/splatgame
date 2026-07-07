@@ -7,6 +7,9 @@ var para_in_sinwave : float
 @onready var attack_box: Area2D = $AttackBox
 @onready var attack_shape: CollisionShape2D = $AttackBox/CollisionShape2D
 
+@export var max_health: int = 10
+
+var current_health: int = max_health
 var i_time : float = 0
 var blocking : bool = false
 var stun : float = 0
@@ -26,6 +29,8 @@ const INITIAL_SPEED = 55.0
 const MAX_SPEED = 320
 var direction : Vector2
 var curr_attker : Enemy = null
+
+signal health_changed(current: int, max: int)
 
 func _ready() -> void:
 	statemachine.player = self
@@ -130,11 +135,19 @@ func damage(amnt : int , from : Vector2, attker : Enemy, pwer : float, melee : b
 	curr_attker = attker
 	if i_time <= 0 and stun <= 0:
 		stun = 1
+		current_health -= amnt
+		health_changed.emit(current_health, max_health)
+		if current_health <= 0:
+			die()
 		if !melee:
 			velocity -=  (from - global_position).normalized() * pwer
 	if melee:
 		velocity -=  (from - global_position).normalized() * pwer
 	pass
+
+func die() -> void:
+	print("Player died")
+
 
 func check_puddle(puddle_val : int, this_puddle : blood_puddle):
 	var temp = last_puddle

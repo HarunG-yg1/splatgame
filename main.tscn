@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/penisForScale.png" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://dvtbswqn1p22u" path="res://Player_states/PlayerCode/player1.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cfv4yxlept342" path="res://EnemyStuff/EnemyCode/mn_r_enemy.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://8015johpad1n" path="res://UI/hp_bar.tscn" id="4_1bvp3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kl0as"]
 size = Vector2(29, 696)
@@ -57,3 +58,8 @@ position = Vector2(64, 219)
 position = Vector2(388, 210)
 
 [node name="MnR_Enemy3" parent="." unique_id=294423640 instance=ExtResource("3_h2yge")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=341818211]
+
+[node name="HPBar" parent="CanvasLayer" unique_id=303077487 instance=ExtResource("4_1bvp3")]
+player_path = NodePath("../../Player")
