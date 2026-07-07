@@ -15,3 +15,9 @@ texture = ExtResource("1_vk1bi")
 position = Vector2(24, -6)
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=1380571285]
+position = Vector2(-4, 0)
+
+[node name="RayCast2D2" type="RayCast2D" parent="." unique_id=1815660328]
+
+[node name="RayCast2D3" type="RayCast2D" parent="." unique_id=1474733038]
+position = Vector2(4, 0)

@@ -7,8 +7,9 @@ func Enter():
 	if statemachine.old_state == block_state:
 		timer = block_state.timer
 		consecutive_block = block_state.consecutive_block
-	if guy1.in_attk_time > 0:
+	if guy1.in_attk_time > -0.12:
 		timer = 0
+		guy1.health_dec = 0
 		guy1.stun = 0
 		guy1.i_time = 0.25
 		consecutive_block += 2
@@ -22,8 +23,9 @@ func Process(_delta):
 #	if Input.is_action_just_pressed("block"):
 	#	guy1.sprite.play("block")
 	timer -= _delta
-	if guy1.in_attk_time > 0 and Input.is_action_just_pressed("block") and timer >= 0:
+	if guy1.in_attk_time > -0.12 and Input.is_action_just_pressed("block") and timer >= 0:
 		timer = 0
+		guy1.health_dec = 0
 		guy1.stun = 0
 		guy1.i_time = 0.25
 		consecutive_block += 2

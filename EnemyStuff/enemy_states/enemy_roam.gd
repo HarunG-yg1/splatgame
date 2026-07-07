@@ -37,7 +37,7 @@ func Process(_delta:float)->Enemy_State:
 		enemy.chase = false
 		return stun_state 
 	if enemy is ranged:
-		enemy.hitter2.rotation += deg_to_rad(0.1)
+		enemy.hitter2.rotation += deg_to_rad(0.5)
 		if enemy.hitter2.get_collider() != null and  enemy.hitter2.get_collider() is Player and (enemy.global_position - enemy.hitter2.get_collider().global_position).length()>180:
 			enemy.player =  enemy.hitter2.get_collider()
 			enemy.chase = true

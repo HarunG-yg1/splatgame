@@ -34,7 +34,7 @@ func Process(_delta:float)->Enemy_State:
 		enemy.velocity -= enemy.velocity/45  
 	elif abs(enemy.velocity.length()) < 1:
 		enemy.velocity = Vector2(0,0)
-	if timer.get_time_left() <= 0.1:
+	if timer.get_time_left() <= 0.1 or enemy.stun <= 0:
 		print("LEMME OUT")
 		return idle_state
 	return null

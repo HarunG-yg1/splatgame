@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dvtbswqn1p22u"]
 
-[ext_resource type="Script" uid="uid://d1b5oj6cyb215" path="res://Player_states/PlayerCode/Player.gd" id="1_ng0wg"]
+[ext_resource type="Script" uid="uid://d1b5oj6cyb215" path="res://Player_states/PlayerCode/Player_One.gd" id="1_ng0wg"]
 [ext_resource type="Script" uid="uid://bfc72of00srla" path="res://Player_states/PlayerCode/statemachine.gd" id="2_pqb02"]
 [ext_resource type="Script" uid="uid://d53u05kqm55o" path="res://Player_states/idle.gd" id="3_3pafw"]
 [ext_resource type="Texture2D" uid="uid://bsqmrunjbrmor" path="res://icon.svg" id="3_ytgb6"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://4q88mdlryyso" path="res://Player_states/block_move.gd" id="11_lyl3y"]
 [ext_resource type="Texture2D" uid="uid://bp3euxqpxje8q" path="res://Assets/parrythis.png" id="12_ak627"]
 [ext_resource type="Script" uid="uid://cq6n43t78u2vx" path="res://Player_states/attack.gd" id="13_8kudq"]
+[ext_resource type="Script" uid="uid://ge1oy7oega0w" path="res://Player_states/shoot.gd" id="14_5iiq8"]
 [ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/penisForScale.png" id="14_h1fcx"]
 [ext_resource type="PackedScene" uid="uid://ctog7ixvmi0mn" path="res://gun.tscn" id="15_y0uv2"]
 [ext_resource type="Texture2D" uid="uid://ci0mpvjc0ux73" path="res://Assets/memes.png" id="17_22o57"]
@@ -204,6 +205,9 @@ script = ExtResource("11_lyl3y")
 [node name="attack" type="Node" parent="statemachine" unique_id=1556993684]
 script = ExtResource("13_8kudq")
 
+[node name="shoot" type="Node" parent="statemachine" unique_id=784141542]
+script = ExtResource("14_5iiq8")
+
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1120457136]
 position = Vector2(-1.4305115e-06, 0)
 scale = Vector2(0.15624997, 0.2265625)
@@ -227,4 +231,5 @@ animation = &"parried"
 
 [node name="Gun" parent="." unique_id=801267109 instance=ExtResource("15_y0uv2")]
 
+[connection signal="check_knockback" from="." to="." method="_on_check_knockback"]
 [connection signal="body_entered" from="AttackBox" to="." method="_on_attack_box_body_entered"]

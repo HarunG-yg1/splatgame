@@ -6,15 +6,26 @@ const BULLET = preload("res://Misc/bullet.tscn")
 
 @onready var muzzle: Marker2D = $Marker2D
 @onready var raycast: RayCast2D = $RayCast2D
+@onready var raycast2: RayCast2D = $RayCast2D2
+@onready var raycast3: RayCast2D = $RayCast2D3
 @onready var player = get_parent()
-
-@export var gun_range: float = 800.0
-@export var fire_cooldown: float = 0.3
-
+@export var gun_range: float = 1800.0
+@export var fire_cooldown: float = 0.1
+signal last_colided(colided:Enemy)
+var raycast_group : Array [RayCast2D]
 var can_fire: bool = true
 
 func _ready() -> void:
-	raycast.target_position = Vector2(gun_range, 0)
+	raycast_group.append(raycast)
+	raycast_group.append(raycast2)
+	raycast_group.append(raycast3)
+	
+	raycast.target_position = Vector2(gun_range, -4)
+	raycast2.target_position = Vector2(gun_range, 0)
+	raycast3.target_position = Vector2(gun_range, 4)
+	raycast.position = Vector2(0, -4)
+	raycast2.position = Vector2(0, 0)
+	raycast3.position = Vector2(0, 4)
 
 func _process(delta: float) -> void:
 	look_at(get_global_mouse_position())
@@ -38,20 +49,22 @@ func shoot() -> void:
 
 		raycast.force_raycast_update()
 		print("Gun Fired. Colliding: ", raycast.is_colliding())
-
-		if raycast.is_colliding():
-			var hit_object = raycast.get_collider()
-			var hit_point = raycast.get_collision_point()
-			print("Hit object: ", hit_object.name)
-			print("Hit point: ", hit_point)
+		for Iraycast in raycast_group:
+			if Iraycast.is_colliding():
+				if (Iraycast.get_collider()) is Enemy:
+					last_colided.emit(raycast.get_collider())
+				var hit_object = Iraycast.get_collider()
+				var hit_point = Iraycast.get_collision_point()
+				print("Hit object: ", hit_object.name)
+				print("Hit point: ", hit_point)
+				break
+			#if hit_object.has_method("damage"):
+			#	hit_object.damage(9999, global_position)
 			
-			if hit_object.has_method("damage"):
-				hit_object.damage(9999, global_position)
-			
-			if hit_object.has_method("parried"):
-				hit_object.parried(hit_point)
-		else:
-			print("No collision — reached max range")
-			
+			#if hit_object.has_method("parried"):
+			#	hit_object.parried(hit_point)
+			else:
+				print("No collision — reached max range")
+				
 		await get_tree().create_timer(fire_cooldown).timeout
 		can_fire = true

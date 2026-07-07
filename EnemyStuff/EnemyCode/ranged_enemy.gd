@@ -9,7 +9,10 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 func _process(delta: float) -> void:
-	
+	if stun < -0.05:
+		stun += delta
+	elif  stun < 0 and stun > -0.05:
+		stun = 0
 		
 	if player != null and chase == true:
 		chase_dir = (player.position-position).normalized()
@@ -19,10 +22,7 @@ func _process(delta: float) -> void:
 		enemy_fov.rotation =  (velocity).angle()
 	pass
 	
-func _physics_process(delta: float) -> void:
-	boids()
-	
-	move_and_slide()
+
 	
 	
 func SetDirection() -> bool:
@@ -86,13 +86,6 @@ func attk_hitted(body : PhysicsBody2D):
 	await get_tree().create_timer(0.2).timeout
 	animsprite.play("default")
 
-		
-func parried( from : Vector2):
-	print("sa parried")
-	if stun <= 0:
-		stun = 1
-	velocity -=  (from - global_position).normalized() * 400
-	pass
 
 func queue_anim(anim:String = "", resize_y : float = 1, resize_x : float = 1, state : enemy_attack = null):
 	await animfx.animation_finished

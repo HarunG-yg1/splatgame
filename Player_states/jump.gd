@@ -4,7 +4,7 @@ class_name jumpin extends state_class
 @onready var dash_state =  $"../dash"
 @onready var block_state = $"../block"
 @onready var attack_state = $"../attack"
-
+@onready var shoot_state = $"../shoot"
 func Enter():
 	guy1.jump_vel = 0
 	#print("jump")
@@ -20,7 +20,7 @@ func Process(_delta):
 		return dash_state
 	elif guy1.blocking and  guy1.jump_vel >=0 and guy1.stun < 0.75:
 		return block_state
-	elif guy1.signal_attk and guy1.jump_vel >=0:
+	elif guy1.is_attack and guy1.jump_vel >=0 :
 		return attack_state
 
 func Exit():

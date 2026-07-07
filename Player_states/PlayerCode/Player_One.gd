@@ -6,9 +6,15 @@ var para_in_sinwave : float
 @onready var statemachine = $statemachine
 @onready var attack_box: Area2D = $AttackBox
 @onready var attack_shape: CollisionShape2D = $AttackBox/CollisionShape2D
-
+@onready var gun = $Gun
 @export var max_health: int = 10
 
+var is_attack := false
+var is_shoot := false
+signal check_knockback
+
+
+var health_dec : int
 var current_health: int = max_health
 var i_time : float = 0
 var blocking : bool = false
@@ -33,14 +39,18 @@ const MAX_SPEED = 320
 var direction : Vector2
 var curr_attker : Enemy = null
 var curr_hitEnemy : Enemy = null
-var same_guy : = false
+var same_guy : = true
+var gun_has_timed : = false
 
 signal health_changed(current: int, max: int)
 
 func _ready() -> void:
+	SceneManager.player = self
 	statemachine.player = self
 	statemachine.init()
 	attack_shape.disabled = true
+	gun.last_colided.connect(_on_attack_box_body_entered)
+	gun.last_colided.connect(is_hit_gun)
 	
 
 
@@ -52,6 +62,9 @@ func _process(delta: float) -> void:
 	if stun > 0:
 		stun -= delta*2
 	in_attk_time-=delta
+	if in_attk_time<-0.1:
+		damage_dec()
+
 	out_attk_time-= delta
 
 	if out_attk_time < 0.4 and out_attk_time > 0.39:
@@ -60,6 +73,7 @@ func _process(delta: float) -> void:
 		animfx.play("shine2")
 	
 	if Input.is_action_just_pressed("block"):
+
 		blocking = true
 	else:
 		blocking = false
@@ -73,9 +87,11 @@ func _process(delta: float) -> void:
 		await get_tree().create_timer(1).timeout
 		run = false
 	
-	if Input.is_action_just_pressed("Attack"):
+	if Input.is_action_just_pressed("Attack") and stun <= 0.1:
 		attack_fr()
-		
+	if Input.is_action_just_pressed("shoot") and stun <= 0.1:
+		await get_tree().create_timer(0.1).timeout
+		is_shoot = true
 	
 	if Input.is_action_just_pressed("jump") and !jumping:
 		#jump_vel = 0
@@ -90,11 +106,13 @@ func _process(delta: float) -> void:
 	else:
 		direction = Vector2.ZERO
 func attack_fr():
-	signal_attk = true
+	
 	attack_shape.disabled = false 
+	
 	await get_tree().create_timer(0.1).timeout
+	is_attack = true
 	attack_shape.disabled = true
-
+	
 	
 	
 
@@ -140,10 +158,13 @@ func _physics_process(_delta: float) -> void:
 
 
 func _on_attack_box_body_entered(body: Enemy) -> void:
+	print(body.stun, " stun")
 	if body != curr_hitEnemy and curr_hitEnemy ==null :
 		curr_hitEnemy = body
-		body.damage(global_position,1)
-		#body.parried(global_position)
+		body.damage(0,global_position)
+		body.parried(global_position)
+
+		velocity += body.velocity
 		if body.in_attk_time_index < body.in_attk_time.size():
 			out_attk_time =  body.in_attk_time[body.in_attk_time_index]
 		else:
@@ -151,8 +172,8 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 			
 	elif body != curr_hitEnemy and curr_hitEnemy !=null :
 		curr_hitEnemy = body
-		body.damage(global_position,1)
-		#body.parried(global_position)
+		body.damage(0,global_position)
+		body.parried(global_position)
 		same_guy = false
 	elif body == curr_hitEnemy and curr_hitEnemy !=null :
 
@@ -160,31 +181,46 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 	
 	
 	
-	
+	signal_attk = true
 	animfx.play("shine")
 
+func is_hit_gun(last_collide : Enemy):
+	if gun_has_timed:
 
+		last_collide.damage(1,global_position)
+		last_collide.parried(global_position,0.8,1)
+
+	
 
 func damage(amnt : int , from : Vector2, attker : Enemy, pwer : float, melee : bool):
 	in_attk_time = 0.4
 	curr_attker = attker
 	if i_time <= 0 and stun <= 0:
 		stun = 1
-		current_health -= amnt
-		health_changed.emit(current_health, max_health)
-		if current_health <= 0:
-			die()
+		
+		health_dec += amnt
 		if !melee:
 			velocity -=  (from - global_position).normalized() * pwer
 	if melee:
 		velocity -=  (from - global_position).normalized() * pwer
 	pass
 
+func damage_dec():
+	if health_dec >0:
+		current_health -= health_dec
+		health_dec = 0
+		health_changed.emit(current_health, max_health)
+		if current_health <= 0:
+			die()
+	
+
+
 func die() -> void:
 	print("Player died")
 
 
 func check_puddle(puddle_val : int, this_puddle : blood_puddle):
+	print("puddle check")
 	var temp = last_puddle
 	last_puddle =  this_puddle
 	
@@ -208,7 +244,12 @@ func exit_puddle(this_puddle : blood_puddle):
 	
 
 
-func _on_attack_box_body_exited(body: Enemy) -> void:
-
+func _on_check_knockback(follow:bool, flourishee : Enemy) -> void:
+	await get_tree().create_timer(0.02).timeout
 	
+	if !flourishee.is_not_move and follow: 
+		velocity -= (global_position - flourishee.global_position ).normalized() * 300
+	elif flourishee.is_not_move:
+		
+		velocity += (global_position - flourishee.global_position ).normalized() * 300
 	pass # Replace with function body.

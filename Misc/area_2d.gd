@@ -7,7 +7,7 @@ var velocity: Vector2 = Vector2.ZERO
 @export var friction: float = 400.0
 
 func _ready() -> void:
-	$Timer.start(20)
+	#$Timer.start(20)
 	match puddle_val:
 		puddle_colors.RED:
 			modulate = Color("red")
@@ -17,7 +17,7 @@ func _ready() -> void:
 			modulate = Color("green")
 
 func init(color_val : int):
-	$Timer.start(20)
+	$Timer.start(10)
 	puddle_val = color_val
 	match color_val:
 		puddle_colors.RED:

@@ -5,6 +5,7 @@ class_name moving extends state_class
 @onready var dash_state =  $"../dash"
 @onready var jump_state = $"../jump"
 @onready var attack_state = $"../attack"
+@onready var shoot_state = $"../shoot"
 var had_prior_vel : Vector2
 func Enter():
 	#print("move")
@@ -21,8 +22,10 @@ func Process(_delta):
 	elif guy1.run and !guy1.finish_run:
 		#print("bark")
 		return dash_state 
-	elif guy1.signal_attk:
+	elif guy1.is_attack :
 		return attack_state
+	elif guy1.is_shoot :
+		return shoot_state
 	elif guy1.jumping:
 		return jump_state
 	

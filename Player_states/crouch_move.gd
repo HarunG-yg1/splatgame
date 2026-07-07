@@ -22,8 +22,10 @@ func Process(_delta):
 	if guy1.jumping:
 		guy1.crouch=false
 		return crouch_idle_state.jump_state
-	elif guy1.signal_attk:
+	elif guy1.is_attack:
 		return crouch_idle_state.attack_state
+	elif guy1.is_shoot:
+		return crouch_idle_state.shoot_state
 
 func Exit():
 	pass

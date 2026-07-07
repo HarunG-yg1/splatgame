@@ -21,7 +21,6 @@ size = Vector2(1171, 14)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1731876850]
 modulate = Color(1, 1, 1, 0.18431373)
-z_index = -10
 position = Vector2(264.5, 296)
 scale = Vector2(9.1015625, 26.291666)
 texture = ExtResource("1_h2yge")

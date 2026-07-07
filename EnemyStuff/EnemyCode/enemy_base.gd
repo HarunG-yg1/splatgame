@@ -6,6 +6,7 @@ class_name Enemy extends CharacterBody2D
 @onready var state_machine  = $statemachine
 @onready var hitter  = $the_hitter/CollisionShape2D
 var stun : float = 0
+
 var bodyIsee : Array[CharacterBody2D]
 var player
 var random_pt : Vector2 = Vector2.ZERO
@@ -14,8 +15,12 @@ var cardinal_direction : Vector2 = Vector2.DOWN
 var direction : Vector2 = Vector2.ZERO
 var last_hit_from: Vector2 = Vector2.ZERO
 
-var in_attk_time : Array[float] = [0.75,0.75,0.75,0.75]
+@export var in_attk_time : Array[float] = [0.75,0.5,1.5,0.5]
 var in_attk_time_index : int = 0
+
+var time_inter_pos := 0.0
+var is_not_move : = true
+var inter_pos := Vector2.ZERO
 
 const SPEED = 150.0
 var chase_dir : Vector2
@@ -27,17 +32,21 @@ const BLOOD_PUDDLE = preload("res://puddle.tscn")
 @export var blood_speed: float = 300.0
 @export var blood_spread_degrees: float = 40.0
 @export var puddle_color: blood_puddle.puddle_colors = blood_puddle.puddle_colors.RED
-@export var health: int = 30
+@export var health: int = 5
 @export var enemy_color: int = 0
 
 func die() -> void:
-	spawn_blood()
+	visible = false
+	player = SceneManager.player
+
 	if player != null:
 		player.arr_of_blood.append(enemy_color)
 		print("Added color: ", enemy_color, " | Array now: ", player.arr_of_blood)
 	else:
 		print("Enemy died but player reference was null — color not added")
-	queue_free()
+	spawn_blood()
+	await get_tree().create_timer(0.1).timeout
+	call_deferred("queue_free")
 
 func spawn_blood() -> void:
 	var away_dir: Vector2
@@ -62,8 +71,11 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 func _process(delta: float) -> void:
-	
-
+	if stun < -0.05:
+		stun += delta
+	elif  stun < 0 and stun > -0.05:
+		stun = 0
+	is_not_move = pos_check(delta)
 	if player != null and chase == true:
 		chase_dir = (player.position-position + random_pt).normalized()
 		hitter.get_parent().look_at(player.position)
@@ -127,7 +139,7 @@ func boids():
 
 
 func damage(amount: int, from: Vector2 = Vector2.ZERO) -> void:
-	stun = 2
+
 	health -= amount
 	if from != Vector2.ZERO:
 		last_hit_from = from
@@ -159,10 +171,18 @@ func _on_the_hitter_body_entered(body: Player) -> void:
 	hitter.disabled = true
 	animsprite.play("default")
 		
-func parried( from : Vector2):
+func parried( from : Vector2,pwer : float = 1,stun_time : float = 1):
 
-	if stun <= 0:
-		stun = 1
-	velocity -=  (from - global_position).normalized() * 800
+	if stun <= 0 and stun > -0.01:
+		stun = stun_time
+	velocity -=  (from - global_position).normalized() * 400 *  1
 	pass
+	
+func pos_check(_delta : float)-> bool:
+	time_inter_pos += _delta
+	if time_inter_pos < 0.02:
+		inter_pos = global_position
+	else:
+		time_inter_pos = 0
+	return (inter_pos == global_position and velocity.length() > 0)
 	

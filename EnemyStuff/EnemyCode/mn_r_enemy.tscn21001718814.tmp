@@ -218,6 +218,7 @@ offset = Vector2(16.92, -6)
 position = Vector2(-2.3841858e-07, -6)
 scale = Vector2(0.26562497, 0.29531252)
 sprite_frames = SubResource("SpriteFrames_u5vc3")
+animation = &"hitMelee"
 
 [node name="the_hitter" type="Area2D" parent="." unique_id=1201734197]
 collision_layer = 3
