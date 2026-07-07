@@ -107,7 +107,7 @@ script = ExtResource("8_t03c4")
 [node name="runAway" type="Node" parent="statemachine" unique_id=1364862130]
 script = ExtResource("8_0f7u5")
 
-[node name="attack" type="Node" parent="statemachine" unique_id=652207748]
+[node name="attackRange" type="Node" parent="statemachine" unique_id=652207748]
 script = ExtResource("9_1k2p4")
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=1312088541]

@@ -122,7 +122,7 @@ animations = [{
 
 [node name="Player" type="CharacterBody2D" unique_id=1623458088]
 collision_layer = 2
-collision_mask = 8
+collision_mask = 10
 motion_mode = 1
 script = ExtResource("1_ng0wg")
 

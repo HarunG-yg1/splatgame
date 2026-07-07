@@ -23,7 +23,7 @@ var was_attk_time  : float
 var run = false
 var finish_run = true
 const INITIAL_SPEED = 55.0
-const MAX_SPEED = 264.0
+const MAX_SPEED = 320
 var direction : Vector2
 var curr_attker : Enemy = null
 
@@ -50,7 +50,7 @@ func _process(delta: float) -> void:
 		crouch = true
 	else:
 		crouch = false 
-	if Input.is_action_pressed("dash") and stun < 0.5 and finish_run and !run and velocity.length()>1:
+	if Input.is_action_pressed("dash") and stun < 0.5 and finish_run and !run and velocity.length()>0:
 		run = true
 		finish_run = false
 		await get_tree().create_timer(1).timeout
@@ -68,7 +68,7 @@ func _process(delta: float) -> void:
 	jump_and_fall(delta)
 	
 		
-	if stun <= 0 || stun > 0.9:
+	if stun <= 0 || stun > 0.8:
 		direction = Vector2(Input.get_axis("left","right"),Input.get_axis("up","down")).normalized()
 	else:
 		direction = Vector2.ZERO
