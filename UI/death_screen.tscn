@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://mwt707ye8c83"]
+
+[ext_resource type="Script" uid="uid://c6o5uufqgljyt" path="res://UI/death_screen.gd" id="1_ls05l"]
+[ext_resource type="Texture2D" uid="uid://c4xnjh67nd7k" path="res://Assets/restart.png" id="2_n1nej"]
+
+[node name="DeathScreen" type="Control" unique_id=1795303486]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_ls05l")
+
+[node name="RestartButton" type="Button" parent="." unique_id=1286859903]
+layout_mode = 0
+offset_left = 420.0
+offset_top = 187.0
+offset_right = 528.0
+offset_bottom = 295.0
+scale = Vector2(2.5600016, 2.0800004)
+icon = ExtResource("2_n1nej")
+icon_alignment = 1
+
+[connection signal="pressed" from="RestartButton" to="." method="_on_restart_button_pressed"]

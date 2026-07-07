@@ -10,6 +10,7 @@ var para_in_sinwave : float
 @export var max_health: int = 10
 
 var current_health: int = max_health
+var is_dead: bool = false
 var i_time : float = 0
 var blocking : bool = false
 var stun : float = 0
@@ -31,6 +32,7 @@ var direction : Vector2
 var curr_attker : Enemy = null
 
 signal health_changed(current: int, max: int)
+signal died 
 
 func _ready() -> void:
 	statemachine.player = self
@@ -40,6 +42,8 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	if is_dead:
+		return
 	
 	attack_box.look_at(get_global_mouse_position())
 	if i_time > 0:
@@ -119,6 +123,8 @@ func jump()->void:
 	tween.tween_property(self, "scale", Vector2(1,1), 0.3)
 
 func _physics_process(_delta: float) -> void:
+	if is_dead:
+		velocity = Vector2.ZERO
 	move_and_slide()
 	
 	
@@ -131,6 +137,8 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 			body.damage(player_damage)
 
 func damage(amnt : int , from : Vector2, attker : Enemy, pwer : float, melee : bool):
+	if is_dead:
+		return
 	was_attk_time = 0.5
 	curr_attker = attker
 	if i_time <= 0 and stun <= 0:
@@ -146,8 +154,10 @@ func damage(amnt : int , from : Vector2, attker : Enemy, pwer : float, melee : b
 	pass
 
 func die() -> void:
-	print("Player died")
-
+	print("died")
+	is_dead = true
+	velocity = Vector2.ZERO
+	died.emit()
 
 func check_puddle(puddle_val : int, this_puddle : blood_puddle):
 	var temp = last_puddle
