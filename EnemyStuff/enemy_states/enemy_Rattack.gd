@@ -1,17 +1,23 @@
 class_name enemy_range_atack extends enemy_attack
 var juke : bool = false
 var player : Player
+
 var changed : bool = false
 var init_time : float
 func _ready() -> void:
 	idle_state = $"../idle"
+	stun_state = $"../stun"
 	pass
+	
+func Exit() ->void:
+	pass
+	
 func Enter() ->void:
 	
 	player =  enemy.player
 	#print("noop")
 	enemy.random_pt =  Vector2(randi_range(-15,15),randi_range(-15,15))
-	time_for_hit = [0.55,0.55,0.55,0.55,0.55,0.55,0.55,0.55]
+	time_for_hit = [0.55,0.55,0.55,0.55,1.5,0.55,0.55,0.55]
 	
 	random_pt = Vector2(randi_range(-25,25),randi_range(-25,25))
 	amount_hits= randi_range(3,8)
@@ -21,15 +27,19 @@ func Enter() ->void:
 	pass
 
 func Process(_delta:float)->Enemy_State:
-	#if player and player.velocity.length() <=400:
+	if enemy.stun > 0:
+		return stun_state 
+
 	if abs(rad_to_deg(enemy.hitter.rotation - enemy.get_angle_to(player.global_position))) > 20:
 		
 		enemy.hitter.rotation = move_toward(enemy.hitter.rotation ,enemy.get_angle_to(player.global_position),0.06)
 	else:
 		enemy.hitter.rotation = move_toward(enemy.hitter.rotation ,enemy.get_angle_to(player.global_position),0.0099)
 	if player != null and (enemy.global_position - player.global_position).length() > 120 and (enemy.global_position - player.global_position).length() < 720 and abs(rad_to_deg(enemy.hitter.rotation - enemy.get_angle_to(player.global_position))) <6:
+		
 		was_out_of_range = false
-		return attack_rythm(_delta)
+		if enemy.hitter.get_collider() is Player:
+			return attack_rythm(_delta)
 	else: 
 		if !was_out_of_range:
 			time_for_hit[amount_hits-1] = 1
@@ -39,9 +49,10 @@ func Process(_delta:float)->Enemy_State:
 	return null
 
 func attack_now():
-	if enemy.player != null:
-		await get_tree().create_timer(0.1).timeout
-		enemy.hitter.enabled = true
+	if enemy.hitter.get_collider() is Player:
+		await get_tree().create_timer(0.05).timeout
+		enemy.attk_hitted(enemy.player)
+	
 		pass
 
 func attack_rythm(_delta):
@@ -73,7 +84,7 @@ func attack_rythm(_delta):
 		init_time = time_for_hit[amount_hits-1]
 		changed= false
 	if amount_hits <=0:
-
+		
 		enemy.player = null
 		enemy.chase = false
 		return idle_state

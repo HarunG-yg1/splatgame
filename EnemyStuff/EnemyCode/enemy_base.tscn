@@ -1,16 +1,16 @@
 [gd_scene format=3 uid="uid://hl57fcb3w2jt"]
 
-[ext_resource type="Script" uid="uid://bg6d6tb8o0yke" path="res://enemy_base.gd" id="1_8nqel"]
-[ext_resource type="Script" uid="uid://cgfju534j6ipg" path="res://enemystatemachine.gd" id="2_oscad"]
-[ext_resource type="Script" uid="uid://dii3uhkbrk5e8" path="res://enemy_idle.gd" id="3_41lhp"]
-[ext_resource type="Script" uid="uid://b6fo7mhli1rxa" path="res://enemy_roam.gd" id="4_qqe8e"]
-[ext_resource type="Script" uid="uid://djnigfcyfhjda" path="res://enemy_chase.gd" id="5_ehd03"]
-[ext_resource type="Script" uid="uid://b0rku3fh7gytq" path="res://enemy_dir.gd" id="6_vop6o"]
-[ext_resource type="Script" uid="uid://bib6o2gc30wrk" path="res://enemy_base_attack.gd" id="7_vop6o"]
-[ext_resource type="Script" uid="uid://3sqscr1a0fhn" path="res://enemy_stun.gd" id="8_3vlx0"]
-[ext_resource type="Texture2D" uid="uid://bka8ruyptlus8" path="res://communityIcon_oi1dus1jkkvb1.png" id="8_vop6o"]
-[ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://penisForScale.png" id="9_gak77"]
-[ext_resource type="Texture2D" uid="uid://bp3euxqpxje8q" path="res://parrythis.png" id="11_xg66o"]
+[ext_resource type="Script" uid="uid://bg6d6tb8o0yke" path="res://EnemyStuff/EnemyCode/enemy_base.gd" id="1_8nqel"]
+[ext_resource type="Script" uid="uid://cgfju534j6ipg" path="res://EnemyStuff/EnemyCode/enemystatemachine.gd" id="2_cdbx0"]
+[ext_resource type="Script" uid="uid://dii3uhkbrk5e8" path="res://EnemyStuff/enemy_states/enemy_idle.gd" id="3_ehnrd"]
+[ext_resource type="Script" uid="uid://b6fo7mhli1rxa" path="res://EnemyStuff/enemy_states/enemy_roam.gd" id="4_ehnrd"]
+[ext_resource type="Script" uid="uid://djnigfcyfhjda" path="res://EnemyStuff/enemy_states/enemy_chase.gd" id="5_ehnrd"]
+[ext_resource type="Script" uid="uid://b0rku3fh7gytq" path="res://EnemyStuff/enemy_states/enemy_dir.gd" id="6_ehnrd"]
+[ext_resource type="Script" uid="uid://bib6o2gc30wrk" path="res://EnemyStuff/enemy_states/enemy_base_attack.gd" id="7_ehnrd"]
+[ext_resource type="Script" uid="uid://3sqscr1a0fhn" path="res://EnemyStuff/enemy_states/enemy_stun.gd" id="8_ehnrd"]
+[ext_resource type="Texture2D" uid="uid://bka8ruyptlus8" path="res://Assets/communityIcon_oi1dus1jkkvb1.png" id="9_ehnrd"]
+[ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/penisForScale.png" id="9_gak77"]
+[ext_resource type="Texture2D" uid="uid://bp3euxqpxje8q" path="res://Assets/parrythis.png" id="11_xg66o"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
 
@@ -21,7 +21,7 @@ size = Vector2(29, 166)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("8_vop6o")
+"texture": ExtResource("9_ehnrd")
 }],
 "loop": 1,
 "name": &"default",
@@ -125,25 +125,25 @@ script = ExtResource("1_8nqel")
 
 [node name="statemachine" type="Node" parent="." unique_id=1213086234]
 process_mode = 4
-script = ExtResource("2_oscad")
+script = ExtResource("2_cdbx0")
 
 [node name="idle" type="Node" parent="statemachine" unique_id=1754706463]
-script = ExtResource("3_41lhp")
+script = ExtResource("3_ehnrd")
 
 [node name="roam" type="Node" parent="statemachine" unique_id=707064381]
-script = ExtResource("4_qqe8e")
+script = ExtResource("4_ehnrd")
 
 [node name="chase" type="Node" parent="statemachine" unique_id=841928294]
-script = ExtResource("5_ehd03")
+script = ExtResource("5_ehnrd")
 
 [node name="dir" type="Node" parent="statemachine" unique_id=1013323640]
-script = ExtResource("6_vop6o")
+script = ExtResource("6_ehnrd")
 
 [node name="attack" type="Node" parent="statemachine" unique_id=695251757]
-script = ExtResource("7_vop6o")
+script = ExtResource("7_ehnrd")
 
 [node name="stun" type="Node" parent="statemachine" unique_id=1435013742]
-script = ExtResource("8_3vlx0")
+script = ExtResource("8_ehnrd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1313416424]
 shape = SubResource("CapsuleShape2D_kl0as")

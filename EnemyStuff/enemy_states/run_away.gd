@@ -46,7 +46,7 @@ func Process(_delta:float)->Enemy_State:
 	#if enemy.player!= null and (enemy.global_position - enemy.player.global_position ).length() > 100:
 		
 	if (enemy.global_position - enemy.player.global_position).length() > 160 and attk_timer.get_time_left()<=0.1:
-		attk_timer.start(3)
+		attk_timer.start(10)
 		return attack_state
 	
 

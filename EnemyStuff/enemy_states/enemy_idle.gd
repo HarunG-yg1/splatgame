@@ -10,16 +10,14 @@ func init() -> void:
 	pass
 func Enter() ->void:
 	#print("idle")
-	if enemy.hitter is RayCast2D:
-		enemy.hitter.enabled = true
+
 	timer.start(enemy.choose_randomly([0.5,1.5,2,1]))
 	enemy.UpdateAnimation("idle")
 	pass
 	
 #what happens when player enters state
 func Exit() ->void:
-	if enemy.hitter is RayCast2D:
-		enemy.hitter.enabled = false
+
 	pass
 	
 #what happens during process in state

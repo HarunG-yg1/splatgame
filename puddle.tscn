@@ -1,13 +1,23 @@
 [gd_scene format=3 uid="uid://b8we0m3hslcy2"]
 
-[ext_resource type="Script" uid="uid://cgt6vmx20md74" path="res://area_2d.gd" id="1_3jn3q"]
+[ext_resource type="Script" uid="uid://cgt6vmx20md74" path="res://Misc/area_2d.gd" id="1_3jn3q"]
+[ext_resource type="Texture2D" uid="uid://bsqmrunjbrmor" path="res://icon.svg" id="2_5h5e0"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
+radius = 64.0
+height = 146.0
 
-[node name="puddle" type="Node2D" unique_id=2012775745]
-
-[node name="Area2D" type="Area2D" parent="." unique_id=1610107246]
+[node name="puddle" type="Area2D" unique_id=698442161]
 script = ExtResource("1_3jn3q")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1521033670]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1981591018]
+texture = ExtResource("2_5h5e0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1521033670]
 shape = SubResource("CapsuleShape2D_kl0as")
+
+[node name="Timer" type="Timer" parent="." unique_id=245107969]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -12,6 +12,11 @@ func _init() -> void:
 		i.guy1 = self.guy1
 		i.statemachine = self.statemachine
 
+		for j in i.get_children():
+			j.guy1 = self.guy1
+			j.statemachine = self.statemachine
+
+
 func Enter():
 	
 	had_prior_vel = guy1.velocity

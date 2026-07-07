@@ -3,21 +3,21 @@ class_name jumpin extends state_class
 @onready var move_state = $"../move"
 @onready var dash_state =  $"../dash"
 @onready var block_state = $"../block"
-var jump_time := 0.2
+
 func Enter():
-	jump_time = 0.2
+	guy1.jump_vel = 0
 	#print("jump")
-	guy1.velocity *= 0.5
+	guy1.velocity *= 0.75
 	pass
 func Process(_delta):
-	jump_time -= _delta
-	guy1.move(guy1.direction,0.5)
+
+	guy1.move(guy1.direction,0.75)
 	
 	if !guy1.jumping:
 		return move_state
-	elif guy1.run and !guy1.finish_run and jump_time <=0:
+	elif guy1.run and !guy1.finish_run and guy1.jump_vel >=0:
 		return dash_state
-	elif guy1.blocking and jump_time <=0 and guy1.stun < 0.75:
+	elif guy1.blocking and  guy1.jump_vel >=0 and guy1.stun < 0.75:
 		return block_state
 
 func Exit():

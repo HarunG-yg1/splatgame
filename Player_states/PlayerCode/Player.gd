@@ -14,6 +14,10 @@ var jumping : bool = false
 var jump_vel : float = 0.0
 var crouch : bool = false
 var player_damage : int = 10
+var dive_in : = false
+
+var last_puddle : blood_puddle
+var arr_of_blood : Array[int] = [0]
 
 var was_attk_time  : float 
 var run = false
@@ -31,6 +35,8 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	
+	attack_box.look_at(get_global_mouse_position())
 	if i_time > 0:
 		i_time -= delta
 	if stun > 0:
@@ -55,6 +61,7 @@ func _process(delta: float) -> void:
 		
 	
 	if Input.is_action_just_pressed("jump") and !jumping:
+		#jump_vel = 0
 		jumping = true
 		jump()
 	
@@ -73,18 +80,19 @@ func attack():
 
 func jump_and_fall(delta):
 	if jumping:
-		jump_vel += delta * 320
-		para_in_sinwave += delta * 720
+		print(jump_vel)
+		jump_vel += delta * 160
+		para_in_sinwave += delta * 320 * 2
 
-		if para_in_sinwave <= 360:
+		#if para_in_sinwave <= 360:
 			
-			sprite.position.y += 20 * -(sin(deg_to_rad(para_in_sinwave)))*0.06
+		sprite.position.y += 20 * -(sin(deg_to_rad(para_in_sinwave)))*0.04
 
 	if jump_vel >= 80:
 
-		jump_vel = 0
+		sprite.position.y = 0
 		jumping = false
-
+		
 
 
 func move(direct,modifier=1):
@@ -111,10 +119,11 @@ func _physics_process(_delta: float) -> void:
 	
 
 
-func _on_attack_box_body_entered(body: Node2D) -> void:
+func _on_attack_box_body_entered(body: Enemy) -> void:
 	if body.is_in_group("enemies"):
 		if body.has_method("damage"):
-			body.damage(player_damage)
+			body.parried(global_position)
+			body.damage()#player_damage
 
 func damage(amnt : int , from : Vector2, attker : Enemy, pwer : float, melee : bool):
 	was_attk_time = 0.5
@@ -126,3 +135,18 @@ func damage(amnt : int , from : Vector2, attker : Enemy, pwer : float, melee : b
 	if melee:
 		velocity -=  (from - global_position).normalized() * pwer
 	pass
+
+func check_puddle(puddle_val : int, this_puddle : blood_puddle):
+	last_puddle =  this_puddle
+	if  arr_of_blood.size() != 0 and puddle_val == arr_of_blood[0] and statemachine.curr_state is slide:
+		dive_in = true
+		visible = false
+		arr_of_blood.pop_front()
+	pass
+	
+func exit_puddle():
+	visible = true
+	last_puddle = null
+	dive_in = false
+	pass
+	

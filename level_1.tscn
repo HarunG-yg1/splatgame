@@ -1,9 +1,17 @@
 [gd_scene format=3 uid="uid://co11jxjl8wedk"]
 
-[ext_resource type="PackedScene" uid="uid://dvtbswqn1p22u" path="res://player1.tscn" id="1_hbghi"]
-[ext_resource type="PackedScene" uid="uid://dcplmtby6psqj" path="res://enemy.tscn" id="2_hn12h"]
+[ext_resource type="PackedScene" uid="uid://dvtbswqn1p22u" path="res://Player_states/PlayerCode/player1.tscn" id="1_hbghi"]
+[ext_resource type="PackedScene" uid="uid://dcplmtby6psqj" path="res://EnemyStuff/EnemyCode/enemy.tscn" id="2_hn12h"]
+[ext_resource type="PackedScene" uid="uid://b8we0m3hslcy2" path="res://puddle.tscn" id="3_hn12h"]
 
 [node name="level_1" type="Node2D" unique_id=331133827]
+
+[node name="puddle" parent="." unique_id=698442161 instance=ExtResource("3_hn12h")]
+modulate = Color(1, 1, 1, 0.27450982)
+position = Vector2(190, 169)
+collision_layer = 2
+collision_mask = 2
+puddle_val = 1
 
 [node name="Player" parent="." unique_id=1623458088 instance=ExtResource("1_hbghi")]
 position = Vector2(48, 75)

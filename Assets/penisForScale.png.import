@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://pv33ojdetmm3"
-path="res://.godot/imported/penisForScale - Copy.png-286585297b686c41e2a9dd22901cfa6e.ctex"
+uid="uid://dojsan8dtpoe1"
+path="res://.godot/imported/penisForScale.png-74631bc3e1d2c5fd8312c85cf78f0c5e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://penisForScale - Copy.png"
-dest_files=["res://.godot/imported/penisForScale - Copy.png-286585297b686c41e2a9dd22901cfa6e.ctex"]
+source_file="res://Assets/penisForScale.png"
+dest_files=["res://.godot/imported/penisForScale.png-74631bc3e1d2c5fd8312c85cf78f0c5e.ctex"]
 
 [params]
 

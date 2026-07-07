@@ -9,10 +9,6 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	
-	if hitter.get_collider() != null and hitter.enabled and state_machine.curr_state is not Enemy_State_Roam  and state_machine.curr_state is not Enemy_State_Idle:
-		hitter.enabled = false
-		check_if_ray_hit = hitter.get_collider()
-		attk_hitted(check_if_ray_hit)
 		
 	if player != null and chase == true:
 		chase_dir = (player.position-position).normalized()
@@ -86,7 +82,7 @@ func attk_hitted(body : PhysicsBody2D):
 		
 		body.damage(1,global_position, self, 100,false)
 		
-	await get_tree().create_timer(0.125).timeout
+	await get_tree().create_timer(0.2).timeout
 	animsprite.play("default")
 
 		

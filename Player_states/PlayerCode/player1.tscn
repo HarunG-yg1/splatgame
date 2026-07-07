@@ -1,19 +1,20 @@
 [gd_scene format=3 uid="uid://dvtbswqn1p22u"]
 
-[ext_resource type="Script" uid="uid://d1b5oj6cyb215" path="res://character_body_2d.gd" id="1_ng0wg"]
-[ext_resource type="Script" uid="uid://bfc72of00srla" path="res://statemachine.gd" id="2_pqb02"]
-[ext_resource type="Script" uid="uid://d53u05kqm55o" path="res://idle.gd" id="3_3pafw"]
+[ext_resource type="Script" uid="uid://d1b5oj6cyb215" path="res://Player_states/PlayerCode/Player.gd" id="1_ng0wg"]
+[ext_resource type="Script" uid="uid://bfc72of00srla" path="res://Player_states/PlayerCode/statemachine.gd" id="2_pqb02"]
+[ext_resource type="Script" uid="uid://d53u05kqm55o" path="res://Player_states/idle.gd" id="3_3pafw"]
 [ext_resource type="Texture2D" uid="uid://bsqmrunjbrmor" path="res://icon.svg" id="3_ytgb6"]
-[ext_resource type="Script" uid="uid://b4as3f64ik0n4" path="res://move.gd" id="4_3odsw"]
-[ext_resource type="Script" uid="uid://bs7co188x4nb" path="res://dash.gd" id="5_woueq"]
-[ext_resource type="Script" uid="uid://qv5t40i41x55" path="res://jump.gd" id="6_bjfdx"]
-[ext_resource type="Script" uid="uid://ce4bwui3ccoi6" path="res://crouching.gd" id="7_hfcs4"]
-[ext_resource type="Script" uid="uid://chg0yu6jjvoau" path="res://slide.gd" id="8_sl0af"]
-[ext_resource type="Script" uid="uid://4ywngadnigil" path="res://crouch_move.gd" id="9_s33xd"]
-[ext_resource type="Script" uid="uid://bx1x6kna03n5l" path="res://block.gd" id="10_s33xd"]
-[ext_resource type="Script" uid="uid://4q88mdlryyso" path="res://block_move.gd" id="11_lyl3y"]
-[ext_resource type="Texture2D" uid="uid://bp3euxqpxje8q" path="res://parrythis.png" id="12_ak627"]
-[ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://penisForScale.png" id="14_6flp4"]
+[ext_resource type="Script" uid="uid://b4as3f64ik0n4" path="res://Player_states/move.gd" id="4_h1fcx"]
+[ext_resource type="Script" uid="uid://bs7co188x4nb" path="res://Player_states/dash.gd" id="5_woueq"]
+[ext_resource type="Script" uid="uid://qv5t40i41x55" path="res://Player_states/jump.gd" id="6_bjfdx"]
+[ext_resource type="Script" uid="uid://ce4bwui3ccoi6" path="res://Player_states/crouching.gd" id="7_hfcs4"]
+[ext_resource type="Script" uid="uid://chg0yu6jjvoau" path="res://Player_states/slide.gd" id="9_mqfsv"]
+[ext_resource type="Script" uid="uid://4ywngadnigil" path="res://Player_states/crouch_move.gd" id="9_s33xd"]
+[ext_resource type="Script" uid="uid://wknskd0f4dvk" path="res://Player_states/dive.gd" id="10_8kudq"]
+[ext_resource type="Script" uid="uid://bx1x6kna03n5l" path="res://Player_states/block.gd" id="10_s33xd"]
+[ext_resource type="Script" uid="uid://4q88mdlryyso" path="res://Player_states/block_move.gd" id="11_lyl3y"]
+[ext_resource type="Texture2D" uid="uid://bp3euxqpxje8q" path="res://Assets/parrythis.png" id="12_ak627"]
+[ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/penisForScale.png" id="14_h1fcx"]
 [ext_resource type="PackedScene" uid="uid://ctog7ixvmi0mn" path="res://gun.tscn" id="15_y0uv2"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kl0as"]
@@ -41,27 +42,27 @@ animations = [{
 radius = 22.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xg66o"]
-atlas = ExtResource("14_6flp4")
+atlas = ExtResource("14_h1fcx")
 region = Rect2(0, 6, 32, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xgwlu"]
-atlas = ExtResource("14_6flp4")
+atlas = ExtResource("14_h1fcx")
 region = Rect2(0, 12, 32, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_txhf7"]
-atlas = ExtResource("14_6flp4")
+atlas = ExtResource("14_h1fcx")
 region = Rect2(0, 18, 32, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3cftk"]
-atlas = ExtResource("14_6flp4")
+atlas = ExtResource("14_h1fcx")
 region = Rect2(32, 0, 32, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ynmqp"]
-atlas = ExtResource("14_6flp4")
+atlas = ExtResource("14_h1fcx")
 region = Rect2(32, 6, 32, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qo0va"]
-atlas = ExtResource("14_6flp4")
+atlas = ExtResource("14_h1fcx")
 region = Rect2(32, 12, 32, 6)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_y0uv2"]
@@ -133,7 +134,7 @@ script = ExtResource("2_pqb02")
 script = ExtResource("3_3pafw")
 
 [node name="move" type="Node" parent="statemachine" unique_id=1591690938]
-script = ExtResource("4_3odsw")
+script = ExtResource("4_h1fcx")
 
 [node name="dash" type="Node" parent="statemachine" unique_id=941925613]
 script = ExtResource("5_woueq")
@@ -148,7 +149,10 @@ script = ExtResource("7_hfcs4")
 script = ExtResource("9_s33xd")
 
 [node name="slide" type="Node" parent="statemachine/crouching" unique_id=177876741]
-script = ExtResource("8_sl0af")
+script = ExtResource("9_mqfsv")
+
+[node name="dive" type="Node" parent="statemachine/crouching/slide" unique_id=729338555]
+script = ExtResource("10_8kudq")
 
 [node name="block" type="Node" parent="statemachine" unique_id=675691445]
 script = ExtResource("10_s33xd")

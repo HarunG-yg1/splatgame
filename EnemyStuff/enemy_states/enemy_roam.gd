@@ -14,8 +14,7 @@ func init() -> void:
 	
 func Enter() ->void:
 #	print("roam")
-	if enemy.hitter is RayCast2D:
-		enemy.hitter.enabled = true
+
 	timer.start(enemy.choose_randomly([2,4]))
 	enemy.UpdateAnimation("walk")
 	
@@ -23,8 +22,7 @@ func Enter() ->void:
 	
 #what happens when player enters state
 func Exit() ->void:
-	if enemy.hitter is RayCast2D:
-		enemy.hitter.enabled =false
+
 	pass
 	
 #what happens during process in state
