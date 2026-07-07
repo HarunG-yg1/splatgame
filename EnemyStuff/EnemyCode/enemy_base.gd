@@ -12,10 +12,45 @@ var random_pt : Vector2 = Vector2.ZERO
 var secondary_vel : Vector2   = Vector2.ZERO
 var cardinal_direction : Vector2 = Vector2.DOWN
 var direction : Vector2 = Vector2.ZERO
+var last_hit_from: Vector2 = Vector2.ZERO
 
 const SPEED = 150.0
 var chase_dir : Vector2
 var chase : bool = false 
+
+const BLOOD_PUDDLE = preload("res://puddle.tscn")
+
+@export var blood_count: int = 6
+@export var blood_speed: float = 300.0
+@export var blood_spread_degrees: float = 40.0
+@export var puddle_color: blood_puddle.puddle_colors = blood_puddle.puddle_colors.RED
+@export var health: int = 30
+@export var enemy_color: int = 0
+
+func die() -> void:
+	spawn_blood()
+	if player != null:
+		player.arr_of_blood.append(enemy_color)
+		print("Added color: ", enemy_color, " | Array now: ", player.arr_of_blood)
+	else:
+		print("Enemy died but player reference was null — color not added")
+	queue_free()
+
+func spawn_blood() -> void:
+	var away_dir: Vector2
+
+	if last_hit_from != Vector2.ZERO:
+		away_dir = (global_position - last_hit_from).normalized()
+	elif player != null:
+		away_dir = (global_position - player.global_position).normalized()
+	else:
+		away_dir = Vector2.RIGHT.rotated(randf() * TAU)
+
+	var puddle = BLOOD_PUDDLE.instantiate()
+	get_tree().root.add_child(puddle)
+	puddle.global_position = global_position
+	puddle.init(puddle_color)
+	puddle.launch(away_dir * blood_speed)
 
 func _ready() -> void:
 
@@ -53,16 +88,24 @@ func choose_randomly(list_of_entries):
 
 func boids():
 #	print( bodyIsee.size())
-	var numOfbodies = bodyIsee.size()
+	var valid_bodies: Array[CharacterBody2D] = []
 	var avgVel := Vector2.ZERO
 	var avgPosition := Vector2.ZERO
 	var steer_Away := Vector2.ZERO
+	
+	for body in bodyIsee:
+		if is_instance_valid(body):
+			valid_bodies.append(body)
+
+	bodyIsee = valid_bodies
+	var numOfbodies = bodyIsee.size()
+	
 	for body in bodyIsee:
 		avgVel += body.velocity
 		avgPosition += body.position
 		steer_Away -= (body.global_position - global_position) *200/(body.global_position - global_position).length()
+
 	if numOfbodies != 0:
-		
 		avgVel /=  numOfbodies
 		if  !is_nan(avgVel.x):
 			secondary_vel += (avgVel - secondary_vel)/2
@@ -79,8 +122,12 @@ func boids():
 		#print(secondary_vel,avgVel,avgPosition,steer_Away)
 	
 
-func damage():
-	pass
+func damage(amount: int, from: Vector2 = Vector2.ZERO) -> void:
+	health -= amount
+	if from != Vector2.ZERO:
+		last_hit_from = from
+	if health <= 0:
+		die()
 
 func _on_enemy_fov_body_entered(body: CharacterBody2D) -> void:
 	if body is Player   :

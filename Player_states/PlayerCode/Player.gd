@@ -123,7 +123,7 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 	if body.is_in_group("enemies"):
 		if body.has_method("damage"):
 			body.parried(global_position)
-			body.damage()#player_damage
+			body.damage(player_damage)
 
 func damage(amnt : int , from : Vector2, attker : Enemy, pwer : float, melee : bool):
 	was_attk_time = 0.5

@@ -2,6 +2,10 @@ class_name blood_puddle extends Area2D
 
 enum puddle_colors {RED,BLUE,GREEN}
 @export var puddle_val : puddle_colors
+
+var velocity: Vector2 = Vector2.ZERO
+@export var friction: float = 400.0
+
 func _ready() -> void:
 	$Timer.start(20)
 	match puddle_val:
@@ -22,6 +26,14 @@ func init(color_val : int):
 			modulate = Color("blue")
 		puddle_colors.GREEN:
 			modulate = Color("green")
+
+func launch(initial_velocity: Vector2) -> void:
+	velocity = initial_velocity
+
+func _physics_process(delta: float) -> void:
+	if velocity.length() > 1.0:
+		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+		position += velocity * delta
 
 func _on_body_entered(body: Player) -> void:
 	body.check_puddle(puddle_val,self)
