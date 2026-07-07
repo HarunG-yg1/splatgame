@@ -45,6 +45,9 @@ func shoot() -> void:
 			print("Hit object: ", hit_object.name)
 			print("Hit point: ", hit_point)
 			
+			if hit_object.has_method("damage"):
+				hit_object.damage(9999, global_position)
+			
 			if hit_object.has_method("parried"):
 				hit_object.parried(hit_point)
 		else:
