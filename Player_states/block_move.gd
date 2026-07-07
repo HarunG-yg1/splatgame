@@ -8,7 +8,7 @@ func Enter():
 		timer = block_state.timer
 		consecutive_block = block_state.consecutive_block
 	if guy1.was_attk_time > 0.2 :
-		
+		timer = 0
 		guy1.stun = 0
 		guy1.i_time = 0.25
 		consecutive_block += 2
@@ -18,12 +18,12 @@ func Enter():
 	pass
 	
 func Process(_delta):
-	guy1.move(guy1.direction,0.4)
+	guy1.move(guy1.direction,0.6)
 	if Input.is_action_just_pressed("block"):
 		guy1.sprite.play("block")
 	timer -= _delta
-	if guy1.was_attk_time > 0.2 and Input.is_action_just_pressed("block"):
-		timer = 0.4
+	if guy1.was_attk_time > 0.2 and Input.is_action_just_pressed("block") and timer >0.2:
+		timer = 0
 		guy1.stun = 0
 		guy1.i_time = 0.25
 		consecutive_block += 2

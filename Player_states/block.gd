@@ -21,6 +21,7 @@ func Enter():
 		consecutive_block = block_move_state.consecutive_block
 	if guy1.was_attk_time > 0.2:
 		guy1.stun = 0
+		timer = 0
 		guy1.i_time = 0.25
 		consecutive_block += 2
 		guy1.animfx.play("parried")
@@ -30,8 +31,8 @@ func Process(_delta):
 	timer -= _delta
 	if Input.is_action_just_pressed("block"):
 		print(guy1.was_attk_time )
-	if guy1.was_attk_time > 0.2 and Input.is_action_just_pressed("block"):
-		timer = 0.4
+	if guy1.was_attk_time > 0.2 and Input.is_action_just_pressed("block") and timer >0.2:
+		timer = 0
 		guy1.stun = 0
 		guy1.i_time = 0.25
 		consecutive_block += 2

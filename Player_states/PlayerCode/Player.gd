@@ -68,7 +68,7 @@ func _process(delta: float) -> void:
 	jump_and_fall(delta)
 	
 		
-	if stun <= 0:
+	if stun <= 0 || stun > 0.9:
 		direction = Vector2(Input.get_axis("left","right"),Input.get_axis("up","down")).normalized()
 	else:
 		direction = Vector2.ZERO
@@ -137,16 +137,24 @@ func damage(amnt : int , from : Vector2, attker : Enemy, pwer : float, melee : b
 	pass
 
 func check_puddle(puddle_val : int, this_puddle : blood_puddle):
+	var temp = last_puddle
 	last_puddle =  this_puddle
+	
 	if  arr_of_blood.size() != 0 and puddle_val == arr_of_blood[0] and statemachine.curr_state is slide:
 		dive_in = true
 		visible = false
-		arr_of_blood.pop_front()
+		
+	else:
+		if temp != null:
+			last_puddle = temp
+		
 	pass
 	
-func exit_puddle():
-	visible = true
-	last_puddle = null
-	dive_in = false
+func exit_puddle(this_puddle : blood_puddle):
+	if last_puddle ==  this_puddle:
+		arr_of_blood.pop_front()
+		visible = true
+		last_puddle = null
+		dive_in = false
 	pass
 	
