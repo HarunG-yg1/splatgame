@@ -35,5 +35,5 @@ func hurt_target():
 				guy1.curr_hitEnemy = null
 func first_con()->bool:
 	guy1.sprite.stop()
-	guy1.sprite.play("Shoot")
+	guy1.sprite.play("AimShoot")
 	return guy1.signal_attk and guy1.same_guy and rec_enemy != null and guy1.out_attk_time < 0.1 and guy1.out_attk_time > -0.25

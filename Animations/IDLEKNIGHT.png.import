@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ba7c7xkjbq5f8"
-path="res://.godot/imported/IDLE-KNIGHT.PNG-dc05381fac256a07f675c829ce8741bb.ctex"
+uid="uid://q61jx1vclrxp"
+path="res://.godot/imported/IDLEKNIGHT.png-7722a4b0ee55b47188b76c5e92918668.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/IDLE-KNIGHT.PNG"
-dest_files=["res://.godot/imported/IDLE-KNIGHT.PNG-dc05381fac256a07f675c829ce8741bb.ctex"]
+source_file="res://Animations/IDLEKNIGHT.png"
+dest_files=["res://.godot/imported/IDLEKNIGHT.png-7722a4b0ee55b47188b76c5e92918668.ctex"]
 
 [params]
 

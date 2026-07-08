@@ -101,12 +101,12 @@ position = Vector2(250.5, -34)
 shape = SubResource("RectangleShape2D_o48g2")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=341818211]
+layer = 2
 
 [node name="HPBar" parent="CanvasLayer" unique_id=303077487 instance=ExtResource("4_1bvp3")]
 player_path = NodePath("../../Player")
 
 [node name="DeathScreen" parent="CanvasLayer" unique_id=1795303486 instance=ExtResource("5_lquwl")]
-player_path = NodePath("../../Player")
 
 [node name="AmmoUI" parent="CanvasLayer" unique_id=849057996 instance=ExtResource("8_4c57u")]
 
