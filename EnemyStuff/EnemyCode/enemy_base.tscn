@@ -122,6 +122,7 @@ size = Vector2(74.75, 67)
 collision_mask = 10
 motion_mode = 1
 script = ExtResource("1_8nqel")
+puddle_color = 1
 
 [node name="statemachine" type="Node" parent="." unique_id=1213086234]
 process_mode = 4

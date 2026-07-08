@@ -26,9 +26,9 @@ func _ready() -> void:
 	raycast_group.append(raycast2)
 	raycast_group.append(raycast3)
 	
-	raycast.target_position = Vector2(gun_range, -4)
+	raycast.target_position = Vector2(gun_range, -8)
 	raycast2.target_position = Vector2(gun_range, 0)
-	raycast3.target_position = Vector2(gun_range, 4)
+	raycast3.target_position = Vector2(gun_range, 8)
 	raycast.position = Vector2(0, -4)
 	raycast2.position = Vector2(0, 0)
 	raycast3.position = Vector2(0, 4)

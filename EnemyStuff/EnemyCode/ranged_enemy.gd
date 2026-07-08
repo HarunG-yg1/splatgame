@@ -1,7 +1,7 @@
 class_name ranged extends Enemy
 
 @onready var hitter2 : =$RayCast2D
-
+@onready var animfx2 : =$AnimatedFX2
 func _ready() -> void:
 	
 	state_machine.init()

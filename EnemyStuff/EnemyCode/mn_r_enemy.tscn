@@ -13,6 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://pv33ojdetmm3" path="res://Assets/penisForScale - Copy.png" id="9_6gh12"]
 [ext_resource type="Script" uid="uid://bib6o2gc30wrk" path="res://EnemyStuff/enemy_states/enemy_base_attack.gd" id="10_2h4cd"]
 [ext_resource type="Texture2D" uid="uid://bka8ruyptlus8" path="res://Assets/communityIcon_oi1dus1jkkvb1.png" id="10_mkbal"]
+[ext_resource type="Texture2D" uid="uid://bk6hrymqnbxrp" path="res://Assets/yellow.png" id="13_6pg28"]
+[ext_resource type="Texture2D" uid="uid://d3fx1b3pl1ovv" path="res://Assets/blue.png" id="14_0eray"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2xe7j"]
 
@@ -26,6 +28,14 @@ region = Rect2(0, 12, 32, 6)
 [sub_resource type="AtlasTexture" id="AtlasTexture_1k2p4"]
 atlas = ExtResource("9_6gh12")
 region = Rect2(0, 0, 32, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0eray"]
+atlas = ExtResource("13_6pg28")
+region = Rect2(0, 0, 32, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nu33k"]
+atlas = ExtResource("14_0eray")
+region = Rect2(0, 0, 32, 4)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xg66o"]
 atlas = ExtResource("8_k07sr")
@@ -69,7 +79,7 @@ animations = [{
 "texture": null
 }],
 "loop": 0,
-"name": &"shine",
+"name": &"shine1",
 "speed": 24.0
 }, {
 "frames": [{
@@ -84,6 +94,34 @@ animations = [{
 }],
 "loop": 0,
 "name": &"shine2",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0eray")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": 0,
+"name": &"shine3",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nu33k")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": 0,
+"name": &"shineBlue",
 "speed": 24.0
 }, {
 "frames": [{
@@ -152,6 +190,23 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_36bpb"]
 size = Vector2(74.75, 67)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_6pg28"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0eray")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": 0,
+"name": &"shine3",
+"speed": 24.0
+}]
+
 [node name="MnR_Enemy" type="CharacterBody2D" unique_id=181552106]
 collision_mask = 10
 script = ExtResource("1_36bpb")
@@ -211,7 +266,7 @@ shape = SubResource("RectangleShape2D_tsjqk")
 position = Vector2(0, 1)
 scale = Vector2(25, 1)
 sprite_frames = SubResource("SpriteFrames_w2f1p")
-animation = &"shineMelee"
+animation = &"shineBlue"
 offset = Vector2(16.92, -6)
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1751577932]
@@ -227,6 +282,13 @@ collision_mask = 3
 position = Vector2(18, 0)
 shape = SubResource("RectangleShape2D_36bpb")
 disabled = true
+
+[node name="AnimatedFX2" type="AnimatedSprite2D" parent="." unique_id=2067112248]
+position = Vector2(0, 1)
+scale = Vector2(25, 1)
+sprite_frames = SubResource("SpriteFrames_6pg28")
+animation = &"shine3"
+offset = Vector2(16.92, -6)
 
 [connection signal="body_entered" from="enemy_fov" to="." method="_on_enemy_fov_body_entered"]
 [connection signal="body_exited" from="enemy_fov" to="." method="_on_enemy_fov_body_exited"]

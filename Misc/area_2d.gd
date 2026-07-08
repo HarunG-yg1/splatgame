@@ -42,6 +42,7 @@ func _on_body_entered(body: Player) -> void:
 
 func _on_body_exited(body: Player) -> void:
 	body.exit_puddle(self)
+
 	pass # Replace with function body.
 
 

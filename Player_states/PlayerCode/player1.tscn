@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://d1b5oj6cyb215" path="res://Player_states/PlayerCode/Player_One.gd" id="1_ng0wg"]
 [ext_resource type="Script" uid="uid://bfc72of00srla" path="res://Player_states/PlayerCode/statemachine.gd" id="2_pqb02"]
 [ext_resource type="Script" uid="uid://d53u05kqm55o" path="res://Player_states/idle.gd" id="3_3pafw"]
-[ext_resource type="Texture2D" uid="uid://bsqmrunjbrmor" path="res://icon.svg" id="3_ytgb6"]
 [ext_resource type="Script" uid="uid://b4as3f64ik0n4" path="res://Player_states/move.gd" id="4_h1fcx"]
 [ext_resource type="Script" uid="uid://bs7co188x4nb" path="res://Player_states/dash.gd" id="5_woueq"]
 [ext_resource type="Script" uid="uid://qv5t40i41x55" path="res://Player_states/jump.gd" id="6_bjfdx"]
@@ -18,7 +17,17 @@
 [ext_resource type="Script" uid="uid://ge1oy7oega0w" path="res://Player_states/shoot.gd" id="14_5iiq8"]
 [ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/penisForScale.png" id="14_h1fcx"]
 [ext_resource type="PackedScene" uid="uid://ctog7ixvmi0mn" path="res://gun.tscn" id="15_y0uv2"]
+[ext_resource type="Texture2D" uid="uid://ba7c7xkjbq5f8" path="res://Assets/IDLE-KNIGHT.PNG" id="16_5iiq8"]
 [ext_resource type="Texture2D" uid="uid://ci0mpvjc0ux73" path="res://Assets/memes.png" id="17_22o57"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xepy2"]
+radius = 32.24903
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3osvf"]
+atlas = ExtResource("16_5iiq8")
+region = Rect2(0, 0, 1920, 1080)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kl0as"]
 animations = [{
@@ -32,17 +41,12 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_ytgb6")
+"texture": SubResource("AtlasTexture_3osvf")
 }],
 "loop": 0,
-"name": &"default",
+"name": &"idle",
 "speed": 5.0
 }]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_xepy2"]
-radius = 22.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xg66o"]
 atlas = ExtResource("14_h1fcx")
@@ -208,28 +212,32 @@ script = ExtResource("13_8kudq")
 [node name="shoot" type="Node" parent="statemachine" unique_id=784141542]
 script = ExtResource("14_5iiq8")
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1120457136]
-position = Vector2(-1.4305115e-06, 0)
-scale = Vector2(0.15624997, 0.2265625)
-sprite_frames = SubResource("SpriteFrames_kl0as")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1712918288]
 shape = SubResource("CapsuleShape2D_kl0as")
 
 [node name="AttackBox" type="Area2D" parent="." unique_id=2121460003]
+scale = Vector2(2, 2)
 collision_layer = 3
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox" unique_id=1504445]
-position = Vector2(32, 0)
+position = Vector2(14, 0)
 shape = SubResource("CircleShape2D_xepy2")
 disabled = true
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="AttackBox" unique_id=1120457136]
+position = Vector2(7, 4.5)
+rotation = 1.5707964
+scale = Vector2(0.075, 0.075)
+sprite_frames = SubResource("SpriteFrames_kl0as")
+animation = &"block"
 
 [node name="animfx" type="AnimatedSprite2D" parent="." unique_id=1686348014]
 sprite_frames = SubResource("SpriteFrames_y0uv2")
 animation = &"parried"
 
 [node name="Gun" parent="." unique_id=801267109 instance=ExtResource("15_y0uv2")]
+visible = false
 
 [connection signal="check_knockback" from="." to="." method="_on_check_knockback"]
 [connection signal="body_entered" from="AttackBox" to="." method="_on_attack_box_body_entered"]

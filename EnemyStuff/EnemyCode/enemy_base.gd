@@ -16,6 +16,7 @@ var direction : Vector2 = Vector2.ZERO
 var last_hit_from: Vector2 = Vector2.ZERO
 
 @export var in_attk_time : Array[float] = [0.75,0.5,1,0.5]
+@export var out_attk_time : Array[float] = [0.75,0.5,1,0.5,0.75,0.5,1,0.5]
 var in_attk_time_index : int = 0
 
 var time_inter_pos := 0.0
@@ -32,7 +33,7 @@ const BLOOD_PUDDLE = preload("res://puddle.tscn")
 @export var blood_speed: float = 300.0
 @export var blood_spread_degrees: float = 40.0
 @export var puddle_color: blood_puddle.puddle_colors = blood_puddle.puddle_colors.RED
-@export var health: int = 5
+@export var health: int = 1
 @export var enemy_color: int = 0
 
 func die() -> void:
@@ -40,6 +41,7 @@ func die() -> void:
 	player = SceneManager.player
 
 	if player != null:
+		player.gun.reload(blood_count)
 		player.arr_of_blood.append(enemy_color)
 		print("Added color: ", enemy_color, " | Array now: ", player.arr_of_blood)
 	else:

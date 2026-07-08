@@ -28,6 +28,9 @@ func Process(_delta):
 		return slide_parent_state.crouch_state.jump_state
 
 func Exit():
+	guy1.current_health += (guy1.arr_of_blood[0]+3)
+	guy1.arr_of_blood.pop_front()
+	guy1.health_changed.emit(guy1.current_health, guy1.max_health)
 	guy1.i_time = 0.25
 	guy1.sprite.visible = true
 	guy1.crouch=false

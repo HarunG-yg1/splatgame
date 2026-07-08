@@ -66,7 +66,7 @@ func _process(delta: float) -> void:
 	if stun > 0:
 		stun -= delta*2
 	in_attk_time-=delta
-	if in_attk_time<-0.1:
+	if in_attk_time<-0.15  and in_attk_time<-0.16:
 		damage_dec()
 
 	out_attk_time-= delta
@@ -115,6 +115,7 @@ func attack_fr():
 	
 	await get_tree().create_timer(0.1).timeout
 	is_attack = true
+	await get_tree().create_timer(0.1).timeout
 	attack_shape.disabled = true
 	
 	
@@ -167,7 +168,10 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 	print(body.stun, " stun")
 	if body != curr_hitEnemy and curr_hitEnemy ==null :
 		curr_hitEnemy = body
-		body.damage(0,global_position)
+		if !attack_shape.disabled:
+			body.damage(0,global_position)
+		else:
+			body.damage(4,global_position)
 		body.parried(global_position)
 
 		velocity += body.velocity
@@ -201,7 +205,7 @@ func is_hit_gun(last_collide : Enemy):
 func damage(amnt : int , from : Vector2, attker : Enemy, pwer : float, melee : bool):
 	if is_dead:
 		return
-	in_attk_time = 0.4
+	in_attk_time = 0.3
 	curr_attker = attker
 	if i_time <= 0 and stun <= 0:
 		stun = 1
@@ -246,7 +250,7 @@ func check_puddle(puddle_val : int, this_puddle : blood_puddle):
 	
 func exit_puddle(this_puddle : blood_puddle):
 	if last_puddle ==  this_puddle:
-		arr_of_blood.pop_front()
+		
 		visible = true
 		last_puddle = null
 		dive_in = false
