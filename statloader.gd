@@ -1,4 +1,5 @@
 extends Node
+var player : Player
 var player_stats : Dictionary = {"current_health" : 10 ,"max_health" : 10 , "bullets_left" : 6}
 var player_stats_copy : Dictionary = {"current_health" : 10 ,"max_health" : 10 , "bullets_left" : 6}
 var kill_count : int = 0

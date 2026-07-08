@@ -39,7 +39,7 @@ const BLOOD_PUDDLE = preload("res://puddle.tscn")
 
 func die() -> void:
 	visible = false
-	player = SceneManager.player
+	player = Statloader.player
 
 	if player != null:
 		player.gun.reload(blood_count)

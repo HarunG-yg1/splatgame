@@ -52,6 +52,7 @@ signal died
 func _ready() -> void:
 	Statloader.get_statsfromLoader(self)
 	statemachine.player = self
+	Statloader.player = self
 	statemachine.init()
 	attack_shape.disabled = true
 	gun.last_colided.connect(_on_attack_box_body_entered)
