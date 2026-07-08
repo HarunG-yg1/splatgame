@@ -39,6 +39,11 @@ animations = [{
 "name": &"block",
 "speed": 5.0
 }, {
+"frames": [],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3osvf")
@@ -230,7 +235,7 @@ position = Vector2(7, 4.5)
 rotation = 1.5707964
 scale = Vector2(0.075, 0.075)
 sprite_frames = SubResource("SpriteFrames_kl0as")
-animation = &"block"
+animation = &"idle"
 
 [node name="animfx" type="AnimatedSprite2D" parent="." unique_id=1686348014]
 sprite_frames = SubResource("SpriteFrames_y0uv2")
