@@ -9,12 +9,13 @@
 [ext_resource type="Script" uid="uid://cydx84lmnkdbx" path="res://EnemyStuff/enemy_states/run_away.gd" id="6_0eray"]
 [ext_resource type="Script" uid="uid://delwpdu46jbqm" path="res://EnemyStuff/enemy_states/enemy_Rattack.gd" id="7_nu33k"]
 [ext_resource type="Script" uid="uid://djnigfcyfhjda" path="res://EnemyStuff/enemy_states/enemy_chase.gd" id="8_c27ac"]
-[ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/penisForScale.png" id="8_k07sr"]
-[ext_resource type="Texture2D" uid="uid://pv33ojdetmm3" path="res://Assets/penisForScale - Copy.png" id="9_6gh12"]
+[ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/Bone.png" id="8_k07sr"]
+[ext_resource type="Texture2D" uid="uid://pv33ojdetmm3" path="res://Assets/Bone - Copy.png" id="9_6gh12"]
 [ext_resource type="Script" uid="uid://bib6o2gc30wrk" path="res://EnemyStuff/enemy_states/enemy_base_attack.gd" id="10_2h4cd"]
 [ext_resource type="Texture2D" uid="uid://bka8ruyptlus8" path="res://Assets/communityIcon_oi1dus1jkkvb1.png" id="10_mkbal"]
 [ext_resource type="Texture2D" uid="uid://bk6hrymqnbxrp" path="res://Assets/yellow.png" id="13_6pg28"]
 [ext_resource type="Texture2D" uid="uid://d3fx1b3pl1ovv" path="res://Assets/blue.png" id="14_0eray"]
+
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2xe7j"]
 

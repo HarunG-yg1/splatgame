@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c6bllw6swf012"]
 
-[ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/penisForScale.png" id="1_h2yge"]
+[ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/Bone.png" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://dvtbswqn1p22u" path="res://Player_states/PlayerCode/player1.tscn" id="1_ig7tw"]
 [ext_resource type="Resource" uid="uid://bc3w1w43c8uvo" path="res://dialogue_res/test.tres" id="2_efxa6"]
 [ext_resource type="PackedScene" uid="uid://8015johpad1n" path="res://UI/hp_bar.tscn" id="4_1bvp3"]
@@ -89,7 +89,6 @@ player_path = NodePath("../../Player")
 
 [node name="DeathScreen" parent="CanvasLayer" unique_id=1795303486 instance=ExtResource("5_lquwl")]
 z_index = 1
-player_path = NodePath("../../Player")
 
 [node name="AmmoUI" parent="CanvasLayer" unique_id=849057996 instance=ExtResource("8_4c57u")]
 z_index = 1
