@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://frfx08efdqq"]
+
+[ext_resource type="Script" uid="uid://tcfgllj0wj0" path="res://UI/ammo_ui.gd" id="1_1ri27"]
+[ext_resource type="Texture2D" uid="uid://bvvq83ucea03" path="res://Assets/bullet lol.png" id="1_6sqoe"]
+
+[node name="AmmoUI" type="Control" unique_id=849057996]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1ri27")
+
+[node name="BulletDisplay" type="HBoxContainer" parent="." unique_id=618362484]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1.0
+offset_top = 1.0
+offset_right = 259.00012
+offset_bottom = 104.47949
+grow_horizontal = 0
+rotation = 1.5724654
+scale = Vector2(0.80013365, 0.5997998)
+
+[node name="TextureRect" type="TextureRect" parent="BulletDisplay" unique_id=341862256]
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 2
+texture = ExtResource("1_6sqoe")
+expand_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="BulletDisplay" unique_id=417507433]
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 2
+texture = ExtResource("1_6sqoe")
+expand_mode = 1
+
+[node name="TextureRect3" type="TextureRect" parent="BulletDisplay" unique_id=1819783436]
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 2
+texture = ExtResource("1_6sqoe")
+expand_mode = 1
+
+[node name="TextureRect4" type="TextureRect" parent="BulletDisplay" unique_id=436135119]
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 2
+texture = ExtResource("1_6sqoe")
+expand_mode = 1
+
+[node name="TextureRect5" type="TextureRect" parent="BulletDisplay" unique_id=1663227464]
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 2
+texture = ExtResource("1_6sqoe")
+expand_mode = 1
+
+[node name="TextureRect6" type="TextureRect" parent="BulletDisplay" unique_id=910951064]
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 2
+texture = ExtResource("1_6sqoe")
+expand_mode = 1

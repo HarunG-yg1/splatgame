@@ -12,6 +12,7 @@ const BULLET = preload("res://Misc/bullet.tscn")
 @export var gun_range: float = 1800.0
 @export var fire_cooldown: float = 0.1
 signal last_colided(colided:Enemy)
+signal ammo_changed(current: int, max: int)
 var raycast_group : Array [RayCast2D]
 
 
@@ -34,6 +35,8 @@ func _ready() -> void:
 	raycast3.position = Vector2(0, 4)
 
 	visible = false
+	current_ammo = max_ammo
+	ammo_changed.emit(current_ammo, max_ammo)
 
 func _process(delta: float) -> void:
 	look_at(get_global_mouse_position())
@@ -64,6 +67,7 @@ func stop_aiming() -> void:
 func shoot() -> void:
 		can_fire = false
 		current_ammo -= 1
+		ammo_changed.emit(current_ammo, max_ammo)
 	
 		var bullet_instance = BULLET.instantiate()
 		get_tree().root.add_child(bullet_instance)
@@ -97,3 +101,4 @@ func reload(amount: int = -1) -> void:
 		current_ammo = max_ammo
 	else:
 		current_ammo = min(current_ammo + amount, max_ammo)
+	ammo_changed.emit(current_ammo, max_ammo)
