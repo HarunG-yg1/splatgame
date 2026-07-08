@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="splatgame"
-run/main_scene="uid://c6bllw6swf012"
+run/main_scene="uid://dxg7w7ms6ojks"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
