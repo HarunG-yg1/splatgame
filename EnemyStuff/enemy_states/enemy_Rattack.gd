@@ -58,8 +58,8 @@ func attack_now():
 	if enemy.hitter2.get_collider() is Player:
 		#await get_tree().create_timer(0.05).timeout
 		enemy.attk_hitted(enemy.player)
-	#	await get_tree().create_timer(0.2).timeout
-		#enemy.animfx.play("shine3")
+		await get_tree().create_timer(0.2).timeout
+		enemy.animsprite.play("default")
 		pass
 
 func attack_rythm(_delta):

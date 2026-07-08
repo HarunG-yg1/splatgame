@@ -21,9 +21,9 @@
 [ext_resource type="Texture2D" uid="uid://0b3dbnuiyequ" path="res://Animations/PARRYKNIGHT.png" id="17_5yovl"]
 [ext_resource type="Texture2D" uid="uid://q61jx1vclrxp" path="res://Animations/IDLEKNIGHT.png" id="18_lh0bs"]
 [ext_resource type="Texture2D" uid="uid://pv33ojdetmm3" path="res://Assets/Bone - Copy.png" id="19_4rtgo"]
+[ext_resource type="Texture2D" uid="uid://bka8ruyptlus8" path="res://Assets/communityIcon_oi1dus1jkkvb1.png" id="20_2nwgi"]
 [ext_resource type="Texture2D" uid="uid://bk6hrymqnbxrp" path="res://Assets/yellow.png" id="20_f6lud"]
 [ext_resource type="Texture2D" uid="uid://d3fx1b3pl1ovv" path="res://Assets/blue.png" id="21_3osvf"]
-
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
 
@@ -70,6 +70,14 @@ region = Rect2(126, 0, 42, 42)
 atlas = ExtResource("16_2nwgi")
 region = Rect2(168, 0, 42, 42)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_3osvf"]
+atlas = ExtResource("16_2nwgi")
+region = Rect2(42, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2nwgi"]
+atlas = ExtResource("16_2nwgi")
+region = Rect2(0, 0, 42, 42)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_4jvjc"]
 atlas = ExtResource("17_5yovl")
 region = Rect2(0, 0, 42, 42)
@@ -108,9 +116,9 @@ animations = [{
 "duration": 0.5,
 "texture": SubResource("AtlasTexture_i8v0v")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"AimShoot",
-"speed": 5.0
+"speed": 18.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -127,10 +135,16 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_x2dkr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3osvf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2nwgi")
 }],
 "loop": 0,
 "name": &"BasicATK",
-"speed": 5.0
+"speed": 18.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -150,7 +164,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"block",
-"speed": 5.0
+"speed": 18.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -168,6 +182,10 @@ animations = [{
 "name": &"idle",
 "speed": 5.0
 }]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5yovl"]
+atlas = ExtResource("20_2nwgi")
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xgwlu"]
 atlas = ExtResource("14_h1fcx")
@@ -211,7 +229,16 @@ region = Rect2(32, 12, 32, 6)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_2nwgi"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5yovl")
+}, {
+"duration": 1.0,
+"texture": null
+}],
 "loop": 0,
 "name": &"parried",
 "speed": 12.0
@@ -372,15 +399,16 @@ position = Vector2(1, -1.0000038)
 rotation = 1.5707964
 scale = Vector2(0.59075314, 0.55774975)
 sprite_frames = SubResource("SpriteFrames_kl0as")
-animation = &"BasicATK"
+animation = &"block"
 
 [node name="Gun" parent="." unique_id=801267109 instance=ExtResource("15_y0uv2")]
 visible = false
 
 [node name="animfx" type="AnimatedSprite2D" parent="." unique_id=1495036217]
+z_index = 2
 position = Vector2(0, 1)
 sprite_frames = SubResource("SpriteFrames_2nwgi")
-animation = &"shineMelee"
+animation = &"parried"
 offset = Vector2(16.92, -6)
 
 [connection signal="check_knockback" from="." to="." method="_on_check_knockback"]

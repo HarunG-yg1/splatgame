@@ -70,6 +70,7 @@ func Exit():
 	pass
 
 func missed_target():
+	print("oops")
 	rec_enemy.in_attk_time_index = 0
 	guy1.curr_hitEnemy.parried(guy1.global_position,1.5,-1.5)
 	

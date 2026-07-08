@@ -16,7 +16,6 @@
 [ext_resource type="Texture2D" uid="uid://bk6hrymqnbxrp" path="res://Assets/yellow.png" id="13_6pg28"]
 [ext_resource type="Texture2D" uid="uid://d3fx1b3pl1ovv" path="res://Assets/blue.png" id="14_0eray"]
 
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2xe7j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tsjqk"]
@@ -209,6 +208,7 @@ animations = [{
 }]
 
 [node name="MnR_Enemy" type="CharacterBody2D" unique_id=181552106]
+collision_layer = 201
 collision_mask = 202
 script = ExtResource("1_36bpb")
 
@@ -245,7 +245,7 @@ script = ExtResource("10_2h4cd")
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=218639338]
 target_position = Vector2(740, 0)
-collision_mask = 3
+collision_mask = 11
 
 [node name="enemy_fov" type="Area2D" parent="." unique_id=1466068542]
 collision_layer = 3

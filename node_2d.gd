@@ -9,4 +9,4 @@ func _process(delta: float) -> void:
 		$portal2.set_collision_mask_value(2,true)
 		$dailogue_area.set_collision_layer_value(2,true)
 		$dailogue_area.set_collision_mask_value(2,true)
-		process_mode =Node.PROCESS_MODE_DISABLED
+	#	process_mode =Node.PROCESS_MODE_DISABLED

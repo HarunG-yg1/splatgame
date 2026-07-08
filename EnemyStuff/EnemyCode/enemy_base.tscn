@@ -14,7 +14,6 @@
 [ext_resource type="Texture2D" uid="uid://bk6hrymqnbxrp" path="res://Assets/yellow.png" id="12_4jcdm"]
 [ext_resource type="Texture2D" uid="uid://d3fx1b3pl1ovv" path="res://Assets/blue.png" id="13_7peym"]
 
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7mdju"]
@@ -26,7 +25,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("9_ehnrd")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"default",
 "speed": 5.0
 }, {
@@ -34,7 +33,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("9_gak77")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"hitMelee",
 "speed": 5.0
 }]
@@ -182,6 +181,7 @@ animations = [{
 }]
 
 [node name="enemy" type="CharacterBody2D" unique_id=1466780452]
+collision_layer = 201
 collision_mask = 202
 motion_mode = 1
 script = ExtResource("1_8nqel")
@@ -231,7 +231,6 @@ shape = SubResource("RectangleShape2D_7mdju")
 position = Vector2(-2.3841858e-07, -6)
 scale = Vector2(0.26562497, 0.29531252)
 sprite_frames = SubResource("SpriteFrames_7mdju")
-animation = &"hitMelee"
 
 [node name="AttkCDTimer" type="Timer" parent="." unique_id=1078823862]
 

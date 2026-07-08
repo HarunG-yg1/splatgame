@@ -62,6 +62,8 @@ func attack_now():
 	if enemy.player != null:
 		
 		enemy.hitter.disabled = false
+		await get_tree().create_timer(0.2).timeout
+		enemy.animsprite.play("false")
 	pass
 
 func move():

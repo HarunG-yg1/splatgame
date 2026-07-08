@@ -4,7 +4,7 @@ func Exit():
 	guy1.is_shoot = false
 	guy1.signal_attk = false
 	pass
-#	
+#	aaaaaaaaa
 func missed_target():
 	rec_enemy.in_attk_time_index = 0
 	guy1.curr_hitEnemy.parried(guy1.global_position,0,-1.5)

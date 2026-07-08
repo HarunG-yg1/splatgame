@@ -89,6 +89,7 @@ player_path = NodePath("../../Player")
 
 [node name="DeathScreen" parent="CanvasLayer" unique_id=1795303486 instance=ExtResource("5_lquwl")]
 z_index = 1
+z_as_relative = false
 
 [node name="AmmoUI" parent="CanvasLayer" unique_id=849057996 instance=ExtResource("8_4c57u")]
 z_index = 1

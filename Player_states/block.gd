@@ -20,7 +20,7 @@ func Enter():
 	if statemachine.old_state == block_move_state:
 		timer = block_move_state.timer
 		consecutive_block = block_move_state.consecutive_block
-	if guy1.in_attk_time > -0.12:
+	if guy1.in_attk_time > -0.13:
 		guy1.stun = 0
 		guy1.health_dec = 0
 		timer = 0
@@ -34,7 +34,7 @@ func Process(_delta):
 	timer -= _delta
 #	if Input.is_action_just_pressed("block"):
 #		print(guy1.in_attk_time)
-	if guy1.in_attk_time> -0.12 and Input.is_action_just_pressed("block") and timer >= 0:
+	if guy1.in_attk_time> -0.13 and Input.is_action_just_pressed("block") and timer >= 0:
 		timer = 0
 		guy1.stun = 0
 		guy1.health_dec = 0
