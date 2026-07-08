@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dojsan8dtpoe1"
-path="res://.godot/imported/penisForScale.png-74631bc3e1d2c5fd8312c85cf78f0c5e.ctex"
+path="res://.godot/imported/Bone.png-b4278499ed053c880f66893a0329b102.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/penisForScale.png"
-dest_files=["res://.godot/imported/penisForScale.png-74631bc3e1d2c5fd8312c85cf78f0c5e.ctex"]
+source_file="res://Assets/Bone.png"
+dest_files=["res://.godot/imported/Bone.png-b4278499ed053c880f66893a0329b102.ctex"]
 
 [params]
 

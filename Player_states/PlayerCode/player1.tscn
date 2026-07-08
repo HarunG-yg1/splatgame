@@ -14,15 +14,16 @@
 [ext_resource type="Script" uid="uid://4q88mdlryyso" path="res://Player_states/block_move.gd" id="11_lyl3y"]
 [ext_resource type="Script" uid="uid://cq6n43t78u2vx" path="res://Player_states/attack.gd" id="13_8kudq"]
 [ext_resource type="Script" uid="uid://ge1oy7oega0w" path="res://Player_states/shoot.gd" id="14_5iiq8"]
-[ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/penisForScale.png" id="14_h1fcx"]
+[ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/Bone.png" id="14_h1fcx"]
 [ext_resource type="Texture2D" uid="uid://dvw452qgy15p3" path="res://Animations/SHOOTKNIGHT.png" id="15_3osvf"]
 [ext_resource type="PackedScene" uid="uid://ctog7ixvmi0mn" path="res://gun.tscn" id="15_y0uv2"]
 [ext_resource type="Texture2D" uid="uid://ddqsq7rgytjlc" path="res://Animations/SWINGKNIGHT.png" id="16_2nwgi"]
 [ext_resource type="Texture2D" uid="uid://0b3dbnuiyequ" path="res://Animations/PARRYKNIGHT.png" id="17_5yovl"]
 [ext_resource type="Texture2D" uid="uid://q61jx1vclrxp" path="res://Animations/IDLEKNIGHT.png" id="18_lh0bs"]
-[ext_resource type="Texture2D" uid="uid://pv33ojdetmm3" path="res://Assets/penisForScale - Copy.png" id="19_4rtgo"]
+[ext_resource type="Texture2D" uid="uid://pv33ojdetmm3" path="res://Assets/Bone - Copy.png" id="19_4rtgo"]
 [ext_resource type="Texture2D" uid="uid://bk6hrymqnbxrp" path="res://Assets/yellow.png" id="20_f6lud"]
 [ext_resource type="Texture2D" uid="uid://d3fx1b3pl1ovv" path="res://Assets/blue.png" id="21_3osvf"]
+
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
 
