@@ -215,7 +215,7 @@ position = Vector2(-145, 43)
 collision_layer = 2
 collision_mask = 2
 file_path = "room_1"
-tp_coords = Vector2(2339, 887)
+tp_coords = Vector2(1000, 417)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="portal2" unique_id=1801335104]
 position = Vector2(15, 23)

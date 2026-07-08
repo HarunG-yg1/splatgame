@@ -18,7 +18,7 @@ func hurt_target():
 			print("hitt")
 			print( guy1.out_attk_time ,"truke")
 			guy1.curr_hitEnemy.in_attk_time_index += 1
-			guy1.curr_hitEnemy.damage(1,guy1.global_position)
+			guy1.curr_hitEnemy.damage(4,guy1.global_position)
 			guy1.curr_hitEnemy.parried(guy1.global_position,0.8,1)
 			
 
@@ -29,7 +29,7 @@ func hurt_target():
 				guy1.out_attk_time = rec_enemy.in_attk_time[rec_enemy.in_attk_time_index]
 			else:
 				rec_enemy.in_attk_time_index = 0
-				guy1.curr_hitEnemy.damage(1,guy1.global_position)
+				guy1.curr_hitEnemy.damage(4,guy1.global_position)
 				guy1.curr_hitEnemy.parried(guy1.global_position,1.5,1)
 
 				guy1.curr_hitEnemy = null

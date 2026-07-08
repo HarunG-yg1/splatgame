@@ -174,9 +174,9 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 		if body != curr_hitEnemy and curr_hitEnemy ==null :
 			curr_hitEnemy = body
 			if !attack_shape.disabled:
-				body.damage(4,global_position)
-			else:
 				body.damage(1,global_position)
+			else:
+				body.damage(0,global_position)
 			body.parried(global_position,0.8,body.in_attk_time[body.in_attk_time_index])
 
 			velocity += body.velocity
