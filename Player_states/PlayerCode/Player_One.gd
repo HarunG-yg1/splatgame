@@ -94,7 +94,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("Attack") and stun <= 0.1:
 		attack_fr()
 	if Input.is_action_just_pressed("shoot") and stun <= 0.1:
-		await get_tree().create_timer(0.1).timeout
+		await get_tree().create_timer(0.14).timeout
 		is_shoot = true
 	
 	if Input.is_action_just_pressed("jump") and !jumping:

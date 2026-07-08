@@ -7,7 +7,7 @@ class_name jumpin extends state_class
 @onready var shoot_state = $"../shoot"
 func Enter():
 	guy1.jump_vel = 0
-	#print("jump")
+	guy1.i_time = 0.16
 	guy1.velocity *= 0.75
 	pass
 func Process(_delta):

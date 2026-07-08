@@ -28,7 +28,7 @@ func Enter():
 	#	guy1.animfx.play("parried")
 		hurt_target()
 				
-	elif guy1.signal_attk and guy1.same_guy and rec_enemy != null and timer > 0 and guy1.out_attk_time < rec_enemy.in_attk_time[rec_enemy.in_attk_time_index]*0.5:
+	elif guy1.signal_attk and guy1.out_attk_time < rec_enemy.in_attk_time[rec_enemy.in_attk_time_index]*0.5:
 		#print(count,"FUCK YOU WHY",guy1.out_attk_time)
 		missed_target()
 			

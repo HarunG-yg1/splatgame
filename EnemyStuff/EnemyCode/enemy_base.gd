@@ -15,7 +15,7 @@ var cardinal_direction : Vector2 = Vector2.DOWN
 var direction : Vector2 = Vector2.ZERO
 var last_hit_from: Vector2 = Vector2.ZERO
 
-@export var in_attk_time : Array[float] = [0.75,0.5,1.5,0.5]
+@export var in_attk_time : Array[float] = [0.75,0.5,1,0.5]
 var in_attk_time_index : int = 0
 
 var time_inter_pos := 0.0
