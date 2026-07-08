@@ -84,7 +84,7 @@ func attack_rythm(_delta):
 	if (time_for_hit[amount_hits-1] < init_time * 0.75 and time_for_hit[amount_hits-1] > init_time * 0.74)|| init_time < 0.6 and (time_for_hit[amount_hits-1] < init_time and time_for_hit[amount_hits-1] > init_time * 0.9):
 		
 
-		enemy.animfx.rotation = enemy.hitter2.rotation
+#		enemy.animfx.rotation = enemy.hitter2.rotation
 
 		enemy.animfx.scale.y =1
 		enemy.animfx.scale.x =1

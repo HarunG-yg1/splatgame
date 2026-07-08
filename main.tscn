@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://d13xsxfuvy265" path="res://Misc/str_int_pair.gd" id="6_272bh"]
 [ext_resource type="Script" uid="uid://b52fj7tcxhh6k" path="res://dialogue_stuff/dialogue_lines.gd" id="7_5vw27"]
 [ext_resource type="PackedScene" uid="uid://bj63lgtwb27ww" path="res://UI/portal.tscn" id="8_5vw27"]
+[ext_resource type="PackedScene" uid="uid://hl57fcb3w2jt" path="res://EnemyStuff/EnemyCode/enemy_base.tscn" id="9_kek77"]
 
 [sub_resource type="Resource" id="Resource_272bh"]
 script = ExtResource("6_272bh")
@@ -115,3 +116,5 @@ file_path = "level_1"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="portal" unique_id=856876109]
 position = Vector2(20.5, 92)
 shape = SubResource("RectangleShape2D_bgmf4")
+
+[node name="enemy" parent="." unique_id=1466780452 instance=ExtResource("9_kek77")]

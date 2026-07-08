@@ -3,6 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://dvtbswqn1p22u" path="res://Player_states/PlayerCode/player1.tscn" id="1_hbghi"]
 [ext_resource type="PackedScene" uid="uid://dcplmtby6psqj" path="res://EnemyStuff/EnemyCode/enemy.tscn" id="2_hn12h"]
 [ext_resource type="PackedScene" uid="uid://b8we0m3hslcy2" path="res://puddle.tscn" id="3_hn12h"]
+[ext_resource type="PackedScene" uid="uid://8015johpad1n" path="res://UI/hp_bar.tscn" id="4_53ndp"]
+[ext_resource type="PackedScene" uid="uid://mwt707ye8c83" path="res://UI/death_screen.tscn" id="5_70cbr"]
 
 [node name="level_1" type="Node2D" unique_id=331133827]
 
@@ -23,3 +25,11 @@ collision_mask = 2
 
 [node name="Player" parent="." unique_id=1623458088 instance=ExtResource("1_hbghi")]
 position = Vector2(48, 75)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=257524654]
+
+[node name="HPBar" parent="CanvasLayer" unique_id=303077487 instance=ExtResource("4_53ndp")]
+player_path = NodePath("../../Player")
+
+[node name="DeathScreen" parent="CanvasLayer" unique_id=1795303486 instance=ExtResource("5_70cbr")]
+player_path = NodePath("../../Player")
