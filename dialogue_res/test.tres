@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="dialogue_lines" format=3 uid="uid://bc3w1w43c8uvo"]
+
+[ext_resource type="Script" uid="uid://d13xsxfuvy265" path="res://Misc/str_int_pair.gd" id="1_3uddq"]
+[ext_resource type="Script" uid="uid://b52fj7tcxhh6k" path="res://dialogue_stuff/dialogue_lines.gd" id="2_asuia"]
+
+[sub_resource type="Resource" id="Resource_272bh"]
+script = ExtResource("1_3uddq")
+string = "red"
+number = 1
+metadata/_custom_type_script = "uid://d13xsxfuvy265"
+
+[sub_resource type="Resource" id="Resource_5vw27"]
+script = ExtResource("1_3uddq")
+string = "green"
+number = 2
+metadata/_custom_type_script = "uid://d13xsxfuvy265"
+
+[sub_resource type="Resource" id="Resource_4c57u"]
+script = ExtResource("1_3uddq")
+string = "fuck you"
+number = 2
+metadata/_custom_type_script = "uid://d13xsxfuvy265"
+
+[resource]
+script = ExtResource("2_asuia")
+lines0 = Array[String](["yo pick a color", "red orrrrr", " green orrr", "that one thats kinda red but purple -ish"])
+lines1 = Array[String](["red", "lame"])
+lines2 = Array[String](["Wow correct!"])
+option_position = Array[int]([0, 99, 99])
+line0Options = Array[ExtResource("1_3uddq")]([SubResource("Resource_272bh"), SubResource("Resource_5vw27"), SubResource("Resource_4c57u")])
+metadata/_custom_type_script = "uid://b52fj7tcxhh6k"

@@ -7,7 +7,7 @@ var para_in_sinwave : float
 @onready var attack_box: Area2D = $AttackBox
 @onready var attack_shape: CollisionShape2D = $AttackBox/CollisionShape2D
 @onready var gun = $Gun
-@export var max_health: int = 10
+@export var max_health: int = 20
 
 var is_attack := false
 var is_shoot := false
@@ -51,6 +51,7 @@ signal died
 
 func _ready() -> void:
 	Statloader.get_statsfromLoader(self)
+	global_position = SceneManager.tp_coords
 	statemachine.player = self
 	Statloader.player = self
 	statemachine.init()

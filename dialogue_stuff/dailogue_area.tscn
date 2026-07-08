@@ -8,6 +8,7 @@
 script = ExtResource("1_dloyo")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1216990948]
+layer = 0
 
 [node name="DialogueOptions" type="VBoxContainer" parent="CanvasLayer" unique_id=742725645]
 offset_top = 205.0

@@ -1,7 +1,7 @@
 extends Node
 var player : Player
-var player_stats : Dictionary = {"current_health" : 10 ,"max_health" : 10 , "bullets_left" : 6}
-var player_stats_copy : Dictionary = {"current_health" : 10 ,"max_health" : 10 , "bullets_left" : 6}
+var player_stats : Dictionary = {"current_health" : 20 ,"max_health" : 20 , "bullets_left" : 6}
+var player_stats_copy : Dictionary = {"current_health" : 20 ,"max_health" : 20 , "bullets_left" : 6}
 var kill_count : int = 0
 var arr_of_blood : Array[int]
 func get_statsfromLoader(player:Player):
