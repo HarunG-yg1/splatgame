@@ -2,9 +2,42 @@
 
 [ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/penisForScale.png" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://dvtbswqn1p22u" path="res://Player_states/PlayerCode/player1.tscn" id="1_ig7tw"]
-[ext_resource type="PackedScene" uid="uid://cfv4yxlept342" path="res://EnemyStuff/EnemyCode/mn_r_enemy.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://8015johpad1n" path="res://UI/hp_bar.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://c3onnanmj50cq" path="res://dialogue_stuff/dailogue_area.tscn" id="5_7mycd"]
 [ext_resource type="PackedScene" uid="uid://mwt707ye8c83" path="res://UI/death_screen.tscn" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://d13xsxfuvy265" path="res://Misc/str_int_pair.gd" id="6_272bh"]
+[ext_resource type="Script" uid="uid://b52fj7tcxhh6k" path="res://dialogue_stuff/dialogue_lines.gd" id="7_5vw27"]
+[ext_resource type="PackedScene" uid="uid://bj63lgtwb27ww" path="res://UI/portal.tscn" id="8_5vw27"]
+
+[sub_resource type="Resource" id="Resource_272bh"]
+script = ExtResource("6_272bh")
+string = "red"
+number = 1
+metadata/_custom_type_script = "uid://d13xsxfuvy265"
+
+[sub_resource type="Resource" id="Resource_5vw27"]
+script = ExtResource("6_272bh")
+string = "green"
+number = 2
+metadata/_custom_type_script = "uid://d13xsxfuvy265"
+
+[sub_resource type="Resource" id="Resource_4c57u"]
+script = ExtResource("6_272bh")
+string = "fuck you"
+number = 2
+metadata/_custom_type_script = "uid://d13xsxfuvy265"
+
+[sub_resource type="Resource" id="Resource_kek77"]
+script = ExtResource("7_5vw27")
+lines0 = Array[String](["yo pick a color", "red orrrrr", " green orrr", "that one thats kinda red but purple -ish"])
+lines1 = Array[String](["red", "lame"])
+lines2 = Array[String](["Wow correct!"])
+option_position = Array[int]([0, 99, 99])
+line0Options = Array[ExtResource("6_272bh")]([SubResource("Resource_272bh"), SubResource("Resource_5vw27"), SubResource("Resource_4c57u")])
+metadata/_custom_type_script = "uid://b52fj7tcxhh6k"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_272bh"]
+radius = 56.462376
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kl0as"]
 size = Vector2(29, 696)
@@ -18,7 +51,19 @@ size = Vector2(1156, 20)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o48g2"]
 size = Vector2(1171, 14)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bgmf4"]
+size = Vector2(61, 204)
+
 [node name="Node2D" type="Node2D" unique_id=1267132106]
+
+[node name="dailogue_area" parent="." unique_id=1953244667 instance=ExtResource("5_7mycd")]
+collision_layer = 2
+collision_mask = 2
+dialogue = SubResource("Resource_kek77")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="dailogue_area" unique_id=1520053707]
+position = Vector2(334, 308)
+shape = SubResource("CircleShape2D_272bh")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1731876850]
 modulate = Color(1, 1, 1, 0.18431373)
@@ -31,7 +76,7 @@ texture = ExtResource("1_h2yge")
 position = Vector2(247, 290)
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1850656978]
-zoom = Vector2(1.4, 1.4)
+zoom = Vector2(1.5, 1.5)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=905914983]
 collision_layer = 128
@@ -53,9 +98,6 @@ shape = SubResource("RectangleShape2D_sbbgc")
 position = Vector2(250.5, -34)
 shape = SubResource("RectangleShape2D_o48g2")
 
-[node name="MnR_Enemy3" parent="." unique_id=294423640 instance=ExtResource("3_h2yge")]
-health = 6
-
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=341818211]
 
 [node name="HPBar" parent="CanvasLayer" unique_id=303077487 instance=ExtResource("4_1bvp3")]
@@ -63,3 +105,13 @@ player_path = NodePath("../../Player")
 
 [node name="DeathScreen" parent="CanvasLayer" unique_id=1795303486 instance=ExtResource("5_lquwl")]
 player_path = NodePath("../../Player")
+
+[node name="portal" parent="." unique_id=676175060 instance=ExtResource("8_5vw27")]
+position = Vector2(72, 223)
+collision_layer = 2
+collision_mask = 2
+file_path = "level_1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="portal" unique_id=856876109]
+position = Vector2(20.5, 92)
+shape = SubResource("RectangleShape2D_bgmf4")

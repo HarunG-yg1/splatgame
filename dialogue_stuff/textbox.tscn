@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://6nwpnojq5c8g"]
+
+[ext_resource type="Script" uid="uid://l3n0oijmv065" path="res://dialogue_stuff/textbox.gd" id="1_h8n04"]
+[ext_resource type="FontFile" uid="uid://dvq5xenxu1mu" path="res://Assets/pixel.ttf" id="2_fqvkd"]
+
+[node name="Textbox" type="MarginContainer" unique_id=674478248]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -37.0
+offset_right = 2.0
+offset_bottom = -1.0
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 1
+script = ExtResource("1_h8n04")
+
+[node name="Panel" type="Panel" parent="." unique_id=1629599061]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=413141145]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Label" type="Label" parent="MarginContainer" unique_id=730367681]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_fqvkd")
+theme_override_font_sizes/font_size = 20
+
+[node name="Timer" type="Timer" parent="." unique_id=1737791255]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

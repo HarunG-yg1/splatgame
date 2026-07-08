@@ -1,11 +1,20 @@
 extends Node
-var player : Player
+#var player : Player
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+#class_name SceneManager
 
+var tp_coords : Vector2
+#var loading_screen = preload("res://UI stuff/load.tscn")
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+var scene_path = "res://scene/"
+var next_scene : String = ""
+var flashback_res_filepath = ""
+
+func change_scene(from, to_scene_name: String=next_scene):
+
+	var full_path = scene_path + to_scene_name + ".tscn"
+	var loading_screen = preload("res://UI/load.tscn").instantiate()
+	loading_screen.next_scene_path = full_path
+	print(loading_screen.next_scene_path)
+	loading_screen.parameters = {}
+	get_tree().current_scene.add_child(loading_screen)

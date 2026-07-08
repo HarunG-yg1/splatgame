@@ -15,8 +15,10 @@ signal check_knockback
 
 
 var health_dec : int
+
 var current_health: int = max_health
 var is_dead: bool = false
+
 var i_time : float = 0
 var blocking : bool = false
 var stun : float = 0
@@ -26,8 +28,7 @@ var crouch : bool = false
 var player_damage : int = 10
 var dive_in : = false
 
-var last_puddle : blood_puddle
-var arr_of_blood : Array[int] = [0]
+var arr_of_blood : Array[int] 
 
 var in_attk_time  : float 
 var out_attk_time  : float 
@@ -38,6 +39,8 @@ var finish_run = true
 const INITIAL_SPEED = 55.0
 const MAX_SPEED = 320
 var direction : Vector2
+
+var last_puddle : blood_puddle
 var curr_attker : Enemy = null
 var curr_hitEnemy : Enemy = null
 var same_guy : = true
@@ -47,7 +50,7 @@ signal health_changed(current: int, max: int)
 signal died 
 
 func _ready() -> void:
-	SceneManager.player = self
+	Statloader.get_statsfromLoader(self)
 	statemachine.player = self
 	statemachine.init()
 	attack_shape.disabled = true

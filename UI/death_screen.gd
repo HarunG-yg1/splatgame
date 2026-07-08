@@ -17,4 +17,5 @@ func _on_restart_pressed() -> void:
 
 
 func _on_restart_button_pressed() -> void:
+	Statloader.reset()
 	pass # Replace with function body.

@@ -11,7 +11,7 @@ signal option_pressed
 @onready var dialogue_options = $CanvasLayer/DialogueOptions
 @onready var option1 = $CanvasLayer/DialogueOptions/Option1
 
-var do_event_dict : Dictionary
+
 
 var player = null
 #var event_indexs : Array[int_arr_str] 
@@ -35,7 +35,7 @@ func _ready():
 	
 	lines_array = dialogue.get_lines() 
 	dialog_branch = dialogue.get_lines_option()
-	
+	Dialogue.dialog_lines = lines_array [0]
 	Dialogue.finish_lines.connect(next_line)
 	#await Dialogue.finish_lines.connect(next_line)
 	#dialogue.get_stuff(self)
@@ -43,9 +43,8 @@ func _ready():
 
 
 func next_line():
-	for key in do_event_dict:
-		call(key,do_event_dict[key])
 
+	
 	if  dialog_branch.size() > 0 and dialogue.option_position[dialogue.index] < dialog_branch.size() and player != null:# and dialogue.option_position[dialogue.index] < dialog_branch.size():
 		print(dialogue.index)
 		print(dialog_branch.size())
@@ -66,12 +65,12 @@ func next_line():
 	
 		
 func item_pressed(item_index:int,item_goto_index:int):
-
+	
 	for i in range(dialog_branch[dialogue.option_position[dialogue.index]].size()-1):
 		dialogue_options.remove_child(dialogue_options.get_child(dialogue_options.get_children().size()-1))
 	#var event_find = dialogue.eventIndexs_find_ias(dialogue.index)
 	
-	do_event_dict = dialog_branch[dialogue.option_position[dialogue.index]][item_index].events_n_args
+
 	
 	
 		#da_stat_dict = event_find.stat_dict
@@ -96,7 +95,7 @@ func _on_body_entered(body: Player) -> void:
 
 
 func _on_body_exited(body: Player) -> void:
-	if body == player and exit_area:
+	if body == player:
 		dialogue_options.hide()
 		if is_chatting and Dialogue.is_dialog_active == true:
 			Dialogue.text_box.queue_free()
