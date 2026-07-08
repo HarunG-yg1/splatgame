@@ -99,7 +99,7 @@ func attack_rythm(_delta):
 
 
 
-	elif (time_for_hit[amount_hits-1] <= 0.3 and time_for_hit[amount_hits-1] > 0.28):
+	elif (time_for_hit[amount_hits-1] <= 0.25 and time_for_hit[amount_hits-1] > 0.249):
 		#enemy.hitter2.rotation = move_toward(enemy.hitter2.rotation ,enemy.get_angle_to(player.global_position),2)
 
 		enemy.animfx.play("shine1")
