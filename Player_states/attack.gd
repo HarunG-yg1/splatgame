@@ -53,7 +53,7 @@ func Process(_delta):
 			return statemachine.old_state
 		#return idle_state
 		else:
-			return idle
+			return idle_state 
 		
 		
 	elif guy1.direction.length() > 0.0:
