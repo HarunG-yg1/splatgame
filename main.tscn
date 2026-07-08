@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://mwt707ye8c83" path="res://UI/death_screen.tscn" id="5_lquwl"]
 [ext_resource type="Script" uid="uid://d13xsxfuvy265" path="res://Misc/str_int_pair.gd" id="6_272bh"]
 [ext_resource type="Script" uid="uid://b52fj7tcxhh6k" path="res://dialogue_stuff/dialogue_lines.gd" id="7_5vw27"]
+[ext_resource type="PackedScene" uid="uid://frfx08efdqq" path="res://UI/ammo_ui.tscn" id="8_4c57u"]
 [ext_resource type="PackedScene" uid="uid://bj63lgtwb27ww" path="res://UI/portal.tscn" id="8_5vw27"]
 [ext_resource type="PackedScene" uid="uid://hl57fcb3w2jt" path="res://EnemyStuff/EnemyCode/enemy_base.tscn" id="9_kek77"]
 
@@ -106,6 +107,8 @@ player_path = NodePath("../../Player")
 
 [node name="DeathScreen" parent="CanvasLayer" unique_id=1795303486 instance=ExtResource("5_lquwl")]
 player_path = NodePath("../../Player")
+
+[node name="AmmoUI" parent="CanvasLayer" unique_id=849057996 instance=ExtResource("8_4c57u")]
 
 [node name="portal" parent="." unique_id=676175060 instance=ExtResource("8_5vw27")]
 position = Vector2(72, 223)

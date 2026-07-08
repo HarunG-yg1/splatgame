@@ -9,7 +9,7 @@ func _ready() -> void:
 		bullet_icons.append(child)
 
 	await get_tree().process_frame   
-	var player = SceneManager.player
+	var player = Statloader.player
 	if player == null:
 		push_warning("scenemanager is null we are cooked")
 		return
