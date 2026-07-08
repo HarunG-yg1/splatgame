@@ -15,7 +15,7 @@ var cardinal_direction : Vector2 = Vector2.DOWN
 var direction : Vector2 = Vector2.ZERO
 var last_hit_from: Vector2 = Vector2.ZERO
 
-@export var in_attk_time : Array[float] = [0.75,0.5,1,0.5]
+@export var in_attk_time : Array[float] = [1.5,0.5,1,0.5]
 @export var out_attk_time : Array[float] = [0.75,0.5,1,0.5,0.75,0.5,1,0.5]
 var in_attk_time_index : int = 0
 
@@ -29,6 +29,7 @@ var chase : bool = false
 
 const BLOOD_PUDDLE = preload("res://puddle.tscn")
 
+@export var damage_amnt : int = 1
 @export var blood_count: int = 6
 @export var blood_speed: float = 300.0
 @export var blood_spread_degrees: float = 40.0
@@ -167,7 +168,7 @@ func _on_enemy_fov_body_exited(body: CharacterBody2D) -> void:
 
 func _on_the_hitter_body_entered(body: Player) -> void:
 	if body.has_method("damage"):
-		body.damage(1,global_position, self, 200,true)
+		body.damage(damage_amnt,global_position, self, 200,true)
 	
 	await get_tree().create_timer(0.2).timeout
 	hitter.disabled = true

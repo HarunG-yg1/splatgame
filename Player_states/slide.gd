@@ -9,6 +9,7 @@ var prior_vel_dir : Vector2
 
 
 func Enter():
+	guy1.set_collision_mask_value(8,false)
 	if guy1.last_puddle != null:
 		guy1.check_puddle(guy1.last_puddle.puddle_val,guy1.last_puddle)
 	
@@ -34,15 +35,22 @@ func Process(_delta):
 	
 
 	elif !guy1.crouch:
+		guy1.set_collision_mask_value(8,true)
 		return crouch_state.idle_state
 	elif guy1.run and !guy1.finish_run:
+		guy1.set_collision_mask_value(8,true)
 		guy1.crouch=false
 		return crouch_state.dash_state
 	elif guy1.dive_in:
+		
 		return dive_state
 	if guy1.jumping:
+		guy1.set_collision_mask_value(8,true)
 		guy1.crouch=false
 		return crouch_state.jump_state
+	if guy1.blocking:
+		guy1.set_collision_mask_value(8,true)
+		return crouch_state.block_state
 	elif guy1.is_attack:
 		return crouch_state.attack_state
 	elif guy1.is_shoot:

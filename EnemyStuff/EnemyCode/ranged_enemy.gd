@@ -81,21 +81,7 @@ func attk_hitted(body : PhysicsBody2D):
 	if body is Player:
 		print("yo")
 		
-		body.damage(1,global_position, self, 100,false)
+		body.damage(damage_amnt,global_position, self, 100,false)
 		
 	await get_tree().create_timer(0.2).timeout
 	animsprite.play("default")
-
-
-func queue_anim(anim:String = "", resize_y : float = 1, resize_x : float = 1, state : enemy_attack = null):
-	await animfx.animation_finished
-
-	animfx.scale.y = resize_y
-	animfx.scale.x = resize_x
-
-	
-	state.attack_now()
-	await get_tree().create_timer(0.12).timeout
-	animfx.play(anim)
-	
-	return true

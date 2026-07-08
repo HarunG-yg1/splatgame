@@ -81,3 +81,5 @@ shoot={
 
 2d_physics/layer_1="enemies"
 2d_physics/layer_4="walls"
+2d_physics/layer_7="ground_obs"
+2d_physics/layer_8="duck_Obs"

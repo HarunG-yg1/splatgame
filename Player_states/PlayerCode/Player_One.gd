@@ -72,9 +72,9 @@ func _process(delta: float) -> void:
 	out_attk_time-= delta
 
 	if out_attk_time < 0.4 and out_attk_time > 0.39:
-		print("pls bro")
+
 		animfx.stop()
-		animfx.play("shine2")
+		animfx.play("shineMelee")
 	
 	if Input.is_action_just_pressed("block"):
 
@@ -94,7 +94,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("Attack") and stun <= 0.1:
 		attack_fr()
 	if Input.is_action_just_pressed("shoot") and stun <= 0.1:
-		await get_tree().create_timer(0.14).timeout
+		await get_tree().create_timer(0.15).timeout
 		is_shoot = true
 	
 	if Input.is_action_just_pressed("jump") and !jumping:
@@ -132,7 +132,7 @@ func jump_and_fall(delta):
 		sprite.position.y += 20 * -(sin(deg_to_rad(para_in_sinwave)))*0.04
 
 	if jump_vel >= 80:
-
+		set_collision_mask_value(7,true)
 		sprite.position.y = 0
 		jumping = false
 		
@@ -165,40 +165,45 @@ func _physics_process(_delta: float) -> void:
 
 
 func _on_attack_box_body_entered(body: Enemy) -> void:
-	print(body.stun, " stun")
-	if body != curr_hitEnemy and curr_hitEnemy ==null :
-		curr_hitEnemy = body
-		if !attack_shape.disabled:
-			body.damage(0,global_position)
-		else:
-			body.damage(4,global_position)
-		body.parried(global_position)
+	if body != null:
+		if body != curr_hitEnemy and curr_hitEnemy ==null :
+			curr_hitEnemy = body
+			if !attack_shape.disabled:
+				body.damage(4,global_position)
+			else:
+				body.damage(0,global_position)
+			body.parried(global_position,0.8,body.in_attk_time[body.in_attk_time_index])
 
-		velocity += body.velocity
-		if body.in_attk_time_index < body.in_attk_time.size():
-			out_attk_time =  body.in_attk_time[body.in_attk_time_index]
-		else:
-			body.in_attk_time_index = 0
+			velocity += body.velocity
+			if body.in_attk_time_index < body.in_attk_time.size():
+				out_attk_time =  body.in_attk_time[body.in_attk_time_index]
+			else:
+				body.in_attk_time_index = 0
 			
-	elif body != curr_hitEnemy and curr_hitEnemy !=null :
-		curr_hitEnemy = body
-		body.damage(0,global_position)
-		body.parried(global_position)
-		same_guy = false
-	elif body == curr_hitEnemy and curr_hitEnemy !=null :
+		elif body != curr_hitEnemy and curr_hitEnemy !=null :
+			curr_hitEnemy = body
+			body.damage(0,global_position)
+			body.parried(global_position,0.8,body.in_attk_time[body.in_attk_time_index])
+			same_guy = false
+		elif body == curr_hitEnemy and curr_hitEnemy !=null :
 
-		same_guy = true
-	
-	
-	
-	signal_attk = true
-	animfx.play("shine")
+			same_guy = true
+		
+		
+		
+		signal_attk = true
+		if out_attk_time< 1:
+			animfx.play("shine2")
+		else:
+			
+			animfx.play("shineBlue")
+
 
 func is_hit_gun(last_collide : Enemy):
-	if gun_has_timed:
+	if gun_has_timed and last_collide != null:
 
-		last_collide.damage(1,global_position)
-		last_collide.parried(global_position,0.8,1)
+		last_collide.damage(4,global_position)
+		last_collide.parried(global_position,0.8,last_collide.in_attk_time[last_collide.in_attk_time_index])
 
 	
 

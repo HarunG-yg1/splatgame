@@ -176,7 +176,7 @@ animations = [{
 }]
 
 [node name="ranged_enemy" type="CharacterBody2D" unique_id=6164640]
-collision_mask = 10
+collision_mask = 202
 motion_mode = 1
 script = ExtResource("1_bee66")
 

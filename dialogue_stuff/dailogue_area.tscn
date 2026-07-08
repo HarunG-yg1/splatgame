@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://c3onnanmj50cq"]
+
+[ext_resource type="Script" uid="uid://dy5h3q61gx1ho" path="res://dialogue_stuff/dailogue_area.gd" id="1_dloyo"]
+[ext_resource type="Script" uid="uid://08lf7apf1nhh" path="res://dialogue_stuff/button.gd" id="2_t7wnw"]
+
+[node name="dailogue_area" type="Area2D" unique_id=1953244667]
+script = ExtResource("1_dloyo")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1216990948]
+
+[node name="DialogueOptions" type="VBoxContainer" parent="CanvasLayer" unique_id=742725645]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Option1" type="Button" parent="CanvasLayer/DialogueOptions" unique_id=39562209]
+layout_mode = 2
+script = ExtResource("2_t7wnw")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="pressed" from="CanvasLayer/DialogueOptions/Option1" to="CanvasLayer/DialogueOptions/Option1" method="_on_pressed"]

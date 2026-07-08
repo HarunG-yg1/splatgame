@@ -3,16 +3,19 @@ func init() -> void:
 	pass
 var random_pt : Vector2
 var amount_hits : int
+
 var was_out_of_range := true
 var time_for_hit : Array[float]
 @onready var runAway_state = $"../runAway"
 @onready var chase_state = $"../chase"
 @onready var idle_state =$"../idle"
 @onready var stun_state =$"../stun"
+
 var init_time : float
 #what happens when player enters state
 func Enter() ->void:
 	print("melee" , enemy)
+
 	enemy.random_pt =  Vector2(randi_range(-15,15),randi_range(-15,15))
 	time_for_hit = enemy.out_attk_time
 	

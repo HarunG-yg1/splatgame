@@ -19,11 +19,12 @@ func Process(_delta):
 	
 	if !guy1.dive_in:
 		guy1.jumping = true
-		
+		guy1.set_collision_mask_value(8,true)
 		guy1.jump()
 		return slide_parent_state.crouch_state.jump_state
 
 	if guy1.jumping:
+		guy1.set_collision_mask_value(8,true)
 		guy1.dive_in = false
 		return slide_parent_state.crouch_state.jump_state
 

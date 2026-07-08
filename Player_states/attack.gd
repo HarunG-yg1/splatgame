@@ -21,16 +21,19 @@ func Enter():
 	timer = 0.4
 	
 
-	if guy1.signal_attk and guy1.same_guy and rec_enemy != null and guy1.out_attk_time < 0.2 and guy1.out_attk_time > -0.1:
+	if  first_con():
 		timer = 0
 		guy1.i_time = 0.2
 		#print(count,"FUCK YOU",guy1.out_attk_time)
 	#	guy1.animfx.play("parried")
 		hurt_target()
 				
-	elif guy1.signal_attk and guy1.out_attk_time < rec_enemy.in_attk_time[rec_enemy.in_attk_time_index]*0.5:
+	elif rec_enemy != null  and guy1.signal_attk and guy1.out_attk_time < rec_enemy.in_attk_time[rec_enemy.in_attk_time_index]*0.5:
 		#print(count,"FUCK YOU WHY",guy1.out_attk_time)
 		missed_target()
+	else:
+		print( guy1.out_attk_time ,"trugke")
+		guy1.gun_has_timed = false
 			
 
 
@@ -44,9 +47,13 @@ func Process(_delta):
 	print("nooo")
 
 	if timer <= 0:
-		print("going idle")
-		return idle_state
 		
+		if statemachine.old_state is not dash and statemachine.old_state is not jumpin and statemachine.old_state is not dive and statemachine.old_state is not block  and statemachine.old_state is not attack:
+			
+			return statemachine.old_state
+		#return idle_state
+		else:
+			return idle
 		
 		
 	elif guy1.direction.length() > 0.0:
@@ -74,7 +81,7 @@ func hurt_target():
 	if guy1.curr_hitEnemy != null:
 			guy1.curr_hitEnemy.in_attk_time_index += 1
 			guy1.curr_hitEnemy.damage(1,guy1.global_position)
-			guy1.curr_hitEnemy.parried(guy1.global_position,0.8,1)
+			guy1.curr_hitEnemy.parried(guy1.global_position,0.8,guy1.curr_hitEnemy.in_attk_time[guy1.curr_hitEnemy.in_attk_time_index])
 			
 			guy1.check_knockback.emit(true,rec_enemy)
 
@@ -88,3 +95,6 @@ func hurt_target():
 				guy1.curr_hitEnemy.parried(guy1.global_position,1.5,1)
 				guy1.check_knockback.emit(false,rec_enemy)
 				guy1.curr_hitEnemy = null
+
+func first_con()->bool:
+	return guy1.signal_attk and guy1.same_guy and rec_enemy != null and guy1.out_attk_time < 0.2 and guy1.out_attk_time > -0.1

@@ -10,7 +10,9 @@
 [ext_resource type="Script" uid="uid://3sqscr1a0fhn" path="res://EnemyStuff/enemy_states/enemy_stun.gd" id="8_ehnrd"]
 [ext_resource type="Texture2D" uid="uid://bka8ruyptlus8" path="res://Assets/communityIcon_oi1dus1jkkvb1.png" id="9_ehnrd"]
 [ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/penisForScale.png" id="9_gak77"]
-[ext_resource type="Texture2D" uid="uid://bp3euxqpxje8q" path="res://Assets/parrythis.png" id="11_xg66o"]
+[ext_resource type="Texture2D" uid="uid://pv33ojdetmm3" path="res://Assets/penisForScale - Copy.png" id="11_nosa4"]
+[ext_resource type="Texture2D" uid="uid://bk6hrymqnbxrp" path="res://Assets/yellow.png" id="12_4jcdm"]
+[ext_resource type="Texture2D" uid="uid://d3fx1b3pl1ovv" path="res://Assets/blue.png" id="13_7peym"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
 
@@ -36,6 +38,25 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sbbgc"]
+size = Vector2(74.75, 67)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xgwlu"]
+atlas = ExtResource("9_gak77")
+region = Rect2(0, 12, 32, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1k2p4"]
+atlas = ExtResource("11_nosa4")
+region = Rect2(0, 0, 32, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0eray"]
+atlas = ExtResource("12_4jcdm")
+region = Rect2(0, 0, 32, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nu33k"]
+atlas = ExtResource("13_7peym")
+region = Rect2(0, 0, 32, 4)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_xg66o"]
 atlas = ExtResource("9_gak77")
 region = Rect2(0, 6, 32, 6)
@@ -60,24 +81,68 @@ region = Rect2(32, 6, 32, 6)
 atlas = ExtResource("9_gak77")
 region = Rect2(32, 12, 32, 6)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_kl0as"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_ca1s1"]
 animations = [{
+"frames": [],
+"loop": 0,
+"name": &"parried",
+"speed": 12.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("11_xg66o")
-}, {
-"duration": 1.0,
-"texture": ExtResource("11_xg66o")
+"texture": SubResource("AtlasTexture_xgwlu")
 }, {
 "duration": 1.0,
 "texture": null
 }],
 "loop": 0,
-"name": &"parried",
-"speed": 12.0
+"name": &"shine1",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1k2p4")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": 0,
+"name": &"shine2",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0eray")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": 0,
+"name": &"shine3",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nu33k")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": 0,
+"name": &"shineBlue",
+"speed": 24.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -115,14 +180,12 @@ animations = [{
 "speed": 24.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_sbbgc"]
-size = Vector2(74.75, 67)
-
 [node name="enemy" type="CharacterBody2D" unique_id=1466780452]
-collision_mask = 10
+collision_mask = 202
 motion_mode = 1
 script = ExtResource("1_8nqel")
 puddle_color = 1
+health = 6
 
 [node name="statemachine" type="Node" parent="." unique_id=1213086234]
 process_mode = 4
@@ -171,12 +234,6 @@ animation = &"hitMelee"
 
 [node name="AttkCDTimer" type="Timer" parent="." unique_id=1078823862]
 
-[node name="AnimatedFX" type="AnimatedSprite2D" parent="." unique_id=2090562008]
-position = Vector2(0, 1)
-scale = Vector2(2, 2)
-sprite_frames = SubResource("SpriteFrames_kl0as")
-animation = &"shineMelee"
-
 [node name="the_hitter" type="Area2D" parent="." unique_id=184640184]
 collision_layer = 3
 collision_mask = 3
@@ -185,6 +242,13 @@ collision_mask = 3
 position = Vector2(18, 0)
 shape = SubResource("RectangleShape2D_sbbgc")
 disabled = true
+
+[node name="AnimatedFX" type="AnimatedSprite2D" parent="." unique_id=298680621]
+position = Vector2(0, 1)
+scale = Vector2(25, 1)
+sprite_frames = SubResource("SpriteFrames_ca1s1")
+animation = &"shineBlue"
+offset = Vector2(16.92, -6)
 
 [connection signal="body_entered" from="enemy_fov" to="." method="_on_enemy_fov_body_entered"]
 [connection signal="body_exited" from="enemy_fov" to="." method="_on_enemy_fov_body_exited"]

@@ -208,7 +208,7 @@ animations = [{
 }]
 
 [node name="MnR_Enemy" type="CharacterBody2D" unique_id=181552106]
-collision_mask = 10
+collision_mask = 202
 script = ExtResource("1_36bpb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=646842709]

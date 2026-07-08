@@ -34,8 +34,8 @@ position = Vector2(247, 290)
 zoom = Vector2(1.4, 1.4)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=905914983]
-collision_layer = 11
-collision_mask = 11
+collision_layer = 128
+collision_mask = 128
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=207706425]
 position = Vector2(827.5, 307)
@@ -54,6 +54,7 @@ position = Vector2(250.5, -34)
 shape = SubResource("RectangleShape2D_o48g2")
 
 [node name="MnR_Enemy3" parent="." unique_id=294423640 instance=ExtResource("3_h2yge")]
+health = 6
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=341818211]
 
