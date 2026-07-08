@@ -34,7 +34,6 @@ func _ready() -> void:
 	raycast2.position = Vector2(0, 0)
 	raycast3.position = Vector2(0, 4)
 
-	visible = false
 	current_ammo = max_ammo
 	ammo_changed.emit(current_ammo, max_ammo)
 
@@ -55,7 +54,7 @@ func _process(delta: float) -> void:
 
 func start_aiming() -> void:
 	aiming = true
-	visible = true
+	player.sprite.play("AimShoot")
 
 func stop_aiming() -> void:
 	if aiming:
@@ -63,6 +62,7 @@ func stop_aiming() -> void:
 		visible = false
 		if can_fire and current_ammo > 0 and player.stun <= 0:
 			shoot()
+		player.sprite.play("idle")
 
 func shoot() -> void:
 		can_fire = false
@@ -79,7 +79,7 @@ func shoot() -> void:
 		for Iraycast in raycast_group:
 			if Iraycast.is_colliding():
 				if (Iraycast.get_collider()) is Enemy:
-					last_colided.emit(raycast.get_collider())
+					last_colided.emit(Iraycast.get_collider())
 				var hit_object = Iraycast.get_collider()
 				var hit_point = Iraycast.get_collision_point()
 				print("Hit object: ", hit_object.name)

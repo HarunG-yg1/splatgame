@@ -12,12 +12,14 @@
 [ext_resource type="Script" uid="uid://wknskd0f4dvk" path="res://Player_states/dive.gd" id="10_8kudq"]
 [ext_resource type="Script" uid="uid://bx1x6kna03n5l" path="res://Player_states/block.gd" id="10_s33xd"]
 [ext_resource type="Script" uid="uid://4q88mdlryyso" path="res://Player_states/block_move.gd" id="11_lyl3y"]
-[ext_resource type="Texture2D" uid="uid://bp3euxqpxje8q" path="res://Assets/parrythis.png" id="12_ak627"]
 [ext_resource type="Script" uid="uid://cq6n43t78u2vx" path="res://Player_states/attack.gd" id="13_8kudq"]
 [ext_resource type="Script" uid="uid://ge1oy7oega0w" path="res://Player_states/shoot.gd" id="14_5iiq8"]
 [ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/penisForScale.png" id="14_h1fcx"]
+[ext_resource type="Texture2D" uid="uid://dvw452qgy15p3" path="res://Animations/SHOOTKNIGHT.png" id="15_3osvf"]
 [ext_resource type="PackedScene" uid="uid://ctog7ixvmi0mn" path="res://gun.tscn" id="15_y0uv2"]
-[ext_resource type="Texture2D" uid="uid://ba7c7xkjbq5f8" path="res://Assets/IDLE-KNIGHT.PNG" id="16_5iiq8"]
+[ext_resource type="Texture2D" uid="uid://ddqsq7rgytjlc" path="res://Animations/SWINGKNIGHT.png" id="16_2nwgi"]
+[ext_resource type="Texture2D" uid="uid://0b3dbnuiyequ" path="res://Animations/PARRYKNIGHT.png" id="17_5yovl"]
+[ext_resource type="Texture2D" uid="uid://q61jx1vclrxp" path="res://Animations/IDLEKNIGHT.png" id="18_lh0bs"]
 [ext_resource type="Texture2D" uid="uid://pv33ojdetmm3" path="res://Assets/penisForScale - Copy.png" id="19_4rtgo"]
 [ext_resource type="Texture2D" uid="uid://bk6hrymqnbxrp" path="res://Assets/yellow.png" id="20_f6lud"]
 [ext_resource type="Texture2D" uid="uid://d3fx1b3pl1ovv" path="res://Assets/blue.png" id="21_3osvf"]
@@ -27,19 +29,123 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_xepy2"]
 radius = 32.24903
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2nwgi"]
-atlas = ExtResource("16_5iiq8")
-region = Rect2(0, 0, 1920, 1080)
+[sub_resource type="AtlasTexture" id="AtlasTexture_11tvd"]
+atlas = ExtResource("15_3osvf")
+region = Rect2(0, 0, 42, 42)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3osvf"]
-atlas = ExtResource("16_5iiq8")
-region = Rect2(0, 0, 1920, 1080)
+[sub_resource type="AtlasTexture" id="AtlasTexture_atbx0"]
+atlas = ExtResource("15_3osvf")
+region = Rect2(42, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r8myp"]
+atlas = ExtResource("15_3osvf")
+region = Rect2(84, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q0m67"]
+atlas = ExtResource("15_3osvf")
+region = Rect2(126, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i8v0v"]
+atlas = ExtResource("15_3osvf")
+region = Rect2(168, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_30im1"]
+atlas = ExtResource("16_2nwgi")
+region = Rect2(0, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_42hf4"]
+atlas = ExtResource("16_2nwgi")
+region = Rect2(42, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_glhgp"]
+atlas = ExtResource("16_2nwgi")
+region = Rect2(84, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kpmsb"]
+atlas = ExtResource("16_2nwgi")
+region = Rect2(126, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x2dkr"]
+atlas = ExtResource("16_2nwgi")
+region = Rect2(168, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jvjc"]
+atlas = ExtResource("17_5yovl")
+region = Rect2(0, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vfdt5"]
+atlas = ExtResource("17_5yovl")
+region = Rect2(42, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y8tvh"]
+atlas = ExtResource("17_5yovl")
+region = Rect2(84, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wjb78"]
+atlas = ExtResource("17_5yovl")
+region = Rect2(126, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_er1ji"]
+atlas = ExtResource("17_5yovl")
+region = Rect2(168, 0, 42, 42)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kl0as"]
 animations = [{
 "frames": [{
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_11tvd")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_atbx0")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_r8myp")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_q0m67")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_i8v0v")
+}],
+"loop": 1,
+"name": &"AimShoot",
+"speed": 5.0
+}, {
+"frames": [{
 "duration": 1.0,
-"texture": ExtResource("12_ak627")
+"texture": SubResource("AtlasTexture_30im1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_42hf4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_glhgp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kpmsb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x2dkr")
+}],
+"loop": 0,
+"name": &"BasicATK",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4jvjc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vfdt5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y8tvh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wjb78")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_er1ji")
 }],
 "loop": 0,
 "name": &"block",
@@ -47,7 +153,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_2nwgi")
+"texture": ExtResource("18_lh0bs")
 }],
 "loop": 1,
 "name": &"default",
@@ -55,7 +161,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3osvf")
+"texture": ExtResource("18_lh0bs")
 }],
 "loop": 0,
 "name": &"idle",
@@ -260,11 +366,12 @@ position = Vector2(14, 0)
 shape = SubResource("CircleShape2D_xepy2")
 disabled = true
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="AttackBox" unique_id=1120457136]
-position = Vector2(7, 4.5)
+[node name="Sprite2D" type="AnimatedSprite2D" parent="AttackBox" unique_id=1644794572]
+position = Vector2(1, -1.0000038)
 rotation = 1.5707964
-scale = Vector2(0.075, 0.075)
+scale = Vector2(0.59075314, 0.55774975)
 sprite_frames = SubResource("SpriteFrames_kl0as")
+animation = &"BasicATK"
 
 [node name="Gun" parent="." unique_id=801267109 instance=ExtResource("15_y0uv2")]
 visible = false

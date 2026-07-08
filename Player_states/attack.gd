@@ -17,7 +17,7 @@ func _init() -> void:
 func Enter():
 	count += 1
 	rec_enemy = guy1.curr_hitEnemy
-	guy1.sprite.play("Attack")
+	guy1.sprite.play("BasicATK")
 	timer = 0.4
 	
 

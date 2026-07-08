@@ -17,13 +17,14 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="splatgame"
 run/main_scene="uid://dxg7w7ms6ojks"
 config/features=PackedStringArray("4.7", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://wwlo1j0gll6b"
 
 [autoload]
 
 SceneManager="*uid://c3r83lcb3ut51"
 Dialogue="*uid://7rovv8pcbh5q"
 Statloader="*uid://cnv53tx3vw5fq"
+MusicPlayer="*uid://c462a4svv5e0j"
 
 [input]
 

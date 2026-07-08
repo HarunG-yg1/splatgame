@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://8015johpad1n"]
 
 [ext_resource type="Script" uid="uid://cwqt7f83bcfyk" path="res://UI/hp_bar.gd" id="1_qn8co"]
-[ext_resource type="Texture2D" uid="uid://eo6s6gjr3ee6" path="res://Assets/Healthbar back.png" id="2_qxdmk"]
-[ext_resource type="Texture2D" uid="uid://cy1a41il83yoo" path="res://Assets/Healthbar progress.png" id="3_dmdn2"]
+[ext_resource type="Texture2D" uid="uid://ctigi06vecnu5" path="res://Assets/HEALTHBAREMPTY.png" id="2_qxdmk"]
+[ext_resource type="Texture2D" uid="uid://bjk7ubadv78mj" path="res://Assets/HEALTHBARFULL.png" id="3_dmdn2"]
 
 [node name="HPBar" type="Control" unique_id=303077487]
 layout_mode = 3
@@ -12,9 +12,9 @@ offset_bottom = 40.0
 script = ExtResource("1_qn8co")
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1136838142]
-layout_mode = 0
-offset_right = 100.0
-offset_bottom = 100.0
-scale = Vector2(1.6800001, 1.6000001)
+layout_mode = 1
+offset_right = 700.0
+offset_bottom = 200.0
+scale = Vector2(0.23404327, 0.2545787)
 texture_under = ExtResource("2_qxdmk")
 texture_progress = ExtResource("3_dmdn2")
