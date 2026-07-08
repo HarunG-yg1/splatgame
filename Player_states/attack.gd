@@ -80,7 +80,7 @@ func missed_target():
 func hurt_target():
 	if guy1.curr_hitEnemy != null:
 			guy1.curr_hitEnemy.in_attk_time_index += 1
-			guy1.curr_hitEnemy.damage(ceil(guy1.velocity.length()/70),guy1.global_position)
+			guy1.curr_hitEnemy.damage(floor(guy1.velocity.length()/70)+1,guy1.global_position)
 			guy1.curr_hitEnemy.parried(guy1.global_position,0.8,guy1.curr_hitEnemy.in_attk_time[guy1.curr_hitEnemy.in_attk_time_index])
 			
 			guy1.check_knockback.emit(true,rec_enemy)
@@ -91,7 +91,7 @@ func hurt_target():
 				guy1.out_attk_time = rec_enemy.in_attk_time[rec_enemy.in_attk_time_index]
 			else:
 				rec_enemy.in_attk_time_index = 0
-				guy1.curr_hitEnemy.damage(ceil(guy1.velocity.length()),guy1.global_position)
+				guy1.curr_hitEnemy.damage(floor(guy1.velocity.length()/70)+1,guy1.global_position)
 				guy1.curr_hitEnemy.parried(guy1.global_position,1.5,1)
 				guy1.check_knockback.emit(false,rec_enemy)
 				guy1.curr_hitEnemy = null
