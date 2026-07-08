@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bp3euxqpxje8q"
-path="res://.godot/imported/parrythis.png-a7bfcd167c4eaf0ca60ee5ffd669b6ae.ctex"
+uid="uid://bjk7ubadv78mj"
+path="res://.godot/imported/HEALTHBARFULL.png-6c1e69f385e87d1051ffcd56e4e8941c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/parrythis.png"
-dest_files=["res://.godot/imported/parrythis.png-a7bfcd167c4eaf0ca60ee5ffd669b6ae.ctex"]
+source_file="res://Assets/HEALTHBARFULL.png"
+dest_files=["res://.godot/imported/HEALTHBARFULL.png-6c1e69f385e87d1051ffcd56e4e8941c.ctex"]
 
 [params]
 
