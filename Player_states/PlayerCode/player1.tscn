@@ -226,6 +226,9 @@ region = Rect2(32, 12, 32, 6)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
 "texture": ExtResource("20_f6lud")
 }, {
 "duration": 1.0,
