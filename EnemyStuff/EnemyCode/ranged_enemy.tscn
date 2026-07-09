@@ -8,21 +8,46 @@
 [ext_resource type="Script" uid="uid://cydx84lmnkdbx" path="res://EnemyStuff/enemy_states/run_away.gd" id="8_0f7u5"]
 [ext_resource type="Script" uid="uid://3sqscr1a0fhn" path="res://EnemyStuff/enemy_states/enemy_stun.gd" id="8_t03c4"]
 [ext_resource type="Script" uid="uid://delwpdu46jbqm" path="res://EnemyStuff/enemy_states/enemy_Rattack.gd" id="9_1k2p4"]
+[ext_resource type="Texture2D" uid="uid://b4r2fwspd3l3q" path="res://Animations/FINALSPRITES/RED-GOLEM/IDLEREDGOLEM.png" id="9_eb0yt"]
 [ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/Bone.png" id="10_1k2p4"]
+[ext_resource type="Texture2D" uid="uid://cax1xocoeymlf" path="res://Animations/FINALSPRITES/RED-GOLEM/PUNCHREDGOLEM.png" id="10_55wkj"]
 [ext_resource type="Texture2D" uid="uid://bk6hrymqnbxrp" path="res://Assets/yellow.png" id="11_6cm64"]
 [ext_resource type="Texture2D" uid="uid://pv33ojdetmm3" path="res://Assets/Bone - Copy.png" id="11_6ryvo"]
-[ext_resource type="Texture2D" uid="uid://bka8ruyptlus8" path="res://Assets/communityIcon_oi1dus1jkkvb1.png" id="11_71gsf"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t03c4"]
 size = Vector2(79.5, 166)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_57bp3"]
+atlas = ExtResource("9_eb0yt")
+region = Rect2(0, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jwjjm"]
+atlas = ExtResource("10_55wkj")
+region = Rect2(0, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7xwch"]
+atlas = ExtResource("10_55wkj")
+region = Rect2(168, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jmhso"]
+atlas = ExtResource("10_55wkj")
+region = Rect2(42, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pgffm"]
+atlas = ExtResource("10_55wkj")
+region = Rect2(84, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mh8iy"]
+atlas = ExtResource("10_55wkj")
+region = Rect2(126, 0, 42, 42)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_8n2ib"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("11_71gsf")
+"texture": SubResource("AtlasTexture_57bp3")
 }],
 "loop": 0,
 "name": &"default",
@@ -30,17 +55,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": null
+"texture": SubResource("AtlasTexture_jwjjm")
 }, {
 "duration": 1.0,
-"texture": ExtResource("10_1k2p4")
+"texture": SubResource("AtlasTexture_7xwch")
 }, {
 "duration": 1.0,
-"texture": null
+"texture": SubResource("AtlasTexture_jmhso")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pgffm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mh8iy")
 }],
 "loop": 0,
 "name": &"hit",
-"speed": 5.0
+"speed": 24.0
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0eray"]
@@ -233,8 +264,7 @@ shape = SubResource("RectangleShape2D_t03c4")
 [node name="AttkCDTimer" type="Timer" parent="." unique_id=738012581]
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=375650770]
-position = Vector2(-2.3841858e-07, -6)
-scale = Vector2(0.26562497, 0.29531252)
+rotation = 1.5713246
 sprite_frames = SubResource("SpriteFrames_8n2ib")
 
 [node name="AnimatedFX2" type="AnimatedSprite2D" parent="." unique_id=1283500470]

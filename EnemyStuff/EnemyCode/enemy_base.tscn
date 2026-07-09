@@ -8,8 +8,9 @@
 [ext_resource type="Script" uid="uid://b0rku3fh7gytq" path="res://EnemyStuff/enemy_states/enemy_dir.gd" id="6_ehnrd"]
 [ext_resource type="Script" uid="uid://bib6o2gc30wrk" path="res://EnemyStuff/enemy_states/enemy_base_attack.gd" id="7_ehnrd"]
 [ext_resource type="Script" uid="uid://3sqscr1a0fhn" path="res://EnemyStuff/enemy_states/enemy_stun.gd" id="8_ehnrd"]
-[ext_resource type="Texture2D" uid="uid://bka8ruyptlus8" path="res://Assets/communityIcon_oi1dus1jkkvb1.png" id="9_ehnrd"]
+[ext_resource type="Texture2D" uid="uid://dcqh2tkiuedfs" path="res://Animations/FINALSPRITES/BLUE-GOLEM/IDLEBLUEGOLEM.png" id="9_4jcdm"]
 [ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/Bone.png" id="9_gak77"]
+[ext_resource type="Texture2D" uid="uid://dbv7vu0du21w0" path="res://Animations/FINALSPRITES/BLUE-GOLEM/PUNCHBLUEGOLEM.png" id="10_7peym"]
 [ext_resource type="Texture2D" uid="uid://pv33ojdetmm3" path="res://Assets/Bone - Copy.png" id="11_nosa4"]
 [ext_resource type="Texture2D" uid="uid://bk6hrymqnbxrp" path="res://Assets/yellow.png" id="12_4jcdm"]
 [ext_resource type="Texture2D" uid="uid://d3fx1b3pl1ovv" path="res://Assets/blue.png" id="13_7peym"]
@@ -19,11 +20,35 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7mdju"]
 size = Vector2(29, 166)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ca1s1"]
+atlas = ExtResource("9_4jcdm")
+region = Rect2(0, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0bi70"]
+atlas = ExtResource("10_7peym")
+region = Rect2(0, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pc6kq"]
+atlas = ExtResource("10_7peym")
+region = Rect2(42, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f33eb"]
+atlas = ExtResource("10_7peym")
+region = Rect2(84, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5kodk"]
+atlas = ExtResource("10_7peym")
+region = Rect2(126, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sn5ov"]
+atlas = ExtResource("10_7peym")
+region = Rect2(168, 0, 42, 42)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_7mdju"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("9_ehnrd")
+"texture": SubResource("AtlasTexture_ca1s1")
 }],
 "loop": 0,
 "name": &"default",
@@ -31,11 +56,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("9_gak77")
+"texture": SubResource("AtlasTexture_0bi70")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pc6kq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f33eb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5kodk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sn5ov")
 }],
 "loop": 0,
 "name": &"hitMelee",
-"speed": 5.0
+"speed": 24.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sbbgc"]
@@ -228,9 +265,11 @@ shape = SubResource("RectangleShape2D_7mdju")
 [node name="StateTimer" type="Timer" parent="." unique_id=1208297385]
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1733464750]
-position = Vector2(-2.3841858e-07, -6)
-scale = Vector2(0.26562497, 0.29531252)
+position = Vector2(-4, -1)
+rotation = 1.582985
 sprite_frames = SubResource("SpriteFrames_7mdju")
+animation = &"hitMelee"
+offset = Vector2(2, -4)
 
 [node name="AttkCDTimer" type="Timer" parent="." unique_id=1078823862]
 

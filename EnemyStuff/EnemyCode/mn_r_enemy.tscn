@@ -12,9 +12,11 @@
 [ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/Bone.png" id="8_k07sr"]
 [ext_resource type="Texture2D" uid="uid://pv33ojdetmm3" path="res://Assets/Bone - Copy.png" id="9_6gh12"]
 [ext_resource type="Script" uid="uid://bib6o2gc30wrk" path="res://EnemyStuff/enemy_states/enemy_base_attack.gd" id="10_2h4cd"]
-[ext_resource type="Texture2D" uid="uid://bka8ruyptlus8" path="res://Assets/communityIcon_oi1dus1jkkvb1.png" id="10_mkbal"]
 [ext_resource type="Texture2D" uid="uid://bk6hrymqnbxrp" path="res://Assets/yellow.png" id="13_6pg28"]
 [ext_resource type="Texture2D" uid="uid://d3fx1b3pl1ovv" path="res://Assets/blue.png" id="14_0eray"]
+[ext_resource type="Texture2D" uid="uid://b4r2fwspd3l3q" path="res://Animations/FINALSPRITES/RED-GOLEM/IDLEREDGOLEM.png" id="15_k07sr"]
+[ext_resource type="Texture2D" uid="uid://bgxbvo5wnrnwn" path="res://Animations/FINALSPRITES/RED-GOLEM/CHARGEREDGOLEM.png" id="16_6gh12"]
+[ext_resource type="Texture2D" uid="uid://cax1xocoeymlf" path="res://Animations/FINALSPRITES/RED-GOLEM/PUNCHREDGOLEM.png" id="17_mkbal"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2xe7j"]
 
@@ -160,11 +162,51 @@ animations = [{
 "speed": 24.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_2xe7j"]
+atlas = ExtResource("15_k07sr")
+region = Rect2(0, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tsjqk"]
+atlas = ExtResource("16_6gh12")
+region = Rect2(0, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w2f1p"]
+atlas = ExtResource("16_6gh12")
+region = Rect2(42, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u5vc3"]
+atlas = ExtResource("16_6gh12")
+region = Rect2(84, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_omdxh"]
+atlas = ExtResource("16_6gh12")
+region = Rect2(126, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggijk"]
+atlas = ExtResource("17_mkbal")
+region = Rect2(0, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ww6l"]
+atlas = ExtResource("17_mkbal")
+region = Rect2(42, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gkaw8"]
+atlas = ExtResource("17_mkbal")
+region = Rect2(84, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w2d7t"]
+atlas = ExtResource("17_mkbal")
+region = Rect2(126, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7onq"]
+atlas = ExtResource("17_mkbal")
+region = Rect2(168, 0, 42, 42)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_u5vc3"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("10_mkbal")
+"texture": SubResource("AtlasTexture_2xe7j")
 }],
 "loop": 0,
 "name": &"default",
@@ -172,19 +214,40 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("8_k07sr")
+"texture": SubResource("AtlasTexture_tsjqk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w2f1p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u5vc3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_omdxh")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"hit",
-"speed": 5.0
+"speed": 24.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("8_k07sr")
+"texture": SubResource("AtlasTexture_ggijk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ww6l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gkaw8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w2d7t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a7onq")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"hitMelee",
-"speed": 5.0
+"speed": 24.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_36bpb"]
@@ -271,9 +334,9 @@ animation = &"shineBlue"
 offset = Vector2(16.92, -6)
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1751577932]
-position = Vector2(-2.3841858e-07, -6)
-scale = Vector2(0.26562497, 0.29531252)
+rotation = -1.5869057
 sprite_frames = SubResource("SpriteFrames_u5vc3")
+animation = &"hitMelee"
 
 [node name="the_hitter" type="Area2D" parent="." unique_id=1201734197]
 collision_layer = 3

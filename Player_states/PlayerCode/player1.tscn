@@ -21,7 +21,6 @@
 [ext_resource type="Texture2D" uid="uid://0b3dbnuiyequ" path="res://Animations/PARRYKNIGHT.png" id="17_5yovl"]
 [ext_resource type="Texture2D" uid="uid://q61jx1vclrxp" path="res://Animations/IDLEKNIGHT.png" id="18_lh0bs"]
 [ext_resource type="Texture2D" uid="uid://pv33ojdetmm3" path="res://Assets/Bone - Copy.png" id="19_4rtgo"]
-[ext_resource type="Texture2D" uid="uid://bka8ruyptlus8" path="res://Assets/communityIcon_oi1dus1jkkvb1.png" id="20_2nwgi"]
 [ext_resource type="Texture2D" uid="uid://bk6hrymqnbxrp" path="res://Assets/yellow.png" id="20_f6lud"]
 [ext_resource type="Texture2D" uid="uid://d3fx1b3pl1ovv" path="res://Assets/blue.png" id="21_3osvf"]
 
@@ -183,10 +182,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5yovl"]
-atlas = ExtResource("20_2nwgi")
-region = Rect2(0, 0, 128, 128)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_xgwlu"]
 atlas = ExtResource("14_h1fcx")
 region = Rect2(0, 12, 32, 6)
@@ -231,10 +226,10 @@ region = Rect2(32, 12, 32, 6)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": null
+"texture": ExtResource("20_f6lud")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5yovl")
+"texture": null
 }, {
 "duration": 1.0,
 "texture": null
@@ -406,7 +401,8 @@ visible = false
 
 [node name="animfx" type="AnimatedSprite2D" parent="." unique_id=1495036217]
 z_index = 2
-position = Vector2(0, 1)
+position = Vector2(0, 1.75)
+scale = Vector2(0.5, 0.125)
 sprite_frames = SubResource("SpriteFrames_2nwgi")
 animation = &"parried"
 offset = Vector2(16.92, -6)
