@@ -14,10 +14,10 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="splatgame"
+config/name="Colourless"
 run/main_scene="uid://dxg7w7ms6ojks"
 config/features=PackedStringArray("4.7", "Forward Plus")
-config/icon="uid://wwlo1j0gll6b"
+config/icon="uid://ckqt4h2s0qcl3"
 
 [autoload]
 
