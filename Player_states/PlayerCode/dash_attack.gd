@@ -12,6 +12,8 @@ func Enter():
 		prior_vel = guy1.velocity#.normalized()
 	else:
 		prior_vel =  -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * guy1.velocity.length()
+	
+		guy1.velocity = prior_vel
 	speed_mod = 3
 	guy1.curr_attk = 0
 	guy1.sprite.play("BasicATK")

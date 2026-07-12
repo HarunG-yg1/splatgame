@@ -9,12 +9,13 @@ func Enter():
 	guy1.attack_shape.shape.size.x *= 1.6
 	guy1.attack_shape.position.x -= 24
 	print("SlideAttack")
-	guy1.velocity *= 1.6
+	
 	if guy1.curr_out_attked == null:
+		guy1.velocity *= 1.6
 		prior_vel = guy1.velocity#.normalized()
 	else:
-		prior_vel = -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * guy1.velocity.length()
-	
+		prior_vel = -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * guy1.velocity.length() *1.6
+		guy1.velocity = prior_vel
 	guy1.curr_attk = 2
 	guy1.sprite.play("BasicATK")
 	guy1.animfx.play("shineGreen")

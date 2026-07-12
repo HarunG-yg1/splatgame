@@ -46,11 +46,12 @@ func Process(_delta:float)->Enemy_State:
 	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 60:
 		time_on_player += _delta
 		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*1.05).normalized()) * enemy.SPEED  , 1)
-	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() <60:
-		time_on_player += _delta
+	else:
+		if  enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() < 60:
+			time_on_player += _delta
 		enemy.velocity =  lerp(enemy.velocity, Vector2.ZERO,0.2)
 		
-		if attk_timer.get_time_left() <= 0.1 and time_on_player > 0.5:
+		if enemy.player!= null and attk_timer.get_time_left() <= 0.1 and time_on_player > 0.5:
 			attk_timer.start(1)
 			return attack_state
 
