@@ -5,24 +5,31 @@ class_name slide extends crouch_idle
 
 var prior_rotation : float
 var prior_vel_dir : Vector2
-
+var timer : float = 0.4
 
 
 func Enter():
+	timer = 0.4
+	if RythmLoader.find_attkType(2) :
+		RythmLoader.setHit_attkType(2)
+		guy1.i_time = 0.2
 	guy1.set_collision_mask_value(8,false)
 	if guy1.last_puddle != null:
 		guy1.check_puddle(guy1.last_puddle.puddle_val,guy1.last_puddle)
 	
 	prior_rotation = guy1.sprite.rotation
-	guy1.velocity*= 1.05 +abs( guy1.jump_vel/160)
+	guy1.velocity = crouch_state.had_prior_vel * 1.3
 	guy1.jump_vel = 0
-	if guy1.velocity.length() > 440:
-		guy1.i_time = 0.25
-	prior_vel_dir = guy1.velocity
+
+	prior_vel_dir = crouch_state.had_prior_vel  * 1.3
 	print(prior_vel_dir)
 
 	pass
 func Process(_delta):
+	timer -= _delta
+	if RythmLoader.find_attkType(2) and timer > 0:
+		RythmLoader.setHit_attkType(2)
+		guy1.i_time = 0.2
 	guy1.sprite.look_at(guy1.velocity)
 #	print("sliding")
 	prior_vel_dir *= 0.98
@@ -37,7 +44,7 @@ func Process(_delta):
 	elif !guy1.crouch:
 		guy1.set_collision_mask_value(8,true)
 		return crouch_state.idle_state
-	elif guy1.run and !guy1.finish_run:
+	elif guy1.dashing:
 		guy1.set_collision_mask_value(8,true)
 		guy1.crouch=false
 		return crouch_state.dash_state
@@ -52,7 +59,7 @@ func Process(_delta):
 		guy1.set_collision_mask_value(8,true)
 		return crouch_state.block_state
 	elif guy1.is_attack:
-		return crouch_state.attack_state
+		return crouch_state.slide_attack_state
 	elif guy1.is_shoot:
 		return crouch_state.shoot_state
 

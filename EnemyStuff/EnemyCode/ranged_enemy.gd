@@ -80,8 +80,13 @@ func attk_hitted(body : PhysicsBody2D):
 
 	if body is Player:
 		print("yo")
+		if body.missed:
+			body.damage(self, false,100)
+			body.missed = false
+
+		g_timer.start(0.2)
+		await g_timer.timeout
 		
-		body.damage(damage_amnt,global_position, self, 100,false)
-		
-	await get_tree().create_timer(0.2).timeout
-	animsprite.play("default")
+		animsprite.play("default")
+
+	#animsprite.play("default")

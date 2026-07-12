@@ -2,39 +2,61 @@ class_name Enemy_State_Stun extends Enemy_State
 @onready var timer = $"../../StateTimer"
 @onready var idle_state = $"../idle"
 
-
+var changed_dir := false
 func init() -> void:
 	pass
 func Enter() ->void:
+	changed_dir = false
+	
 	print("stun" , enemy)
-
+	enemy.set_collision_mask_value(2,false)
+	print(enemy.stun,"stunn")
 	timer.start(enemy.stun)
+	enemy.stun = 0
 	enemy.UpdateAnimation("idle")
-	await get_tree().create_timer(0.05).timeout
-	enemy.enemy_fov.get_child(0).disabled = false
-	await get_tree().create_timer(0.05).timeout
-	enemy.enemy_fov.get_child(1).disabled = false
+	if enemy.in_attk_index <= 7:
+		if enemy.in_attk_type[enemy.in_attk_index] == 0:
+			enemy.animfx.play("shineRed")
+		elif enemy.in_attk_type[enemy.in_attk_index] == 1:
+			enemy.animfx.play("shineBlue")
+		elif enemy.in_attk_type[enemy.in_attk_index] == 2:
+			enemy.animfx.play("shineGreen")
+
 	pass
 	
 #what happens when player enters state
 func Exit() ->void:
-	await get_tree().create_timer(0.05).timeout
+	enemy.set_collision_mask_value(2,true)
+	enemy.animfx.stop()
+	enemy.stun = -1
+	enemy.g_timer.start(0.1)
+	await enemy.g_timer.timeout
 	enemy.enemy_fov.get_child(0).disabled = false
-	await get_tree().create_timer(0.05).timeout
-	enemy.enemy_fov.get_child(1).disabled = false
-	enemy.stun = 0
+	enemy.in_attk_index = 99
+	enemy.animfx.play("default")
+
+	
 	pass
 	
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
 	#print("LEMME OUT")
-	#print(timer.get_time_left())
+	if enemy.get_last_slide_collision() != null and enemy.get_last_slide_collision() != Player and !changed_dir:
+		var prior_vel = (enemy.velocity.normalized() - enemy.get_last_slide_collision().get_normal()).normalized() * max(enemy.velocity.length(),300)
+		if( prior_vel.x > 0 and  enemy.get_last_slide_collision().get_normal().x < 0) || (prior_vel.x < 0 and  enemy.get_last_slide_collision().get_normal().x > 0):
+			prior_vel.x *= -1
+		if (prior_vel.y > 0 and  enemy.get_last_slide_collision().get_normal().y < 0) || (prior_vel.y < 0 and enemy.get_last_slide_collision().get_normal().y > 0):
+			prior_vel.y *= -1
+		enemy.velocity = prior_vel
 	if (enemy.velocity.length()) > 1 :
 
-		enemy.velocity -= enemy.velocity/45  
+		enemy.velocity -= -enemy.secondary_vel.normalized() + enemy.velocity/45  
 	elif abs(enemy.velocity.length()) < 1:
 		enemy.velocity = Vector2(0,0)
-	if timer.get_time_left() <= 0.1 or enemy.stun <= 0:
-		print("LEMME OUT")
+	if timer.get_time_left() < 0.05 and enemy.stun <= 0:
+		
 		return idle_state
+	elif timer.get_time_left() < 0.05 and enemy.stun > 0.1:
+		Enter()
+		
 	return null

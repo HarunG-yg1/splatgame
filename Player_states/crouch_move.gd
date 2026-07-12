@@ -17,7 +17,7 @@ func Process(_delta):
 	elif !guy1.crouch:
 		guy1.set_collision_mask_value(8,true)
 		return crouch_idle_state.move_state
-	elif guy1.run and !guy1.finish_run:
+	elif guy1.dashing:
 		guy1.set_collision_mask_value(8,true)
 		guy1.crouch=false
 		return crouch_idle_state.dash_state

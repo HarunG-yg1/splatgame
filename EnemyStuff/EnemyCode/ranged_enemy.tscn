@@ -16,64 +16,6 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_t03c4"]
-size = Vector2(79.5, 166)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_57bp3"]
-atlas = ExtResource("9_eb0yt")
-region = Rect2(0, 0, 42, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jwjjm"]
-atlas = ExtResource("10_55wkj")
-region = Rect2(0, 0, 42, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7xwch"]
-atlas = ExtResource("10_55wkj")
-region = Rect2(168, 0, 42, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jmhso"]
-atlas = ExtResource("10_55wkj")
-region = Rect2(42, 0, 42, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pgffm"]
-atlas = ExtResource("10_55wkj")
-region = Rect2(84, 0, 42, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mh8iy"]
-atlas = ExtResource("10_55wkj")
-region = Rect2(126, 0, 42, 42)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_8n2ib"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_57bp3")
-}],
-"loop": 0,
-"name": &"default",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jwjjm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7xwch")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jmhso")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pgffm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mh8iy")
-}],
-"loop": 0,
-"name": &"hit",
-"speed": 24.0
-}]
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_0eray"]
 atlas = ExtResource("11_6cm64")
 region = Rect2(0, 0, 32, 4)
@@ -212,8 +154,62 @@ animations = [{
 "speed": 24.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_57bp3"]
+atlas = ExtResource("9_eb0yt")
+region = Rect2(0, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jwjjm"]
+atlas = ExtResource("10_55wkj")
+region = Rect2(0, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7xwch"]
+atlas = ExtResource("10_55wkj")
+region = Rect2(168, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jmhso"]
+atlas = ExtResource("10_55wkj")
+region = Rect2(42, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pgffm"]
+atlas = ExtResource("10_55wkj")
+region = Rect2(84, 0, 42, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mh8iy"]
+atlas = ExtResource("10_55wkj")
+region = Rect2(126, 0, 42, 42)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8n2ib"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_57bp3")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jwjjm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7xwch")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jmhso")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pgffm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mh8iy")
+}],
+"loop": 0,
+"name": &"hit",
+"speed": 24.0
+}]
+
 [node name="ranged_enemy" type="CharacterBody2D" unique_id=6164640]
-collision_layer = 201
 collision_mask = 202
 motion_mode = 1
 script = ExtResource("1_bee66")
@@ -251,21 +247,13 @@ collision_mask = 11
 collision_layer = 3
 collision_mask = 3
 
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="enemy_fov" unique_id=1214558591]
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="enemy_fov" unique_id=425586897]
 position = Vector2(-67, -1)
-polygon = PackedVector2Array(-70, 100, 20, 0, -70, -100, 100, -100, 100, 100)
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="enemy_fov" unique_id=507739504]
-position = Vector2(-128.25, -1)
-shape = SubResource("RectangleShape2D_t03c4")
+polygon = PackedVector2Array(-70, 100, -70, 0, -20, 50, 20, 0, -20, -50, -70, 0, -70, -100, 100, -100, 100, 100)
 
 [node name="StateTimer" type="Timer" parent="." unique_id=1807365877]
 
 [node name="AttkCDTimer" type="Timer" parent="." unique_id=738012581]
-
-[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=375650770]
-rotation = 1.5713246
-sprite_frames = SubResource("SpriteFrames_8n2ib")
 
 [node name="AnimatedFX2" type="AnimatedSprite2D" parent="." unique_id=1283500470]
 position = Vector2(0, 1)
@@ -280,6 +268,12 @@ scale = Vector2(25, 1)
 sprite_frames = SubResource("SpriteFrames_eb0yt")
 animation = &"shine3"
 offset = Vector2(16.92, -6)
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=375650770]
+rotation = 1.5713246
+sprite_frames = SubResource("SpriteFrames_8n2ib")
+
+[node name="general_timer" type="Timer" parent="." unique_id=606154668]
 
 [connection signal="body_entered" from="enemy_fov" to="." method="_on_enemy_fov_body_entered"]
 [connection signal="body_exited" from="enemy_fov" to="." method="_on_enemy_fov_body_exited"]

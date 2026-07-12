@@ -24,6 +24,10 @@ func Process(_delta):
 		return move_state
 	elif guy1.jumping:
 		return jump_state
+	elif guy1.dashing:
+		guy1.velocity -= guy1.last_dir * 300
+		print(guy1.last_dir)
+		return dash_state 
 	elif guy1.is_shoot :
 		return shoot_state
 	elif guy1.is_attack:

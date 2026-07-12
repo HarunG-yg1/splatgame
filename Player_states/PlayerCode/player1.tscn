@@ -11,11 +11,13 @@
 [ext_resource type="Script" uid="uid://4ywngadnigil" path="res://Player_states/crouch_move.gd" id="9_s33xd"]
 [ext_resource type="Script" uid="uid://wknskd0f4dvk" path="res://Player_states/dive.gd" id="10_8kudq"]
 [ext_resource type="Script" uid="uid://bx1x6kna03n5l" path="res://Player_states/block.gd" id="10_s33xd"]
-[ext_resource type="Script" uid="uid://4q88mdlryyso" path="res://Player_states/block_move.gd" id="11_lyl3y"]
+[ext_resource type="Script" uid="uid://cydpip5ecdxyd" path="res://Player_states/PlayerCode/dash_attack.gd" id="13_3osvf"]
 [ext_resource type="Script" uid="uid://cq6n43t78u2vx" path="res://Player_states/attack.gd" id="13_8kudq"]
+[ext_resource type="Script" uid="uid://cw8ieblujva6y" path="res://Player_states/PlayerCode/aerial.gd" id="14_2nwgi"]
 [ext_resource type="Script" uid="uid://ge1oy7oega0w" path="res://Player_states/shoot.gd" id="14_5iiq8"]
 [ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/Bone.png" id="14_h1fcx"]
 [ext_resource type="Texture2D" uid="uid://dvw452qgy15p3" path="res://Animations/SHOOTKNIGHT.png" id="15_3osvf"]
+[ext_resource type="Script" uid="uid://dgjae53wvnmwo" path="res://Player_states/PlayerCode/slide_attack.gd" id="15_5yovl"]
 [ext_resource type="PackedScene" uid="uid://ctog7ixvmi0mn" path="res://gun.tscn" id="15_y0uv2"]
 [ext_resource type="Texture2D" uid="uid://ddqsq7rgytjlc" path="res://Animations/SWINGKNIGHT.png" id="16_2nwgi"]
 [ext_resource type="Texture2D" uid="uid://0b3dbnuiyequ" path="res://Animations/PARRYKNIGHT.png" id="17_5yovl"]
@@ -23,11 +25,12 @@
 [ext_resource type="Texture2D" uid="uid://pv33ojdetmm3" path="res://Assets/Bone - Copy.png" id="19_4rtgo"]
 [ext_resource type="Texture2D" uid="uid://bk6hrymqnbxrp" path="res://Assets/yellow.png" id="20_f6lud"]
 [ext_resource type="Texture2D" uid="uid://d3fx1b3pl1ovv" path="res://Assets/blue.png" id="21_3osvf"]
+[ext_resource type="Texture2D" uid="uid://dp26kwn36napo" path="res://Assets/green.png" id="25_lh0bs"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kl0as"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_xepy2"]
-radius = 32.24903
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kek77"]
+size = Vector2(40.5, 40)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_11tvd"]
 atlas = ExtResource("15_3osvf")
@@ -186,10 +189,6 @@ animations = [{
 atlas = ExtResource("14_h1fcx")
 region = Rect2(0, 12, 32, 6)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1k2p4"]
-atlas = ExtResource("19_4rtgo")
-region = Rect2(0, 0, 32, 6)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_0eray"]
 atlas = ExtResource("20_f6lud")
 region = Rect2(0, 0, 32, 4)
@@ -221,6 +220,10 @@ region = Rect2(32, 6, 32, 6)
 [sub_resource type="AtlasTexture" id="AtlasTexture_qo0va"]
 atlas = ExtResource("14_h1fcx")
 region = Rect2(32, 12, 32, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1k2p4"]
+atlas = ExtResource("19_4rtgo")
+region = Rect2(0, 0, 32, 6)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_2nwgi"]
 animations = [{
@@ -260,20 +263,6 @@ animations = [{
 "texture": null
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1k2p4")
-}, {
-"duration": 1.0,
-"texture": null
-}],
-"loop": 0,
-"name": &"shine2",
-"speed": 24.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": null
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_0eray")
 }, {
 "duration": 1.0,
@@ -295,7 +284,21 @@ animations = [{
 }],
 "loop": 0,
 "name": &"shineBlue",
-"speed": 24.0
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_lh0bs")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": 0,
+"name": &"shineGreen",
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -331,11 +334,25 @@ animations = [{
 "loop": 0,
 "name": &"shineMelee",
 "speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1k2p4")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": 0,
+"name": &"shineRed",
+"speed": 12.0
 }]
 
 [node name="Player" type="CharacterBody2D" unique_id=1623458088]
 collision_layer = 2
-collision_mask = 202
+collision_mask = 200
 motion_mode = 1
 script = ExtResource("1_ng0wg")
 
@@ -370,14 +387,20 @@ script = ExtResource("10_8kudq")
 [node name="block" type="Node" parent="statemachine" unique_id=675691445]
 script = ExtResource("10_s33xd")
 
-[node name="block_move" type="Node" parent="statemachine/block" unique_id=716222847]
-script = ExtResource("11_lyl3y")
-
 [node name="attack" type="Node" parent="statemachine" unique_id=1556993684]
 script = ExtResource("13_8kudq")
 
 [node name="shoot" type="Node" parent="statemachine" unique_id=784141542]
 script = ExtResource("14_5iiq8")
+
+[node name="dash_attack" type="Node" parent="statemachine" unique_id=1094672231]
+script = ExtResource("13_3osvf")
+
+[node name="air_attack" type="Node" parent="statemachine" unique_id=482101661]
+script = ExtResource("14_2nwgi")
+
+[node name="slide_attack" type="Node" parent="statemachine" unique_id=363927193]
+script = ExtResource("15_5yovl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1712918288]
 shape = SubResource("CapsuleShape2D_kl0as")
@@ -388,27 +411,27 @@ collision_layer = 3
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox" unique_id=1504445]
-position = Vector2(14, 0)
-shape = SubResource("CircleShape2D_xepy2")
+position = Vector2(4.25, 0.5)
+shape = SubResource("RectangleShape2D_kek77")
 disabled = true
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="AttackBox" unique_id=1644794572]
-position = Vector2(1, -1.0000038)
+position = Vector2(0, -2.3841858e-07)
 rotation = 1.5707964
 scale = Vector2(0.59075314, 0.55774975)
 sprite_frames = SubResource("SpriteFrames_kl0as")
-animation = &"block"
+animation = &"BasicATK"
 
 [node name="Gun" parent="." unique_id=801267109 instance=ExtResource("15_y0uv2")]
 visible = false
 
 [node name="animfx" type="AnimatedSprite2D" parent="." unique_id=1495036217]
 z_index = 2
-position = Vector2(0, 1.75)
-scale = Vector2(0.5, 0.125)
 sprite_frames = SubResource("SpriteFrames_2nwgi")
-animation = &"parried"
+animation = &"shineBlue"
 offset = Vector2(16.92, -6)
+
+[node name="Timer" type="Timer" parent="." unique_id=1511043748]
 
 [connection signal="check_knockback" from="." to="." method="_on_check_knockback"]
 [connection signal="body_entered" from="AttackBox" to="." method="_on_attack_box_body_entered"]

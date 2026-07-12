@@ -3,9 +3,9 @@ func init() -> void:
 	pass
 var random_pt : Vector2
 var amount_hits : int
-
+var time_on_player : float = 0
 var was_out_of_range := true
-var time_for_hit : Array[float]
+var time_for_hit : Array[int_float_pair] = [int_float_pair.new(0,0),int_float_pair.new(1,1),int_float_pair.new(2,1),int_float_pair.new(1,1.5),int_float_pair.new(2,1.2),int_float_pair.new(0,0.6),int_float_pair.new(1,1.2),int_float_pair.new(0,0.7)]
 @onready var runAway_state = $"../runAway"
 @onready var chase_state = $"../chase"
 @onready var idle_state =$"../idle"
@@ -14,45 +14,72 @@ var time_for_hit : Array[float]
 var init_time : float
 #what happens when player enters state
 func Enter() ->void:
-	print("melee" , enemy)
+	time_on_player = 0
+	var acc : float = 0
 
-	enemy.random_pt =  Vector2(randi_range(-15,15),randi_range(-15,15))
-	time_for_hit = enemy.out_attk_time
-	
 	amount_hits= randi_range(3,8)
-	time_for_hit[amount_hits-1] += 0.5
-	init_time = time_for_hit[amount_hits-1]
+	for i : int in range(amount_hits-1):
+		
+		time_for_hit[i].time = enemy.out_attk_time[amount_hits - i -1]
+		time_for_hit[i].number = enemy.out_attk_color[amount_hits - i -1]
+		
+		#acc = time_for_hit[i].time
+	print(enemy.out_attk_time.size())
+	time_for_hit[amount_hits-1].time += 0.5
+	init_time = time_for_hit[amount_hits-1].time
+	enemy.random_pt =  Vector2(randi_range(-15,15),randi_range(-15,15))
+	
+
+	
+	
+	#amount_hits= randi_range(3,8)
+	#time_for_hit[amount_hits-1] += 0.5
+	#init_time = time_for_hit[amount_hits-1]
 	was_out_of_range = true
-	pass
+
 	
 #what happens when player enters state
 func Exit() ->void:
-	
-	pass
+	#if enemy.player != null:
+	#	enemy.player.refund_dodge()
+
+	RythmLoader.interrupt(enemy)
+#	pass
 	
 #what happens during process in state
 
 func Process(_delta:float)->Enemy_State:
 	
 	if enemy.stun > 0:
+	#	RythmLoader.interrupt(enemy)
 		print("penis")
 		enemy.enemy_fov.get_child(0).disabled = true
-		enemy.enemy_fov.get_child(1).disabled = true
-		enemy.player = null
+	#	enemy.enemy_fov.get_child(1).disabled = true
+		if enemy.player != null:
+			enemy.player.refund_dodge()
+			enemy.player = null
 		enemy.chase = false
 		return stun_state 
 	
-	if enemy.player!= null and (enemy.hitter.global_position - enemy.player.global_position ).length() > 50:
+	if (enemy.player!= null and time_on_player < 0.25) || ( enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt ).length() > 160):
 		if !was_out_of_range:
-			time_for_hit[amount_hits-1] += 0.25
-		was_out_of_range = true
-		return move()
-	elif  enemy.player!= null and (enemy.hitter.global_position - enemy.player.global_position).length() <50:
-		was_out_of_range =  false
-		if (enemy.hitter.global_position - enemy.player.global_position).length() > 40:
-			enemy.velocity =  enemy.chase_dir * enemy.player.MAX_SPEED * 0.9
+			
+			was_out_of_range = true
+			
+			RythmLoader.interrupt(enemy)
+		return move(_delta)
 		
-		enemy.velocity = lerp(enemy.velocity,Vector2.ZERO,0.1)
+	
+	elif  enemy.player!= null and time_on_player > 0.25 :
+		if was_out_of_range:
+			time_for_hit[amount_hits-1].time += 0.5
+			RythmLoader.addTo_hitline(time_for_hit,enemy)
+			
+			was_out_of_range =  false
+	#	if (enemy.global_position - enemy.player.global_position).length() > 40:
+	#		enemy.velocity =  enemy.chase_dir * enemy.player.MAX_SPEED
+		
+	#	
 		return attack_rythm(_delta)
 	
 
@@ -62,83 +89,61 @@ func attack_now():
 	if enemy.player != null:
 		
 		enemy.hitter.disabled = false
-		await get_tree().create_timer(0.2).timeout
-		enemy.animsprite.play("false")
-	pass
 
-func move():
-	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt ).length() > 120:
+	#	enemy.player.missed = false
+
+func move(delta : float ,modifier : float = 1):
+	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt ).length() > 160:
+		
 		return runAway_state
 	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() > 80:
-
+		time_on_player -= delta/5
 		enemy.direction = enemy.chase_dir
-	if enemy.player!= null and ((enemy.global_position - enemy.player.global_position + random_pt).normalized() - (enemy.direction)).length() < 0.7  and (enemy.hitter.global_position - enemy.player.global_position).length() > 60:
-	#	print("chase bro son")
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/4).normalized()) * enemy.SPEED * 2 , 0.1)
-	elif enemy.player!= null and (enemy.hitter.global_position - enemy.player.global_position + random_pt).length() > 60:
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*1.05).normalized()) * enemy.SPEED *2 , 0.1)
-	elif enemy.player!= null and (enemy.hitter.global_position - enemy.player.global_position + random_pt).length() <50:
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.05).normalized()) * enemy.SPEED * 2 , 0.1)
+	if enemy.player!= null and ((enemy.global_position - enemy.player.global_position + random_pt).normalized() - (enemy.direction)).length() < 0.7  and (enemy.global_position - enemy.player.global_position).length() > 60:
+		
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/4).normalized()) * enemy.SPEED * modifier , 1) 
+	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() > 60:
+		time_on_player += delta
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*1.05).normalized()) * enemy.SPEED * modifier , 1)
+	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() <50:
+		time_on_player += delta
+		enemy.velocity =  lerp(enemy.velocity, Vector2.ZERO,0.2)
+		#enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.05).normalized()) * enemy.SPEED * 2 * modifier, 0.1)
 
 
 func attack_rythm(_delta):
-	time_for_hit[amount_hits-1] -= _delta
-	if (time_for_hit[amount_hits-1] < init_time * 0.75 and time_for_hit[amount_hits-1] > init_time * 0.74)|| init_time < 0.6 and (time_for_hit[amount_hits-1] < init_time and time_for_hit[amount_hits-1] > init_time * 0.9):
-		
-
-#		enemy.animfx.rotation = enemy.hitter2.rotation
-
-		enemy.animfx.scale.y =1
-		enemy.animfx.scale.x =1
-
-		if init_time < 1:
-			enemy.animfx.play("shine2")
+	
+	time_for_hit[amount_hits-1].time  -= _delta
+	if time_for_hit[amount_hits-1].time > init_time * 0.4:
+		if enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() >50:
+			enemy.velocity =  enemy.chase_dir *  enemy.player.MAX_SPEED 
 		else:
+			move(_delta)
 			
-			enemy.animfx.play("shineBlue")
 
-
-
-	elif (time_for_hit[amount_hits-1] <= 0.25 and time_for_hit[amount_hits-1] > 0.249):
-		#enemy.hitter2.rotation = move_toward(enemy.hitter2.rotation ,enemy.get_angle_to(player.global_position),2)
-
-		enemy.animfx.play("shine1")
-
-	elif time_for_hit[amount_hits-1] <= 0:
-		#enemy.hitter2.rotation = move_toward(enemy.hitter2.rotation ,enemy.get_angle_to(player.global_position),2)
+	if time_for_hit[amount_hits-1].time <= init_time * 0.3 and time_for_hit[amount_hits-1].time > init_time * 0.29:
+		if enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() >50:
+			enemy.velocity =  enemy.chase_dir *  enemy.player.MAX_SPEED * 1.5
+		else:
+			move(_delta)
+		
+	elif time_for_hit[amount_hits-1].time <= 0:
+	
 		enemy.animfx.scale.y =1
 		enemy.animfx.play("shine1")
 
-		enemy.animsprite.play("hit")
+	#	enemy.animsprite.play("hit")
 		
+		#enemy.velocity =  enemy.chase_dir * enemy.player.MAX_SPEED * 1.6
 		attack_now()
+	#	move(_delta, 1.5)
 		amount_hits -= 1
-		#time_for_hit[amount_hits-1] += 0.2
-		init_time = time_for_hit[amount_hits-1]
+
+		init_time = time_for_hit[amount_hits-1].time
 
 	if amount_hits <=0:
 		enemy.enemy_fov.get_child(0).disabled = true
-		enemy.enemy_fov.get_child(1).disabled = true
+	#	enemy.enemy_fov.get_child(1).disabled = true
 		enemy.player = null
 		enemy.chase = false
 		return idle_state
-
-	#	func attack_rythm(_delta):
-	#	time_for_hit[amount_hits-1] -= _delta
-	#	if time_for_hit[amount_hits-1] <= 0.5:
-	#		enemy.animfx.scale.x = 1
-	#		enemy.animfx.scale.y = 1
-	#		enemy.animfx.play("shineMelee")
-	#	if time_for_hit[amount_hits-1] <= 0:
-	#		attack_now()
-#
-		#	enemy.animsprite.play("hitMelee")
-	#		amount_hits -= 1
-	#	if amount_hits <=0:
-	#		print("penis")
-	#		enemy.player = null
-	#		enemy.chase = false
-	#		enemy.enemy_fov.get_child(0).disabled = true
-	#		enemy.enemy_fov.get_child(1).disabled = true
-	#		return idle_state
-	

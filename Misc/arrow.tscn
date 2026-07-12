@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://coyuuax7735n3"]
+
+[ext_resource type="Script" uid="uid://byp2qmxhs46uy" path="res://Misc/arrow.gd" id="1_sdt85"]
+[ext_resource type="Texture2D" uid="uid://d3fx1b3pl1ovv" path="res://Assets/blue.png" id="2_b8spp"]
+[ext_resource type="Texture2D" uid="uid://bka8ruyptlus8" path="res://Assets/communityIcon_oi1dus1jkkvb1.png" id="3_b8spp"]
+[ext_resource type="Texture2D" uid="uid://bsqmrunjbrmor" path="res://icon.svg" id="3_tk230"]
+[ext_resource type="Texture2D" uid="uid://dp26kwn36napo" path="res://Assets/green.png" id="4_38tqs"]
+[ext_resource type="Texture2D" uid="uid://ci0mpvjc0ux73" path="res://Assets/memes.png" id="4_tk230"]
+[ext_resource type="Texture2D" uid="uid://pv33ojdetmm3" path="res://Assets/Bone - Copy.png" id="5_tk230"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4jcdm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_b8spp")
+}],
+"loop": 0,
+"name": &"blue",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_tk230")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_38tqs")
+}],
+"loop": 0,
+"name": &"green",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_b8spp")
+}],
+"loop": 1,
+"name": &"hit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_tk230")
+}],
+"loop": 0,
+"name": &"miss",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_tk230")
+}],
+"loop": 0,
+"name": &"red",
+"speed": 12.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kl0as"]
+
+[node name="arrow" type="Area2D" unique_id=1930608637]
+process_mode = 4
+script = ExtResource("1_sdt85")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=550202556]
+z_index = 4
+position = Vector2(0.9999962, -1.1444092e-05)
+sprite_frames = SubResource("SpriteFrames_4jcdm")
+animation = &"green"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1003357557]
+shape = SubResource("CircleShape2D_kl0as")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1099524384]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

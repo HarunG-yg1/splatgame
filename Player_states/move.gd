@@ -19,7 +19,7 @@ func Process(_delta):
 	elif guy1.crouch:
 		#print("fuck you")
 		return crouch_state
-	elif guy1.run and !guy1.finish_run:
+	elif guy1.dashing:
 		#print("bark")
 		return dash_state 
 	elif guy1.is_attack :

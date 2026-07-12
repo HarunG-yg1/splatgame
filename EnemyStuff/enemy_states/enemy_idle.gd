@@ -16,14 +16,14 @@ func Enter() ->void:
 	timer.start(enemy.choose_randomly([0.5,1.5,2,1]))
 	enemy.UpdateAnimation("idle")
 	enemy.enemy_fov.get_child(0).disabled = false
-	enemy.enemy_fov.get_child(1).disabled = false
+	#enemy.enemy_fov.get_child(1).disabled = false
 
 	pass
 	
 #what happens when player enters state
 func Exit() ->void:
 	enemy.enemy_fov.get_child(0).disabled = false
-	enemy.enemy_fov.get_child(1).disabled = false
+#	enemy.enemy_fov.get_child(1).disabled = false
 	pass
 	
 #what happens during process in state
@@ -31,7 +31,7 @@ func Process(_delta:float)->Enemy_State:
 	if enemy.stun > 0:
 		print("penis")
 		enemy.enemy_fov.get_child(0).disabled = true
-		enemy.enemy_fov.get_child(1).disabled = true
+
 		enemy.player = null
 		enemy.chase = false
 		return stun_state 
@@ -42,7 +42,7 @@ func Process(_delta:float)->Enemy_State:
 			enemy.chase = true
 			range_chase = true
 			
-	enemy.velocity = lerp (enemy.velocity,Vector2.ZERO,0.1)
+	enemy.velocity = lerp (enemy.velocity,Vector2.ZERO,0.2)
 	if enemy.chase and chasing != null:
 		if runaway != null and range_chase:
 			return runaway

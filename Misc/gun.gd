@@ -10,7 +10,7 @@ const BULLET = preload("res://Misc/bullet.tscn")
 @onready var raycast3: RayCast2D = $RayCast2D3
 @onready var player = get_parent()
 @export var gun_range: float = 1800.0
-@export var fire_cooldown: float = 0.1
+@export var fire_cooldown: float = 0.3
 signal last_colided(colided:Enemy)
 signal ammo_changed(current: int, max: int)
 var raycast_group : Array [RayCast2D]

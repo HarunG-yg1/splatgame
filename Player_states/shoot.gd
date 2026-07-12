@@ -1,39 +1,52 @@
 class_name shoot extends attack
 
-func Exit():
-	guy1.is_shoot = false
-	guy1.signal_attk = false
-	pass
-#	aaaaaaaaa
-func missed_target():
-	rec_enemy.in_attk_time_index = 0
-	guy1.curr_hitEnemy.parried(guy1.global_position,0,-1.5)
-	print( guy1.out_attk_time ,"truke")
-	guy1.gun_has_timed = false
-	
-	guy1.curr_hitEnemy = null
 
-func hurt_target():
-	if guy1.curr_hitEnemy != null:
-			print("hitt")
-			print( guy1.out_attk_time ,"truke")
-			guy1.curr_hitEnemy.in_attk_time_index += 1
-			guy1.curr_hitEnemy.damage(4,guy1.global_position)
-			guy1.curr_hitEnemy.parried(guy1.global_position,0.8,1)
-			
+func Enter():
 
-			guy1.gun_has_timed = true 
-				
-				
-			if rec_enemy.in_attk_time_index < rec_enemy.in_attk_time.size():
-				guy1.out_attk_time = rec_enemy.in_attk_time[rec_enemy.in_attk_time_index]
-			else:
-				rec_enemy.in_attk_time_index = 0
-				guy1.curr_hitEnemy.damage(4,guy1.global_position)
-				guy1.curr_hitEnemy.parried(guy1.global_position,1.5,1)
 
-				guy1.curr_hitEnemy = null
-func first_con()->bool:
-	guy1.sprite.stop()
+	print("Attack")
+#	count += 1
+#	guy1.curr_attk = 1
 	guy1.sprite.play("AimShoot")
-	return guy1.signal_attk and guy1.same_guy and rec_enemy != null and guy1.out_attk_time < 0.1 and guy1.out_attk_time > -0.25
+#	guy1.animfx.play("shineBlue")
+	timer = 0.4
+	
+func Process(_delta):
+	
+	#print(guy1.out_attk_time)
+	
+	
+	timer -= _delta
+	if timer > 0:
+		attack_movement(_delta)
+
+	#if hit_boxOn():
+	#	guy1.attack_shape.disabled = false 
+
+	elif timer <= 0:
+		
+		if statemachine.old_state is not dash and statemachine.old_state is not jumpin and statemachine.old_state is not dive and statemachine.old_state is not block  and statemachine.old_state is not attack:
+			
+			return statemachine.old_state
+		#return idle_state
+		else:
+			return idle_state 
+		
+	
+
+
+	
+func Exit():
+	guy1.attack_shape.position.x = prior_attack_box_displace 
+	guy1.attack_shape.shape.size.x = prior_attack_box_size
+	
+	guy1.is_shoot = false
+
+func attack_movement(delta):
+	if guy1.direction.length() > 0.0:
+		guy1.move(guy1.direction,speed_mod)
+	elif (guy1.velocity.length()) > 1 :
+
+		guy1.velocity -= guy1.velocity/15  
+		if abs(guy1.velocity.length()) < 1:
+			guy1.velocity = Vector2(0,0)

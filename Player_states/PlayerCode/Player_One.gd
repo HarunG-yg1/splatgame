@@ -1,23 +1,31 @@
 class_name Player
 extends CharacterBody2D
-var para_in_sinwave : float
+
+
+
 @onready var animfx = $animfx
 @onready var sprite = $AttackBox/Sprite2D
 @onready var statemachine = $statemachine
 @onready var attack_box: Area2D = $AttackBox
 @onready var attack_shape: CollisionShape2D = $AttackBox/CollisionShape2D
 @onready var gun = $Gun
+@onready var g_timer = $Timer
+
 @export var max_health: int = 20
 
+var last_dir : Vector2
 var is_attack := false
 var is_shoot := false
+
 signal check_knockback
 
-
-var health_dec : int
+var dash_num : int = 2
+var dash_cd : float = 0
+var para_in_sinwave : float
 
 var current_health: int = max_health
 var is_dead: bool = false
+var missed := true
 
 var i_time : float = 0
 var blocking : bool = false
@@ -25,43 +33,51 @@ var stun : float = 0
 var jumping : bool = false
 var jump_vel : float = 0.0
 var crouch : bool = false
-var player_damage : int = 10
+
 var dive_in : = false
 
-var arr_of_blood : Array[int] 
+var arr_of_blood : Array[blood_puddle.puddle_colors] 
+var curr_attk : blood_puddle.puddle_colors
 
-var in_attk_time  : float 
-var out_attk_time  : float 
-var signal_attk : bool = false
+var curr_in_attker : Enemy
+var dashing = false
 
-var run = false
-var finish_run = true
 const INITIAL_SPEED = 55.0
 const MAX_SPEED = 320
 var direction : Vector2
 
 var last_puddle : blood_puddle
-var curr_attker : Enemy = null
-var curr_hitEnemy : Enemy = null
-var same_guy : = true
-var gun_has_timed : = false
+
+#var curr_hitEnemy : Enemy = null
+
+
 
 signal health_changed(current: int, max: int)
 signal died 
 
 func _ready() -> void:
+	RythmLoader.player = self
 	Statloader.get_statsfromLoader(self)
+	Statloader.player = self
 	global_position = SceneManager.tp_coords
 	statemachine.player = self
-	Statloader.player = self
+	
 	statemachine.init()
 	attack_shape.disabled = true
 	gun.last_colided.connect(_on_attack_box_body_entered)
-	gun.last_colided.connect(is_hit_gun)
+	#gun.last_colided.connect(is_hit_gun)
 	
 
 
 func _process(delta: float) -> void:
+	if dash_num < 2:
+		dash_cd -= delta
+		if dash_cd <= 0:
+			dash_num += 1
+			dash_cd = 0.75
+	elif dash_cd > 0:
+		dash_cd = 0
+
 	if is_dead:
 		return
 	
@@ -69,17 +85,9 @@ func _process(delta: float) -> void:
 	if i_time > 0:
 		i_time -= delta
 	if stun > 0:
-		stun -= delta*2
-	in_attk_time-=delta
-	if in_attk_time<-0.15  and in_attk_time<-0.16:
-		damage_dec()
+		stun -= delta
 
-	out_attk_time-= delta
-
-	if out_attk_time < 0.4 and out_attk_time > 0.39:
-
-		animfx.stop()
-		animfx.play("shineMelee")
+			
 	
 	if Input.is_action_just_pressed("block"):
 
@@ -90,16 +98,16 @@ func _process(delta: float) -> void:
 		crouch = true
 	else:
 		crouch = false 
-	if Input.is_action_pressed("dash") and stun < 0.5 and finish_run and !run and velocity.length()>0:
-		run = true
-		finish_run = false
-		await get_tree().create_timer(1).timeout
-		run = false
+	if Input.is_action_just_pressed("dash") and dash_cd <= 0.15 and dash_num > 0 and stun < 0.5 and !dashing:
+		dashing = true
+		dash_num -= 1
+		dash_cd = 0.75
 	
-	if Input.is_action_just_pressed("Attack") and stun <= 0.1:
-		attack_fr()
+	if Input.is_action_just_released("Attack") and stun <= 0.1:
+		is_attack = true
+		
+
 	if Input.is_action_just_pressed("shoot") and stun <= 0.1:
-		await get_tree().create_timer(0.15).timeout
 		is_shoot = true
 	
 	if Input.is_action_just_pressed("jump") and !jumping:
@@ -112,16 +120,12 @@ func _process(delta: float) -> void:
 		
 	if stun <= 0 || stun > 0.8:
 		direction = Vector2(Input.get_axis("left","right"),Input.get_axis("up","down")).normalized()
+		
 	else:
 		direction = Vector2.ZERO
-func attack_fr():
-	
-	attack_shape.disabled = false 
-	
-	await get_tree().create_timer(0.1).timeout
-	is_attack = true
-	await get_tree().create_timer(0.1).timeout
-	attack_shape.disabled = true
+	if direction.length() > 0:
+		last_dir = direction
+
 	
 	
 	
@@ -129,12 +133,12 @@ func attack_fr():
 func jump_and_fall(delta):
 	if jumping:
 		print(jump_vel)
-		jump_vel += delta * 160
-		para_in_sinwave += delta * 320 * 2
+		jump_vel += delta * 320
+		para_in_sinwave += delta * 640
 
 		#if para_in_sinwave <= 360:
 			
-		sprite.position.y += 20 * -(sin(deg_to_rad(para_in_sinwave)))*0.04
+		sprite.position.y += 20 * -(sin(deg_to_rad(para_in_sinwave)))*0.02
 
 	if jump_vel >= 80:
 		set_collision_mask_value(7,true)
@@ -157,84 +161,81 @@ func jump()->void:
 	var tween = get_tree().create_tween()
 
 	
-	tween.tween_property(self, "scale", Vector2(1.5,1.5), 0.3)
+	tween.tween_property(self, "scale", Vector2(1.5,1.5), 0.25)
 
-	tween.tween_property(self, "scale", Vector2(1,1), 0.3)
+	tween.tween_property(self, "scale", Vector2(1,1), 0.25)
 
 func _physics_process(_delta: float) -> void:
 	if is_dead:
 		velocity = Vector2.ZERO
 	move_and_slide()
 	
-	
+func refund_dodge():
+	if dash_num < 2:
+		dash_num += 1
+	dash_cd= 0
 
 
 func _on_attack_box_body_entered(body: Enemy) -> void:
 	if body != null:
-		if body != curr_hitEnemy and curr_hitEnemy ==null :
-			curr_hitEnemy = body
-			if !attack_shape.disabled:
-				body.damage(1,global_position)
-			else:
-				body.damage(0,global_position)
-			body.parried(global_position,0.8,body.in_attk_time[body.in_attk_time_index])
 
-			velocity += body.velocity
-			if body.in_attk_time_index < body.in_attk_time.size():
-				out_attk_time =  body.in_attk_time[body.in_attk_time_index]
-			else:
-				body.in_attk_time_index = 0
-			
-		elif body != curr_hitEnemy and curr_hitEnemy !=null :
-			curr_hitEnemy = body
-			body.damage(0,global_position)
-			body.parried(global_position,0.8,body.in_attk_time[body.in_attk_time_index])
-			same_guy = false
-		elif body == curr_hitEnemy and curr_hitEnemy !=null :
-
-			same_guy = true
-		
-		
-		
-		signal_attk = true
-		if out_attk_time< 1:
-			animfx.play("shine2")
+		if attack_shape.disabled:
+			body.damage(5,global_position)
+			body.parried(self,1,0.6)
 		else:
+			if body.in_attk_index == 99:
+				body.in_attk_index = randi_range(0,7)
+				
+				body.damage(0,global_position)
+				body.parried(self,0.75,1.2)
+				#print(curr_attk, "check here")
 			
-			animfx.play("shineBlue")
+			elif body.in_attk_type.size() > body.in_attk_index and body.in_attk_type[body.in_attk_index] == curr_attk :
+				if curr_attk == blood_puddle.puddle_colors.RED and  body.in_attk_type[body.in_attk_index] == curr_attk:
+					body.damage(8,global_position)
+				elif body.in_attk_type[body.in_attk_index] == curr_attk || (curr_attk ==  blood_puddle.puddle_colors.RED and  body.in_attk_type[body.in_attk_index] ==  blood_puddle.puddle_colors.BLUE):
+				
+					body.damage(3*(abs(curr_attk)),global_position)
+				
+				if body.in_attk_type.size() <= body.in_attk_index:
+					body.in_attk_index = 99
+					body.parried(self,2)
+				else:
+					body.in_attk_index += 1
+					body.parried(self,1,1.5)
+				#	body.g_timer.start(1.5)
+			else:
+				body.stun = -1
+			print("enemy HP",body.health)
+		
+			
+		#velocity += body.velocity
 
 
-func is_hit_gun(last_collide : Enemy):
-	if gun_has_timed and last_collide != null:
 
-		last_collide.damage(4,global_position)
-		last_collide.parried(global_position,0.8,last_collide.in_attk_time[last_collide.in_attk_time_index])
+
+
 
 	
 
-func damage(amnt : int , from : Vector2, attker : Enemy, pwer : float, melee : bool):
+func damage(attker : Enemy, melee : bool, pwer : float):
 	if is_dead:
 		return
-	in_attk_time = 0.3
-	curr_attker = attker
+	
+	curr_in_attker = attker
 	if i_time <= 0 and stun <= 0:
-		stun = 1
-		
-		health_dec += amnt
-		if !melee:
-			velocity -=  (from - global_position).normalized() * pwer
-	if melee:
-		velocity -=  (from - global_position).normalized() * pwer
-	pass
-
-func damage_dec():
-	if health_dec >0:
-		current_health -= health_dec
-		health_dec = 0
+		stun = 0.5
+		current_health -= attker.damage_amnt
 		health_changed.emit(current_health, max_health)
 		if current_health <= 0:
 			die()
 	
+		velocity -=  (attker.global_position - global_position).normalized()*pwer
+
+
+	pass
+
+
 
 
 func die() -> void:
@@ -269,7 +270,8 @@ func exit_puddle(this_puddle : blood_puddle):
 
 
 func _on_check_knockback(follow:bool, flourishee : Enemy) -> void:
-	await get_tree().create_timer(0.02).timeout
+	g_timer.start(0.02)
+	await g_timer.timeout
 	
 	if !flourishee.is_not_move and follow: 
 		velocity -= (global_position - flourishee.global_position ).normalized() * 300

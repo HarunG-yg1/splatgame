@@ -20,9 +20,6 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2xe7j"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tsjqk"]
-size = Vector2(79.5, 166)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_xgwlu"]
 atlas = ExtResource("8_k07sr")
 region = Rect2(0, 12, 32, 6)
@@ -271,9 +268,10 @@ animations = [{
 }]
 
 [node name="MnR_Enemy" type="CharacterBody2D" unique_id=181552106]
-collision_layer = 201
 collision_mask = 202
 script = ExtResource("1_36bpb")
+out_attk_time = Array[float]([0.5, 0.25, 0.75, 1.0, 1.25, 1.0, 0.75, 0.5])
+out_attk_color = Array[int]([0, 1, 2, 1, 0, 1, 2, 1])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=646842709]
 shape = SubResource("CapsuleShape2D_2xe7j")
@@ -314,13 +312,9 @@ collision_mask = 11
 collision_layer = 3
 collision_mask = 3
 
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="enemy_fov" unique_id=2131559828]
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="enemy_fov" unique_id=1614301664]
 position = Vector2(-67, -1)
-polygon = PackedVector2Array(-70, 100, 20, 0, -70, -100, 100, -100, 100, 100)
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="enemy_fov" unique_id=1291350201]
-position = Vector2(-128.25, -1)
-shape = SubResource("RectangleShape2D_tsjqk")
+polygon = PackedVector2Array(-70, 100, -70, 0, -20, 50, 20, 0, -20, -50, -70, 0, -70, -100, 100, -100, 100, 100)
 
 [node name="StateTimer" type="Timer" parent="." unique_id=779862517]
 
@@ -338,11 +332,11 @@ rotation = -1.5869057
 sprite_frames = SubResource("SpriteFrames_u5vc3")
 animation = &"hitMelee"
 
-[node name="the_hitter" type="Area2D" parent="." unique_id=1201734197]
+[node name="hitter" type="Area2D" parent="." unique_id=1201734197]
 collision_layer = 3
 collision_mask = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="the_hitter" unique_id=1054548505]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitter" unique_id=1054548505]
 position = Vector2(18, 0)
 shape = SubResource("RectangleShape2D_36bpb")
 disabled = true
@@ -354,7 +348,8 @@ sprite_frames = SubResource("SpriteFrames_6pg28")
 animation = &"shine3"
 offset = Vector2(16.92, -6)
 
+[node name="general_timer" type="Timer" parent="." unique_id=794484437]
+
 [connection signal="body_entered" from="enemy_fov" to="." method="_on_enemy_fov_body_entered"]
 [connection signal="body_exited" from="enemy_fov" to="." method="_on_enemy_fov_body_exited"]
-[connection signal="body_entered" from="the_hitter" to="." method="_on_the_hitter_body_entered"]
-[connection signal="body_exited" from="the_hitter" to="." method="_on_the_hitter_body_exited"]
+[connection signal="body_entered" from="hitter" to="." method="_on_hitter_body_entered"]

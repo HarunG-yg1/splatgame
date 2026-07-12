@@ -18,8 +18,8 @@ func Enter() ->void:
 	enemy.direction = -enemy.chase_dir
 	enemy.random_pt =  Vector2(randi_range(-25,25),randi_range(-25,25))
 	timer.start(10)
-	
-	await get_tree().create_timer(1).timeout
+	enemy.g_timer.start(1)
+	await enemy.g_timer.timeout
 
 
 	pass
@@ -35,7 +35,7 @@ func Process(_delta:float)->Enemy_State:
 		return chase_state
 	if juke:
 		
-		enemy.velocity =  lerp(enemy.velocity,((enemy.direction).normalized()) * enemy.SPEED * 1.8 , 0.1)
+		enemy.velocity =  lerp(enemy.velocity,((enemy.direction).normalized()) * enemy.SPEED  , 0.1)
 	if !juke and enemy.player!= null and  enemy.player!= null and( enemy.direction - enemy.player.velocity.normalized()).length() < 1.4 and enemy.player.velocity.length() > 0 and (enemy.global_position - enemy.player.global_position ).length() <80:
 		enemy.direction = enemy.chase_dir
 		
@@ -43,7 +43,7 @@ func Process(_delta:float)->Enemy_State:
 	if juke and  enemy.player!= null and (enemy.global_position - enemy.player.global_position ).length() >90 :
 		
 		juke = false
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/4).normalized()) * enemy.SPEED *1.5 , 0.1)
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/4).normalized()) * enemy.SPEED , 0.1)
 
 	#if enemy.player!= null and (enemy.global_position - enemy.player.global_position ).length() > 100:
 		

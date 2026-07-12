@@ -1,10 +1,10 @@
 class_name Enemy extends CharacterBody2D
 @onready var animsprite = $Sprite2D
 @onready var enemy_fov = $enemy_fov
-
+@onready var hitter = $hitter/CollisionShape2D
 @onready var animfx = $AnimatedFX
 @onready var state_machine  = $statemachine
-@onready var hitter  = $the_hitter/CollisionShape2D
+@onready var g_timer  =  $general_timer
 var stun : float = 0
 
 var bodyIsee : Array[CharacterBody2D]
@@ -15,15 +15,16 @@ var cardinal_direction : Vector2 = Vector2.DOWN
 var direction : Vector2 = Vector2.ZERO
 var last_hit_from: Vector2 = Vector2.ZERO
 
-@export var in_attk_time : Array[float] = [1.5,0.5,1,0.5]
-@export var out_attk_time : Array[float] = [0.75,0.5,1,0.5,0.75,0.5,1,0.5]
-var in_attk_time_index : int = 0
+@export var in_attk_type : Array[blood_puddle.puddle_colors]
+@export var out_attk_time : Array[float] 
+@export var out_attk_color : Array[blood_puddle.puddle_colors] 
+var in_attk_index : int = 99
 
 var time_inter_pos := 0.0
 var is_not_move : = true
 var inter_pos := Vector2.ZERO
 
-const SPEED = 150.0
+const SPEED = 300.0
 var chase_dir : Vector2
 var chase : bool = false 
 
@@ -35,12 +36,12 @@ const BLOOD_PUDDLE = preload("res://puddle.tscn")
 @export var blood_spread_degrees: float = 40.0
 @export var puddle_color: blood_puddle.puddle_colors = blood_puddle.puddle_colors.RED
 @export var health: int = 1
-@export var enemy_color: int = 0
+var enemy_color: blood_puddle.puddle_colors 
 
 func die() -> void:
 	visible = false
 	player = Statloader.player
-
+	RythmLoader.interrupt(self)
 	if player != null:
 		player.gun.reload(blood_count)
 		player.arr_of_blood.append(enemy_color)
@@ -48,7 +49,8 @@ func die() -> void:
 	else:
 		print("Enemy died but player reference was null — color not added")
 	spawn_blood()
-	await get_tree().create_timer(0.1).timeout
+	g_timer.start(0.2)
+	await g_timer.timeout
 	call_deferred("queue_free")
 
 func spawn_blood() -> void:
@@ -70,6 +72,7 @@ func spawn_blood() -> void:
 func _ready() -> void:
 
 	state_machine.init()
+	enemy_color = puddle_color
 	#direction.y = 1
 	pass # Replace with function body.
 
@@ -80,8 +83,9 @@ func _process(delta: float) -> void:
 		stun = 0
 	is_not_move = pos_check(delta)
 	if player != null and chase == true:
-		chase_dir = (player.position-position + random_pt).normalized()
 		hitter.get_parent().look_at(player.position)
+		chase_dir = (player.position-position + random_pt).normalized()
+	
 	if velocity.length() > 0:
 		enemy_fov.position = velocity.normalized()*70
 		enemy_fov.rotation =  (velocity).angle()
@@ -153,7 +157,7 @@ func _on_enemy_fov_body_entered(body: CharacterBody2D) -> void:
 	if body is Player   :
 		chase = true
 		player = body
-
+	
 	bodyIsee.append(body)
 
 
@@ -166,19 +170,12 @@ func _on_enemy_fov_body_exited(body: CharacterBody2D) -> void:
 		
 
 
-func _on_the_hitter_body_entered(body: Player) -> void:
-	if body.has_method("damage"):
-		body.damage(damage_amnt,global_position, self, 200,true)
-	
-	await get_tree().create_timer(0.2).timeout
-	hitter.disabled = true
-	animsprite.play("default")
 		
-func parried( from : Vector2,pwer : float = 1,stun_time : float = 1):
+func parried( from : Player ,pwer : float = 1,stun_time : float = 1):
 
 	if stun <= 0 and stun > -0.01:
 		stun = stun_time
-	velocity -=  (from - global_position).normalized() * 400 *  1
+	velocity = from.velocity * 1.6* pwer
 	pass
 	
 func pos_check(_delta : float)-> bool:
@@ -189,3 +186,17 @@ func pos_check(_delta : float)-> bool:
 		time_inter_pos = 0
 	return (inter_pos == global_position and velocity.length() > 0)
 	
+
+
+func _on_hitter_body_entered(body: Player) -> void:
+	if body.missed:
+		print("fruhh")
+		body.damage(self, true, 100)
+		body.missed = false
+	g_timer.start(0.2)
+	await g_timer.timeout
+	hitter.disabled = true
+
+	
+	animsprite.play("default")
+#	pass # Replace with function body.

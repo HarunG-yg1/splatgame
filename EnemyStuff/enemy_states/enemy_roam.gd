@@ -32,7 +32,7 @@ func Process(_delta:float)->Enemy_State:
 	if enemy.stun > 0:
 		print("penis")
 		enemy.enemy_fov.get_child(0).disabled = true
-		enemy.enemy_fov.get_child(1).disabled = true
+#		enemy.enemy_fov.get_child(1).disabled = true
 		enemy.player = null
 		enemy.chase = false
 		return stun_state 

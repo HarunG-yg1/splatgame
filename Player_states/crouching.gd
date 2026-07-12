@@ -6,6 +6,7 @@ class_name crouch_idle extends state_class
 @onready var dash_state =  $"../dash"
 @onready var jump_state = $"../jump"
 @onready var attack_state = $"../attack"
+@onready var slide_attack_state = $"../slide_attack"
 @onready var shoot_state = $"../shoot"
 @onready var block_state = $"../block"
 var had_prior_vel : Vector2
@@ -21,14 +22,18 @@ func _init() -> void:
 	
 
 func Enter():
+
 	guy1.set_collision_mask_value(8,false)
-	had_prior_vel = guy1.velocity
+	had_prior_vel = (guy1.velocity).normalized() * (guy1.velocity.length() + abs(guy1.jump_vel)*1.6)
 	#print("crouch")
-	
+
+
+		#guy1.animfx.play("parried")
 	
 	
 	pass
 func Process(_delta):
+
 	if !guy1.crouch:
 		guy1.set_collision_mask_value(8,true)
 		return idle_state
@@ -36,7 +41,7 @@ func Process(_delta):
 		guy1.set_collision_mask_value(8,true)
 		guy1.crouch = false
 		return jump_state
-	elif guy1.run and !guy1.finish_run:
+	elif guy1.dashing:
 		guy1.crouch = false
 		guy1.set_collision_mask_value(8,true)
 		return dash_state 
