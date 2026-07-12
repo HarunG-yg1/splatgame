@@ -26,16 +26,11 @@ func Enter() ->void:
 		
 		#acc = time_for_hit[i].time
 	print(enemy.out_attk_time.size())
-	#time_for_hit[amount_hits-1].time += 0.5
+	time_for_hit[amount_hits-1].time += 0.5
 	init_time = time_for_hit[amount_hits-1].time
 	enemy.random_pt =  Vector2(randi_range(-15,15),randi_range(-15,15))
 	
 
-	
-	
-	#amount_hits= randi_range(3,8)
-	#time_for_hit[amount_hits-1] += 0.5
-	#init_time = time_for_hit[amount_hits-1]
 	was_out_of_range = true
 
 	
@@ -66,7 +61,7 @@ func Process(_delta:float)->Enemy_State:
 		if !was_out_of_range:
 			
 			was_out_of_range = true
-			
+			time_for_hit[amount_hits-1].time += 0.25
 			RythmLoader.interrupt(enemy)
 		return move(_delta)
 		
@@ -74,18 +69,17 @@ func Process(_delta:float)->Enemy_State:
 	elif  enemy.player!= null and time_on_player > 0.25 :
 		if was_out_of_range:
 			
-			time_for_hit[amount_hits-1].time += 0.5
+			
 			RythmLoader.addTo_hitline(time_for_hit,enemy)
 			
 			was_out_of_range =  false
-	#	if (enemy.global_position - enemy.player.global_position).length() > 40:
-	#		enemy.velocity =  enemy.chase_dir * enemy.player.MAX_SPEED
+
 		
 	#	
 		return attack_rythm(_delta)
 	elif enemy.player == null:
 		enemy.enemy_fov.get_child(0).disabled = true
-	#	enemy.enemy_fov.get_child(1).disabled = true
+
 		enemy.player = null
 		enemy.chase = false
 		return idle_state
@@ -116,7 +110,7 @@ func move(delta : float ,modifier : float = 1):
 		if  enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() < 60:
 			time_on_player += delta
 		enemy.velocity =  lerp(enemy.velocity, Vector2.ZERO,0.2)
-		#enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.05).normalized()) * enemy.SPEED * 2 * modifier, 0.1)
+		
 
 
 func attack_rythm(_delta):
