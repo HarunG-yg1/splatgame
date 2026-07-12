@@ -32,7 +32,7 @@ func attack_movement(delta):
 	#if guy1.direction.length() > 0.0:
 	guy1.attack_box.look_at(guy1.position+guy1.velocity)
 #	print("sliding")
-	prior_vel *= 0.98
+	prior_vel *= 0.97
 	if guy1.get_last_slide_collision() != null and guy1.get_last_slide_collision() != Enemy and !changed_dir:
 	
 	

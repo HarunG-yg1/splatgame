@@ -33,7 +33,7 @@ func attack_movement(delta):
 		guy1.velocity= guy1.velocity.normalized() * guy1.MAX_SPEED  * speed_mod
 	else:
 		guy1.velocity = (prior_vel.normalized() + guy1.direction).normalized() * guy1.MAX_SPEED *speed_mod
-	if speed_mod > 1:
+	if speed_mod > 0.2:
 		speed_mod -= delta* 8
 	else:
-		speed_mod = 1
+		speed_mod = 0.2
