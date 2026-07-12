@@ -43,6 +43,7 @@ func die() -> void:
 	player = Statloader.player
 	RythmLoader.interrupt(self)
 	if player != null:
+		player.curr_out_attked = null
 		player.gun.reload(blood_count)
 		player.arr_of_blood.append(enemy_color)
 		print("Added color: ", enemy_color, " | Array now: ", player.arr_of_blood)
@@ -79,7 +80,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if stun < -0.05:
 		stun += delta
-	elif  stun < 0 and stun > -0.05:
+	elif  stun < 0 and stun >= -0.05:
 		stun = 0
 	is_not_move = pos_check(delta)
 	if player != null and chase == true:
@@ -175,7 +176,7 @@ func parried( from : Player ,pwer : float = 1,stun_time : float = 1):
 
 	if stun <= 0 and stun > -0.01:
 		stun = stun_time
-	velocity = from.velocity * 1.6* pwer
+	velocity = (from.global_position-global_position).normalized()* max(from.velocity.length(),400)* pwer
 	pass
 	
 func pos_check(_delta : float)-> bool:

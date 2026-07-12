@@ -39,6 +39,7 @@ var dive_in : = false
 var arr_of_blood : Array[blood_puddle.puddle_colors] 
 var curr_attk : blood_puddle.puddle_colors
 
+var curr_out_attked : Enemy
 var curr_in_attker : Enemy
 var dashing = false
 
@@ -178,11 +179,12 @@ func refund_dodge():
 
 func _on_attack_box_body_entered(body: Enemy) -> void:
 	if body != null:
-
+		
 		if attack_shape.disabled:
 			body.damage(5,global_position)
 			body.parried(self,1,0.6)
 		else:
+			curr_out_attked = body
 			if body.in_attk_index == 99:
 				body.in_attk_index = randi_range(0,7)
 				
@@ -205,8 +207,9 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 					body.parried(self,1,1.5)
 				#	body.g_timer.start(1.5)
 			else:
+				body.in_attk_index = 99
 				body.stun = -1
-			print("enemy HP",body.health)
+			print("enemy stun",body.stun)
 		
 			
 		#velocity += body.velocity

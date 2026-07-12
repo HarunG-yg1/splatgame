@@ -25,7 +25,7 @@ func init(enemy : Enemy, attk_color : int, hit_time : float, is_melee : bool = t
 		alive = true
 		hit = false
 		melee = is_melee
-		position.y = -(get_viewport_rect().size.y)*hit_time  + 40
+		position.y = -(get_viewport_rect().size.y)*hit_time  + 60
 		process_mode = Node.PROCESS_MODE_INHERIT
 	else:
 		visible  = false

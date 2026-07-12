@@ -101,11 +101,11 @@ func move(delta : float ,modifier : float = 1):
 		enemy.direction = enemy.chase_dir
 	if enemy.player!= null and ((enemy.global_position - enemy.player.global_position + random_pt).normalized() - (enemy.direction)).length() < 0.7  and (enemy.global_position - enemy.player.global_position).length() > 60:
 		
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/4).normalized()) * enemy.SPEED * modifier , 1) 
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.2).normalized()) * enemy.SPEED * modifier , 1) 
 	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() > 60:
 		time_on_player += delta
 		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*1.05).normalized()) * enemy.SPEED * modifier , 1)
-	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() <50:
+	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() <60:
 		time_on_player += delta
 		enemy.velocity =  lerp(enemy.velocity, Vector2.ZERO,0.2)
 		#enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.05).normalized()) * enemy.SPEED * 2 * modifier, 0.1)

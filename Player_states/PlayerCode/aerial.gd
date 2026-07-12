@@ -8,7 +8,11 @@ func Enter():
 	guy1.attack_shape.shape.size.x *= 2
 	guy1.attack_shape.position.x -= 20
 	print("AirAttack")
-	prior_vel = guy1.velocity.normalized()
+	if guy1.curr_out_attked == null:
+		prior_vel = guy1.velocity.normalized()
+	else:
+		prior_vel = -(guy1.global_position - guy1.curr_out_attked.global_position).normalized()
+
 	speed_mod = 3
 	guy1.curr_attk = 2
 	guy1.sprite.play("BasicATK")

@@ -47,7 +47,7 @@ texture = ExtResource("1_h2yge")
 position = Vector2(247, 290)
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1850656978]
-zoom = Vector2(1.5, 1.5)
+zoom = Vector2(1.75, 1.75)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=905914983]
 collision_layer = 192

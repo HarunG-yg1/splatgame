@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://duuvve8h6scst"]
 
 [ext_resource type="Script" uid="uid://cotidht12k6bv" path="res://hit_liner.gd" id="1_lkpw5"]
-[ext_resource type="Texture2D" uid="uid://wwlo1j0gll6b" path="res://Assets/LOGO.png" id="2_t1vml"]
+[ext_resource type="Texture2D" uid="uid://ckqt4h2s0qcl3" path="res://Assets/LOGO.png" id="2_t1vml"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kl0as"]
 animations = [{
@@ -15,19 +15,18 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kl0as"]
-size = Vector2(101, 72.5)
+size = Vector2(101, 59.25)
 
 [node name="defense" type="Area2D" unique_id=1369056149]
-visible = false
 script = ExtResource("1_lkpw5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=441747750]
-position = Vector2(0, 32)
-scale = Vector2(0.29394814, 0.09659091)
+position = Vector2(0, 50)
+scale = Vector2(0.29394814, 0.025000002)
 sprite_frames = SubResource("SpriteFrames_kl0as")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1129599481]
-position = Vector2(0, 32)
+position = Vector2(0, 50)
 shape = SubResource("RectangleShape2D_kl0as")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
