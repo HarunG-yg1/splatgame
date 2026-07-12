@@ -5,7 +5,7 @@ var random_pt : Vector2
 var amount_hits : int
 var time_on_player : float = 0
 var was_out_of_range := true
-var time_for_hit : Array[int_float_pair] = [int_float_pair.new(0,0),int_float_pair.new(1,1),int_float_pair.new(2,1),int_float_pair.new(1,1.5),int_float_pair.new(2,1.2),int_float_pair.new(0,0.6),int_float_pair.new(1,1.2),int_float_pair.new(0,0.7)]
+var time_for_hit : Array[int_float_pair] = [int_float_pair.new(0,0),int_float_pair.new(0,0),int_float_pair.new(0,0),int_float_pair.new(0,0),int_float_pair.new(0,0),int_float_pair.new(0,0),int_float_pair.new(0,0),int_float_pair.new(0,0)]
 @onready var runAway_state = $"../runAway"
 @onready var chase_state = $"../chase"
 @onready var idle_state =$"../idle"
@@ -14,18 +14,19 @@ var time_for_hit : Array[int_float_pair] = [int_float_pair.new(0,0),int_float_pa
 var init_time : float
 #what happens when player enters state
 func Enter() ->void:
+	print("attack" , enemy)
 	time_on_player = 0
 	var acc : float = 0
 
 	amount_hits= randi_range(3,8)
 	for i : int in range(amount_hits-1):
 		
-		time_for_hit[i].time = enemy.out_attk_time[amount_hits - i -1]
-		time_for_hit[i].number = enemy.out_attk_color[amount_hits - i -1]
+		time_for_hit[i].time = enemy.out_attk_time[amount_hits - i - 1]
+		time_for_hit[i].number = enemy.out_attk_color[amount_hits - i - 1]
 		
 		#acc = time_for_hit[i].time
 	print(enemy.out_attk_time.size())
-	time_for_hit[amount_hits-1].time += 0.5
+	#time_for_hit[amount_hits-1].time += 0.5
 	init_time = time_for_hit[amount_hits-1].time
 	enemy.random_pt =  Vector2(randi_range(-15,15),randi_range(-15,15))
 	
@@ -72,6 +73,7 @@ func Process(_delta:float)->Enemy_State:
 	
 	elif  enemy.player!= null and time_on_player > 0.25 :
 		if was_out_of_range:
+			
 			time_for_hit[amount_hits-1].time += 0.5
 			RythmLoader.addTo_hitline(time_for_hit,enemy)
 			
@@ -81,7 +83,12 @@ func Process(_delta:float)->Enemy_State:
 		
 	#	
 		return attack_rythm(_delta)
-	
+	elif enemy.player == null:
+		enemy.enemy_fov.get_child(0).disabled = true
+	#	enemy.enemy_fov.get_child(1).disabled = true
+		enemy.player = null
+		enemy.chase = false
+		return idle_state
 
 	return null
 
@@ -113,7 +120,7 @@ func move(delta : float ,modifier : float = 1):
 
 
 func attack_rythm(_delta):
-	
+	print( "time time",amount_hits-1," ",time_for_hit[amount_hits-1].time , " ",time_for_hit[amount_hits-1].number )
 	time_for_hit[amount_hits-1].time  -= _delta
 	if time_for_hit[amount_hits-1].time > init_time * 0.4:
 		if enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() >50:
@@ -131,10 +138,12 @@ func attack_rythm(_delta):
 	elif time_for_hit[amount_hits-1].time <= 0:
 	
 		enemy.animfx.scale.y =1
+		print("gertfoeld")
+		#enemy.animfx.stop()
 		enemy.animfx.play("shine1")
 
 	#	enemy.animsprite.play("hit")
-		
+		enemy.velocity =  lerp(enemy.velocity, Vector2.ZERO,0.2)
 		#enemy.velocity =  enemy.chase_dir * enemy.player.MAX_SPEED * 1.6
 		attack_now()
 	#	move(_delta, 1.5)

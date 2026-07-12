@@ -15,7 +15,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kl0as"]
-size = Vector2(101, 59.25)
+size = Vector2(100, 50)
 
 [node name="defense" type="Area2D" unique_id=1369056149]
 script = ExtResource("1_lkpw5")

@@ -76,7 +76,7 @@ func _on_area_exited(area: arrow) -> void:
 	if player.i_time <= 0 and !area.hit and area.alive and area.visible:
 		area.animSprite.play("miss")
 		if area.enemy_Owner != null:
-			player.velocity -=  (area.enemy_Owner.global_position - player.global_position)
+			#player.velocity -=  (area.enemy_Owner.global_position - player.global_position)
 			player.missed = true
 
 	elif area.alive and area.visible:

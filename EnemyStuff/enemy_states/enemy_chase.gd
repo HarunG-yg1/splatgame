@@ -27,8 +27,9 @@ func Exit() ->void:
 	
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
+
 	if enemy.stun > 0:
-		print("penis")
+		
 		enemy.enemy_fov.get_child(0).disabled = true
 	#	enemy.enemy_fov.get_child(1).disabled = true
 		enemy.player = null
@@ -39,14 +40,17 @@ func Process(_delta:float)->Enemy_State:
 		return runAway_state
 	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 80:
 		time_on_player -= _delta/5
+
 		enemy.direction = enemy.chase_dir
 	if enemy.player!= null and ((enemy.global_position - enemy.player.global_position + enemy.random_pt).normalized() - (enemy.direction)).length() < 0.7  and (enemy.global_position - enemy.player.global_position).length() > 60:
-		
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.2).normalized()) * enemy.SPEED  , 1) 
+		#print("yoi")
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.2 ).normalized()) * enemy.SPEED  , 1) 
 	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 60:
 		time_on_player += _delta
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*1.05).normalized()) * enemy.SPEED  , 1)
+		
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*4).normalized()) * enemy.SPEED  , 1)
 	else:
+		
 		if  enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() < 60:
 			time_on_player += _delta
 		enemy.velocity =  lerp(enemy.velocity, Vector2.ZERO,0.2)
@@ -55,10 +59,10 @@ func Process(_delta:float)->Enemy_State:
 			attk_timer.start(1)
 			return attack_state
 
-	if timer.get_time_left() <= 0.1:
+	if timer.get_time_left() <= 0.1 || enemy.player == null:
 		enemy.player = null
 		enemy.chase = false
 		enemy.enemy_fov.get_child(0).disabled = true
-		enemy.enemy_fov.get_child(1).disabled = true
+	#	enemy.enemy_fov.get_child(1).disabled = true
 		return idle_state
 	return null
