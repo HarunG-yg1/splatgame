@@ -9,10 +9,14 @@ func Enter():
 	guy1.attack_shape.shape.size.x *= 1.6
 	guy1.attack_shape.position.x -= 24
 	print("SlideAttack")
-	
-	if guy1.curr_out_attked == null:
+	if Input.is_action_pressed("aim_to_mouse"):
+		prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * guy1.velocity.length() * 1.6
+		guy1.velocity = prior_vel
+		
+	elif guy1.curr_out_attked == null:
 		guy1.velocity *= 1.6
-		prior_vel = guy1.velocity#.normalized()
+		prior_vel = guy1.velocity
+		
 	else:
 		prior_vel = -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * guy1.velocity.length() *1.6
 		guy1.velocity = prior_vel
