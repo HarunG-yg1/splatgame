@@ -17,7 +17,7 @@ func Enter() ->void:
 	enemy.stun = 0
 	print("attack" , enemy)
 	time_on_player = 0
-	gen_timer.start(5)
+	gen_timer.start(7)
 	var acc : float = 0
 
 	amount_hits= randi_range(3,8)
@@ -48,7 +48,7 @@ func Exit() ->void:
 
 func Process(_delta:float)->Enemy_State:
 	
-	if enemy.stun > 0 and gen_timer.get_time_left() <= 0.1 :
+	if enemy.stun > 0 and gen_timer.get_time_left() <= 4 :
 	#	RythmLoader.interrupt(enemy)
 		print("penis")
 		enemy.enemy_fov.get_child(0).disabled = true

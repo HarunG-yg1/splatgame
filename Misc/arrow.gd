@@ -25,7 +25,7 @@ func init(enemy : Enemy, attk_color : int, hit_time : float, is_melee : bool = t
 		alive = true
 		hit = false
 		melee = is_melee
-		position.y = -(get_viewport_rect().size.y)*hit_time  + 60
+		position.y = -((get_viewport_rect().size.y)*hit_time)*1.5
 		process_mode = Node.PROCESS_MODE_INHERIT
 	else:
 		visible  = false
@@ -34,7 +34,7 @@ func init(enemy : Enemy, attk_color : int, hit_time : float, is_melee : bool = t
 		process_mode = Node.PROCESS_MODE_DISABLED
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	position.y += get_viewport_rect().size.y * delta
+	position.y += (get_viewport_rect().size.y * delta) * 1.5
 	pass
 	
 

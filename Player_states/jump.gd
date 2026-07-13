@@ -7,7 +7,9 @@ class_name jumpin extends state_class
 @onready var aerial_attack_state = $"../air_attack"
 @onready var shoot_state = $"../shoot"
 func Enter():
-
+	if RythmLoader.find_attkType(2):
+		RythmLoader.setHit_attkType(2)
+		guy1.i_time = 0.2
 	#guy1.jump_vel = 0
 	#guy1.i_time = 0.16
 	guy1.velocity *= 0.75
@@ -17,7 +19,7 @@ func Enter():
 func Process(_delta):
 
 	guy1.move(guy1.direction,0.75)
-	if RythmLoader.find_attkType(2) and  guy1.jump_vel >=-5:
+	if RythmLoader.find_attkType(2) and  guy1.jump_vel <=0:
 		RythmLoader.setHit_attkType(2)
 		guy1.i_time = 0.2
 	if !guy1.jumping:

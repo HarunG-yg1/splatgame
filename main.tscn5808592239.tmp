@@ -4,9 +4,12 @@
 [ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/Bone.png" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://dvtbswqn1p22u" path="res://Player_states/PlayerCode/player1.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://hl57fcb3w2jt" path="res://EnemyStuff/EnemyCode/enemy_base.tscn" id="2_4c57u"]
+[ext_resource type="Resource" uid="uid://bc3w1w43c8uvo" path="res://dialogue_res/test.tres" id="2_efxa6"]
 [ext_resource type="PackedScene" uid="uid://8015johpad1n" path="res://UI/hp_bar.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://c3onnanmj50cq" path="res://dialogue_stuff/dailogue_area.tscn" id="5_7mycd"]
 [ext_resource type="PackedScene" uid="uid://mwt707ye8c83" path="res://UI/death_screen.tscn" id="5_lquwl"]
 [ext_resource type="PackedScene" uid="uid://frfx08efdqq" path="res://UI/ammo_ui.tscn" id="8_4c57u"]
+[ext_resource type="PackedScene" uid="uid://bj63lgtwb27ww" path="res://UI/portal.tscn" id="8_5vw27"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kl0as"]
 size = Vector2(29, 696)
@@ -20,11 +23,15 @@ size = Vector2(1156, 20)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o48g2"]
 size = Vector2(1171, 14)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bgmf4"]
+size = Vector2(61, 204)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7mdju"]
+
 [node name="Node2D" type="Node2D" unique_id=1267132106]
 script = ExtResource("1_4c57u")
 
 [node name="enemy" parent="." unique_id=1466780452 instance=ExtResource("2_4c57u")]
-z_index = 1
 position = Vector2(631, 442)
 in_attk_type = Array[int]([2, 1, 1, 1, 1, 2, 2, 2])
 health = 20
@@ -38,9 +45,6 @@ scale = Vector2(9.1015625, 26.291666)
 texture = ExtResource("1_h2yge")
 
 [node name="Player" parent="." unique_id=1623458088 instance=ExtResource("1_ig7tw")]
-z_index = 1
-z_as_relative = false
-y_sort_enabled = true
 position = Vector2(247, 290)
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1850656978]
@@ -66,6 +70,22 @@ shape = SubResource("RectangleShape2D_sbbgc")
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D" unique_id=986563754]
 position = Vector2(250.5, -34)
 shape = SubResource("RectangleShape2D_o48g2")
+
+[node name="portal" parent="." unique_id=676175060 instance=ExtResource("8_5vw27")]
+position = Vector2(72, 223)
+collision_layer = 0
+collision_mask = 0
+file_path = "level_1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="portal" unique_id=856876109]
+position = Vector2(20.5, 92)
+shape = SubResource("RectangleShape2D_bgmf4")
+
+[node name="dailogue_area" parent="." unique_id=1953244667 instance=ExtResource("5_7mycd")]
+dialogue = ExtResource("2_efxa6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="dailogue_area" unique_id=607969584]
+shape = SubResource("CircleShape2D_7mdju")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=341818211]
 layer = 3

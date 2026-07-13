@@ -10,19 +10,20 @@ func Enter():
 	prior_attack_box_size = guy1.attack_shape.shape.size.x
 	prior_attack_box_displace = guy1.attack_shape.position.x
 	guy1.attack_shape.shape.size.x *= 1.6
-	guy1.attack_shape.position.x -= 24
+	guy1.attack_shape.position.x -= 20
 	print("SlideAttack")
+	
 	if Input.is_action_pressed("aim_to_mouse"):
-		prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * guy1.velocity.length() 
+		prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * guy1.velocity.length()
 		guy1.velocity = prior_vel
-		
-	elif guy1.curr_out_attked == null:
-		
+	elif guy1.curr_out_attked != null:
+		prior_vel =  -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * guy1.velocity.length()
+		guy1.velocity = prior_vel
+	
+	else:
 		prior_vel = guy1.velocity
 		
-	else:
-		prior_vel = -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * guy1.velocity.length() 
-		guy1.velocity = prior_vel
+	
 	guy1.curr_attk = 2
 #	guy1.sprite.play("BasicATK")
 	guy1.animfx.play("shineGreen")
@@ -37,7 +38,12 @@ func hit_boxOn()->bool:
 	
 func attack_movement(delta):
 	if hit_boxOn():
-		
+	#	if Input.is_action_pressed("aim_to_mouse"):
+	#		prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * guy1.velocity.length()
+	#		guy1.velocity = prior_vel
+	#	elif guy1.curr_out_attked != null:
+	#		prior_vel =  -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * guy1.velocity.length()
+	#		guy1.velocity = prior_vel
 		guy1.sprite.play("BasicATK")
 	#	print("sliding RN")
 	elif RythmLoader.find_attkType(2) and timer > 0:
@@ -74,7 +80,7 @@ func attack_movement(delta):
 		if !guy1.attack_shape.disabled and prior_vel.length() < 500:
 			#guy1.velocity = (prior_vel + guy1.direction*150)
 
-			prior_vel = prior_vel.normalized() * 500
+			prior_vel = prior_vel.normalized() * 600
 				
 		
 			

@@ -16,7 +16,7 @@ func Enter() ->void:
 	print("chase" , enemy)
 	enemy.random_pt =  Vector2(randi_range(-25,25),randi_range(-25,25))
 	
-	timer.start(3)
+	timer.start(6)
 	enemy.g_timer.start(1)
 	await enemy.g_timer.timeout
 
@@ -29,7 +29,7 @@ func Exit() ->void:
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
 
-	if enemy.stun > 0 and timer.get_time_left() < 0.05:
+	if enemy.stun > 0 and timer.get_time_left() < 3:
 		print("wenis")
 		enemy.enemy_fov.get_child(0).disabled = true
 	#	enemy.enemy_fov.get_child(1).disabled = true

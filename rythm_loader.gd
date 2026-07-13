@@ -1,5 +1,5 @@
 extends Node
-var daddy_node :CanvasLayer
+#var daddy_node :CanvasLayer
 var player : Player
 var hitlineScene = preload("res://Misc/defense.tscn")
 var  hitline : defense_box
@@ -26,9 +26,9 @@ func interrupt(hit_owner : Enemy):
 func _show_attack_box():
 	hitline = hitlineScene.instantiate()
 	hitline.player = player
-	hitline.position.x = get_viewport().get_visible_rect().size.x/2
-	hitline.position.y = get_viewport().get_visible_rect().size.y/2 
-	daddy_node.add_child(hitline)
+	#hitline.position.x = get_viewport().get_visible_rect().size.x/2
+#	hitline.position.y = get_viewport().get_visible_rect().size.y/2 
+	player.add_child(hitline)
 
 func find_attkType(type : int)->bool:
 	if hitline == null:

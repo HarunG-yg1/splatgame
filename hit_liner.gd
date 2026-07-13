@@ -1,10 +1,11 @@
 class_name defense_box extends Node2D
-
+@onready var sprite = $Sprite2D
 var arrow_node = preload("res://Misc/arrow.tscn")
 var arrowArr : Array[arrow]
 var current_arrows : Array[arrow]
 var player : Player 
 var time_on : float
+var cardinal_dir : Vector2
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 
@@ -58,9 +59,23 @@ func set_arrow_type(type:int)->void:
 		if arrow_node.enemy_attk_type == type:
 			arrow_node.hit = true
 
-
-
-
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		if abs(get_global_mouse_position() - global_position).x > abs(get_global_mouse_position() - global_position).y:
+			if (get_global_mouse_position() - global_position).x > 0:
+				cardinal_dir = Vector2.RIGHT
+				print("right")
+			else:
+				cardinal_dir = Vector2.LEFT
+				print("left")
+		else:
+			if (get_global_mouse_position() - global_position).y > 0:
+				cardinal_dir = Vector2.DOWN
+				print("down")
+			else:
+				cardinal_dir = Vector2.UP
+				print("up")
+		sprite.look_at(global_position + cardinal_dir )
 
 func _on_area_entered(area: arrow) -> void:
 	current_arrows.append(area)

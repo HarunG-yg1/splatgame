@@ -1,33 +1,27 @@
 [gd_scene format=3 uid="uid://duuvve8h6scst"]
 
 [ext_resource type="Script" uid="uid://cotidht12k6bv" path="res://hit_liner.gd" id="1_lkpw5"]
-[ext_resource type="Texture2D" uid="uid://ckqt4h2s0qcl3" path="res://Assets/LOGO.png" id="2_t1vml"]
+[ext_resource type="Texture2D" uid="uid://bsqmrunjbrmor" path="res://icon.svg" id="2_lkpw5"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_kl0as"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_t1vml")
-}],
-"loop": 0,
-"name": &"default",
-"speed": 5.0
-}]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kl0as"]
-size = Vector2(100, 50)
+[sub_resource type="CircleShape2D" id="CircleShape2D_lkpw5"]
+radius = 25.0
 
 [node name="defense" type="Area2D" unique_id=1369056149]
+z_index = -1
+z_as_relative = false
+y_sort_enabled = true
+scale = Vector2(0.5, 0.5)
 script = ExtResource("1_lkpw5")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=441747750]
-position = Vector2(0, 50)
-scale = Vector2(0.29394814, 0.025000002)
-sprite_frames = SubResource("SpriteFrames_kl0as")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=513062976]
+z_index = -1
+z_as_relative = false
+scale = Vector2(1, 0.125)
+texture = ExtResource("2_lkpw5")
+offset = Vector2(39, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1129599481]
-position = Vector2(0, 50)
-shape = SubResource("RectangleShape2D_kl0as")
+shape = SubResource("CircleShape2D_lkpw5")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]

@@ -3,21 +3,22 @@ class_name dash_attack extends attack
 var prior_vel : Vector2
 
 func Enter():
-	guy1.velocity *= 0.75
+	guy1.velocity *= 0.5
 	print("dashAttack")
 	prior_attack_box_size = guy1.attack_shape.shape.size.x
 	prior_attack_box_displace = guy1.attack_shape.position.x
-	guy1.attack_shape.shape.size.x *= 2
-	guy1.attack_shape.position.x -= 24
+	guy1.attack_shape.shape.size.x *= 1.6
+	guy1.attack_shape.position.x -= 20
+	
 	if Input.is_action_pressed("aim_to_mouse"):
 		prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * guy1.velocity.length()
 		guy1.velocity = prior_vel
-	elif guy1.curr_out_attked == null:
-		prior_vel = guy1.velocity#.normalized()
-	else:
+	elif guy1.curr_out_attked != null:
 		prior_vel =  -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * guy1.velocity.length()
 		guy1.velocity = prior_vel
-		
+	else:
+		prior_vel = guy1.velocity
+
 	speed_mod = 3
 	guy1.curr_attk = 0
 #	guy1.sprite.play("BasicATK")
@@ -34,6 +35,10 @@ func hit_boxOn()->bool:
 	
 func attack_movement(delta):
 	if hit_boxOn():
+		#if Input.is_action_pressed("aim_to_mouse"):
+	#		prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * guy1.velocity.length()
+	#		guy1.velocity = prior_vel
+	
 		guy1.sprite.play("BasicATK")
 
 	elif RythmLoader.find_attkType(0):

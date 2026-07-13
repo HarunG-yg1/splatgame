@@ -87,34 +87,6 @@ func _process(delta: float) -> void:
 		i_time -= delta
 	if stun > 0:
 		stun -= delta
-
-			
-	
-	if Input.is_action_just_pressed("block"):
-
-		blocking = true
-	else:
-		blocking = false
-	if Input.is_action_pressed("crouch"):
-		crouch = true
-	else:
-		crouch = false 
-	if Input.is_action_just_pressed("dash") and dash_cd <= 0.15 and dash_num > 0 and stun < 0.5 and !dashing:
-		dashing = true
-		dash_num -= 1
-		dash_cd = 0.75
-	
-	if Input.is_action_just_released("Attack") and stun <= 0.1:
-		is_attack = true
-		
-
-	if Input.is_action_just_pressed("shoot") and stun <= 0.1:
-		is_shoot = true
-	
-	if Input.is_action_just_pressed("jump") and !jumping:
-		#jump_vel = 0
-		jumping = true
-		jump()
 	
 	jump_and_fall(delta)
 	
@@ -128,7 +100,32 @@ func _process(delta: float) -> void:
 		last_dir = direction
 
 	
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("block"):
+
+		blocking = true
+	else:
+		blocking = false
+	if event.is_action_pressed("crouch"):
+		crouch = true
+	elif  event.is_action_released("crouch"):
+		crouch = false 
+	if event.is_action_pressed("dash") and dash_cd <= 0.15 and dash_num > 0 and stun < 0.5 and !dashing:
+		dashing = true
+		dash_num -= 1
+		dash_cd = 0.75
 	
+	if event.is_action_released("Attack") and stun <= 0.1:
+		is_attack = true
+		
+
+	if event.is_action_pressed("shoot") and stun <= 0.1:
+		is_shoot = true
+	
+	if event.is_action_pressed("jump") and !jumping:
+		#jump_vel = 0
+		jumping = true
+		jump()
 	
 
 func jump_and_fall(delta):
