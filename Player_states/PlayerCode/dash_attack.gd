@@ -3,7 +3,7 @@ class_name dash_attack extends attack
 var prior_vel : Vector2
 
 func Enter():
-	guy1.velocity *= 0.4
+	guy1.velocity *= 0.75
 	print("dashAttack")
 	prior_attack_box_size = guy1.attack_shape.shape.size.x
 	prior_attack_box_displace = guy1.attack_shape.position.x

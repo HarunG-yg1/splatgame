@@ -14,6 +14,7 @@ var time_for_hit : Array[int_float_pair] = [int_float_pair.new(0,0),int_float_pa
 var init_time : float
 #what happens when player enters state
 func Enter() ->void:
+	enemy.stun = 0
 	print("attack" , enemy)
 	time_on_player = 0
 	gen_timer.start(5)
@@ -57,12 +58,13 @@ func Process(_delta:float)->Enemy_State:
 			enemy.player = null
 		enemy.chase = false
 		return stun_state 
-	
+	else:
+		enemy.stun = 0
 	if (enemy.player!= null and time_on_player < 0.25) || ( enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt ).length() > 160):
 		if !was_out_of_range:
 			
 			was_out_of_range = true
-			time_for_hit[amount_hits-1].time += 0.25
+			time_for_hit[amount_hits-1].time += 0.5
 			RythmLoader.interrupt(enemy)
 		return move(_delta)
 		
