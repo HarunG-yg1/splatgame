@@ -25,7 +25,7 @@ func Enter():
 	timer = 0.4
 	
 func hit_boxOn()->bool:
-	return timer <0.35 and  timer > 0.34
+	return timer <=0.2 and  timer > 0.19
 	
 func attack_movement(delta):
 	guy1.attack_box.look_at(guy1.position+guy1.velocity)
