@@ -36,12 +36,16 @@ func attack_movement(delta):
 	if guy1.get_last_slide_collision() != null and guy1.get_last_slide_collision() != Enemy and !changed_dir:
 	
 	
-		prior_vel = (prior_vel.normalized() - guy1.get_last_slide_collision().get_normal()).normalized() * guy1.velocity.length()
-		if( prior_vel.x > 0 and  guy1.get_last_slide_collision().get_normal().x < 0) || (prior_vel.x < 0 and  guy1.get_last_slide_collision().get_normal().x > 0):
-			prior_vel.x *= -1
-
-		if (prior_vel.y > 0 and  guy1.get_last_slide_collision().get_normal().y < 0) || (prior_vel.y < 0 and  guy1.get_last_slide_collision().get_normal().y > 0):
-			prior_vel.y *= -1
+		var temp_prior_vel = (prior_vel.normalized() + 2*guy1.get_last_slide_collision().get_normal()).normalized() * guy1.velocity.length()
+		if( guy1.get_last_slide_collision().get_normal().x >0) :
+			prior_vel.x = abs(temp_prior_vel.x)
+		else:
+			prior_vel.x = -abs(temp_prior_vel.x)
+		if( guy1.get_last_slide_collision().get_normal().y >0) :
+			prior_vel.y = abs(temp_prior_vel.y)
+		else:
+			prior_vel.y = -abs(temp_prior_vel.y)
+		changed_dir = true
 		
 		guy1.velocity = prior_vel
 		print(guy1.get_last_slide_collision().get_normal(),"privel1")

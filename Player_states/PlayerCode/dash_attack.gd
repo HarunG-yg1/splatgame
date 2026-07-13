@@ -35,6 +35,7 @@ func attack_movement(delta):
 	else:
 		guy1.velocity = (prior_vel.normalized() + guy1.direction).normalized() * guy1.MAX_SPEED *speed_mod
 	print("ze speed",speed_mod )
+	
 	if speed_mod > 0.6:
 		speed_mod -= delta* 16
 	else:

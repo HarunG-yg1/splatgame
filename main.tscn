@@ -39,7 +39,8 @@ health = 20
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1731876850]
 modulate = Color(1, 1, 1, 0.18431373)
 z_index = -10
-position = Vector2(264.5, 296)
+position = Vector2(116, 364)
+rotation = 0.4137357
 scale = Vector2(9.1015625, 26.291666)
 texture = ExtResource("1_h2yge")
 
@@ -50,6 +51,7 @@ position = Vector2(247, 290)
 zoom = Vector2(1.75, 1.75)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=905914983]
+rotation = 0.40626922
 collision_layer = 192
 collision_mask = 192
 
