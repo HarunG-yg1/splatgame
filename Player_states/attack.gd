@@ -21,10 +21,17 @@ func Enter():
 	print("Attack")
 #	count += 1
 	guy1.curr_attk = 1
-	guy1.sprite.play("BasicATK")
+
 	guy1.animfx.play("shineBlue")
 	timer = 0.5
-	
+	if RythmLoader.find_attkType(1):
+		guy1.stun = 0
+		RythmLoader.setHit_attkType(1)
+		timer = 0
+		guy1.i_time = 0.1
+
+
+
 func Process(_delta):
 	
 	#print(guy1.out_attk_time)
@@ -58,6 +65,8 @@ func Exit():
 	guy1.is_attack = false
 
 func attack_movement(delta):
+	if hit_boxOn():
+		guy1.sprite.play("BasicATK")
 	if guy1.direction.length() > 0.0:
 		guy1.move(guy1.direction,speed_mod)
 	elif (guy1.velocity.length()) > 1 :

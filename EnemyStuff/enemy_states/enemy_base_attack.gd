@@ -10,12 +10,13 @@ var time_for_hit : Array[int_float_pair] = [int_float_pair.new(0,0),int_float_pa
 @onready var chase_state = $"../chase"
 @onready var idle_state =$"../idle"
 @onready var stun_state =$"../stun"
-
+@onready var gen_timer = $"../../general_timer"
 var init_time : float
 #what happens when player enters state
 func Enter() ->void:
 	print("attack" , enemy)
 	time_on_player = 0
+	gen_timer.start(5)
 	var acc : float = 0
 
 	amount_hits= randi_range(3,8)
@@ -46,7 +47,7 @@ func Exit() ->void:
 
 func Process(_delta:float)->Enemy_State:
 	
-	if enemy.stun > 0:
+	if enemy.stun > 0 and gen_timer.get_time_left() <= 0.1 :
 	#	RythmLoader.interrupt(enemy)
 		print("penis")
 		enemy.enemy_fov.get_child(0).disabled = true

@@ -133,7 +133,7 @@ func _process(delta: float) -> void:
 
 func jump_and_fall(delta):
 	if jumping:
-		print(jump_vel)
+		#print(jump_vel)
 		jump_vel += delta * 320
 		para_in_sinwave += delta * 640
 
@@ -209,7 +209,7 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 			else:
 				body.in_attk_index = 99
 				body.stun = -1
-			print("enemy stun",body.stun)
+		#	print("enemy stun",body.stun)
 		
 			
 		#velocity += body.velocity
@@ -248,7 +248,7 @@ func die() -> void:
 	died.emit()
 
 func check_puddle(puddle_val : int, this_puddle : blood_puddle):
-	print("puddle check")
+#	print("puddle check")
 	var temp = last_puddle
 	last_puddle =  this_puddle
 	

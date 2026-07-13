@@ -24,15 +24,25 @@ func Enter():
 		prior_vel = -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * guy1.velocity.length() 
 		guy1.velocity = prior_vel
 	guy1.curr_attk = 2
-	guy1.sprite.play("BasicATK")
+#	guy1.sprite.play("BasicATK")
 	guy1.animfx.play("shineGreen")
 	timer = 0.6
-	
+
+	if RythmLoader.find_attkType(2) and timer > 0:
+		RythmLoader.setHit_attkType(2)
+		guy1.i_time = 0.2
+
 func hit_boxOn()->bool:
-	return timer <=0.3 and  timer > 0.29
+	return timer <=0.25 and  timer > 0.24
 	
 func attack_movement(delta):
-	
+	if hit_boxOn():
+		
+		guy1.sprite.play("BasicATK")
+	#	print("sliding RN")
+	elif RythmLoader.find_attkType(2) and timer > 0:
+		RythmLoader.setHit_attkType(2)
+		guy1.i_time = 0.2
 
 	guy1.attack_box.look_at(guy1.position+guy1.velocity)
 #	print("sliding")
@@ -60,8 +70,11 @@ func attack_movement(delta):
 		guy1.velocity= guy1.velocity.normalized() *50
 	else:
 
+		guy1.velocity = (prior_vel + guy1.direction*150)
+		if !guy1.attack_shape.disabled and prior_vel.length() < 500:
+			#guy1.velocity = (prior_vel + guy1.direction*150)
+
+			prior_vel = prior_vel.normalized() * 500
+				
 		
-		if !guy1.attack_shape.disabled:
-			guy1.velocity = (prior_vel + guy1.direction*150)*3
-		else:
-			guy1.velocity = (prior_vel + guy1.direction*150)
+			

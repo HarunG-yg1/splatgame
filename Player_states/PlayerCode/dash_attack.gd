@@ -3,7 +3,7 @@ class_name dash_attack extends attack
 var prior_vel : Vector2
 
 func Enter():
-	#guy1.velocity *= 1
+	guy1.velocity *= 0.4
 	print("dashAttack")
 	prior_attack_box_size = guy1.attack_shape.shape.size.x
 	prior_attack_box_displace = guy1.attack_shape.position.x
@@ -20,14 +20,26 @@ func Enter():
 		
 	speed_mod = 3
 	guy1.curr_attk = 0
-	guy1.sprite.play("BasicATK")
+#	guy1.sprite.play("BasicATK")
 	guy1.animfx.play("shineRed")
 	timer = 0.6
-	
+
+	if RythmLoader.find_attkType(0):
+		RythmLoader.setHit_attkType(0)
+		guy1.i_time = 0.25
+
+
 func hit_boxOn()->bool:
-	return timer <=0.35 and  timer > 0.34
+	return timer <=0.2 and  timer > 0.19
 	
 func attack_movement(delta):
+	if hit_boxOn():
+		guy1.sprite.play("BasicATK")
+
+	elif RythmLoader.find_attkType(0):
+		RythmLoader.setHit_attkType(0)
+		guy1.i_time = 0.25
+
 	guy1.attack_box.look_at(guy1.position+guy1.velocity)
 	#if guy1.direction.length() > 0.0:
 	if !guy1.attack_shape.disabled:

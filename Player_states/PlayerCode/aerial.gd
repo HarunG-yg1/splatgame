@@ -20,14 +20,26 @@ func Enter():
 		
 	speed_mod = 3
 	guy1.curr_attk = 2
-	guy1.sprite.play("BasicATK")
+	
 	guy1.animfx.play("shineGreen")
 	timer = 0.5
-	
+	if RythmLoader.find_attkType(2) and timer > 0:
+		RythmLoader.setHit_attkType(2)
+		guy1.i_time = 0.2
+
+
+
 func hit_boxOn()->bool:
 	return timer <=0.2 and  timer > 0.19
 	
 func attack_movement(delta):
+	if hit_boxOn():
+		guy1.sprite.play("BasicATK")
+		
+	elif RythmLoader.find_attkType(2) and timer > 0:
+			RythmLoader.setHit_attkType(2)
+			guy1.i_time = 0.2
+
 	guy1.attack_box.look_at(guy1.position+guy1.velocity)
 	if guy1.get_last_slide_collision() != null and guy1.get_last_slide_collision() != Enemy and !changed_dir:
 	
