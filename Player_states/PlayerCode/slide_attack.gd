@@ -50,7 +50,7 @@ func attack_movement(delta):
 		guy1.velocity = prior_vel
 		print(guy1.get_last_slide_collision().get_normal(),"privel1")
 		print(prior_vel,"privel")
-		changed_dir = true
+		
 	if (guy1.velocity.normalized()  -prior_vel.normalized()).length() > 1.4:
 
 		guy1.velocity= guy1.velocity.normalized() *50

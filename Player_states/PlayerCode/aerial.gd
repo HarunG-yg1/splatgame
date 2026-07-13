@@ -1,8 +1,9 @@
 class_name aerial_attack extends attack
-
+var changed_dir : bool = false
 var prior_vel : Vector2
 
 func Enter():
+	changed_dir = false
 	prior_attack_box_size = guy1.attack_shape.shape.size.x
 	prior_attack_box_displace = guy1.attack_shape.position.x
 	guy1.attack_shape.shape.size.x *= 2
@@ -28,6 +29,24 @@ func hit_boxOn()->bool:
 	
 func attack_movement(delta):
 	guy1.attack_box.look_at(guy1.position+guy1.velocity)
+	if guy1.get_last_slide_collision() != null and guy1.get_last_slide_collision() != Enemy and !changed_dir:
+	
+	
+		var temp_prior_vel = (prior_vel.normalized() + 2*guy1.get_last_slide_collision().get_normal()).normalized() * guy1.velocity.length()/1.5
+		if( guy1.get_last_slide_collision().get_normal().x >0) :
+			prior_vel.x = abs(temp_prior_vel.x)
+		else:
+			prior_vel.x = -abs(temp_prior_vel.x)
+		if( guy1.get_last_slide_collision().get_normal().y >0) :
+			prior_vel.y = abs(temp_prior_vel.y)
+		else:
+			prior_vel.y = -abs(temp_prior_vel.y)
+		changed_dir = true
+		
+		guy1.velocity = prior_vel
+		print(guy1.get_last_slide_collision().get_normal(),"privel1")
+		print(prior_vel,"privel")
+		
 	if (guy1.velocity.normalized()  -prior_vel.normalized()).length() > 1.4:
 		guy1.velocity= guy1.velocity.normalized() * guy1.MAX_SPEED  * speed_mod
 	else:
