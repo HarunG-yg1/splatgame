@@ -23,7 +23,7 @@ func Enter():
 	guy1.curr_attk = 1
 	guy1.sprite.play("BasicATK")
 	guy1.animfx.play("shineBlue")
-	timer = 0.4
+	timer = 0.5
 	
 func Process(_delta):
 	
@@ -49,7 +49,7 @@ func Process(_delta):
 	
 
 func hit_boxOn()->bool:
-	return timer <= 0.35 and  timer > 0.34
+	return timer <= 0.25 and  timer > 0.24
 	
 func Exit():
 	guy1.attack_shape.position.x = prior_attack_box_displace 

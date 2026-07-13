@@ -192,7 +192,7 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 				body.parried(self,0.75,1.2)
 				#print(curr_attk, "check here")
 			
-			elif body.in_attk_type.size() > body.in_attk_index and body.in_attk_type[body.in_attk_index] == curr_attk :
+			elif body.in_attk_type.size() > body.in_attk_index:
 				if curr_attk == blood_puddle.puddle_colors.RED and  body.in_attk_type[body.in_attk_index] == curr_attk:
 					body.damage(8,global_position)
 				elif body.in_attk_type[body.in_attk_index] == curr_attk || (curr_attk ==  blood_puddle.puddle_colors.RED and  body.in_attk_type[body.in_attk_index] ==  blood_puddle.puddle_colors.BLUE):

@@ -13,15 +13,15 @@ func Enter():
 	guy1.attack_shape.position.x -= 24
 	print("SlideAttack")
 	if Input.is_action_pressed("aim_to_mouse"):
-		prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * guy1.velocity.length() * 1.6
+		prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * guy1.velocity.length() 
 		guy1.velocity = prior_vel
 		
 	elif guy1.curr_out_attked == null:
-		guy1.velocity *= 1.6
+		
 		prior_vel = guy1.velocity
 		
 	else:
-		prior_vel = -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * guy1.velocity.length() *1.6
+		prior_vel = -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * guy1.velocity.length() 
 		guy1.velocity = prior_vel
 	guy1.curr_attk = 2
 	guy1.sprite.play("BasicATK")
@@ -32,7 +32,8 @@ func hit_boxOn()->bool:
 	return timer <=0.3 and  timer > 0.29
 	
 func attack_movement(delta):
-	#if guy1.direction.length() > 0.0:
+	
+
 	guy1.attack_box.look_at(guy1.position+guy1.velocity)
 #	print("sliding")
 	prior_vel *= 0.97
@@ -58,5 +59,9 @@ func attack_movement(delta):
 
 		guy1.velocity= guy1.velocity.normalized() *50
 	else:
-		guy1.velocity = prior_vel + guy1.direction*150
+
 		
+		if !guy1.attack_shape.disabled:
+			guy1.velocity = (prior_vel + guy1.direction*150)*3
+		else:
+			guy1.velocity = (prior_vel + guy1.direction*150)
