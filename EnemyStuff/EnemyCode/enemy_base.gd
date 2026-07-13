@@ -176,7 +176,7 @@ func parried( from : Player ,pwer : float = 1,stun_time : float = 1):
 
 	if stun <= 0 and stun > -0.01:
 		stun = stun_time
-	velocity = (from.global_position-global_position).normalized()* max(from.velocity.length(),400)* pwer
+	velocity = -(from.global_position-global_position).normalized()* max(from.velocity.length(),400)* pwer
 	pass
 	
 func pos_check(_delta : float)-> bool:

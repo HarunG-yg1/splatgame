@@ -22,7 +22,7 @@ func Enter():
 	guy1.curr_attk = 2
 	guy1.sprite.play("BasicATK")
 	guy1.animfx.play("shineGreen")
-	timer = 0.4
+	timer = 0.5
 	
 func hit_boxOn()->bool:
 	return timer <=0.2 and  timer > 0.19

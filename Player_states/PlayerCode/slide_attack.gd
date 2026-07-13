@@ -2,7 +2,10 @@ class_name slide_attack extends attack
 
 var prior_vel : Vector2
 var changed_dir := false
+
+	
 func Enter():
+	
 	changed_dir = false
 	prior_attack_box_size = guy1.attack_shape.shape.size.x
 	prior_attack_box_displace = guy1.attack_shape.position.x
@@ -23,10 +26,10 @@ func Enter():
 	guy1.curr_attk = 2
 	guy1.sprite.play("BasicATK")
 	guy1.animfx.play("shineGreen")
-	timer = 0.4
+	timer = 0.6
 	
 func hit_boxOn()->bool:
-	return timer <=0.20 and  timer > 0.19
+	return timer <=0.3 and  timer > 0.29
 	
 func attack_movement(delta):
 	#if guy1.direction.length() > 0.0:
