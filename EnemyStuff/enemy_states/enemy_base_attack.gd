@@ -14,6 +14,7 @@ var time_for_hit : Array[int_float_pair] = [int_float_pair.new(0,0),int_float_pa
 var init_time : float
 #what happens when player enters state
 func Enter() ->void:
+	enemy.velocity *= 0
 	enemy.stun = 0
 	print("attack" , enemy)
 	time_on_player = 0

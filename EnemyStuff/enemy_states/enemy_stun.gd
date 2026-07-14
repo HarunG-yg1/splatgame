@@ -29,12 +29,12 @@ func Exit() ->void:
 	enemy.set_collision_mask_value(2,true)
 	enemy.animfx.stop()
 	enemy.stun = -1
-	enemy.g_timer.start(0.1)
-	await enemy.g_timer.timeout
+	
+	
 	enemy.enemy_fov.get_child(0).disabled = false
 	enemy.in_attk_index = 99
 	enemy.animfx.play("default")
-
+	
 	
 	pass
 	
