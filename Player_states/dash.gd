@@ -14,21 +14,25 @@ func Enter():
 	dash_window = 0.25
 	boost = 5
 	guy1.stun = 0
-	guy1.i_time = 0.25
-	if RythmLoader.find_attkType(0):
+
+	if RythmLoader.find_attkType(0) ||  RythmLoader.find_attkType(1):
 		RythmLoader.setHit_attkType(0)
+		RythmLoader.setHit_attkType(1)
 		guy1.i_time = 0.25
-		guy1.refund_dodge()
-		remove_endlag = true
+		if  RythmLoader.find_attkType(0):
+			guy1.refund_dodge()
+			remove_endlag = true
 
 
 	pass
 func Process(delta):
-	if RythmLoader.find_attkType(0):
-		guy1.i_time = 0.25
-		guy1.refund_dodge()
+	if RythmLoader.find_attkType(0) ||  RythmLoader.find_attkType(1):
 		RythmLoader.setHit_attkType(0)
-		remove_endlag = true
+		RythmLoader.setHit_attkType(1)
+		guy1.i_time = 0.25
+		if  RythmLoader.find_attkType(0):
+			guy1.refund_dodge()
+			remove_endlag = true
 
 	if dash_window > 0:
 		guy1.move(guy1.direction,boost)

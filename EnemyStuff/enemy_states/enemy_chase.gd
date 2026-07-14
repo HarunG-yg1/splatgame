@@ -47,11 +47,11 @@ func Process(_delta:float)->Enemy_State:
 		enemy.direction = enemy.chase_dir
 	if enemy.player!= null and ((enemy.global_position - enemy.player.global_position + enemy.random_pt).normalized() - (enemy.direction)).length() < 0.7  and (enemy.global_position - enemy.player.global_position).length() > 80:
 		#print("yoi")
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.2 ).normalized()) * enemy.SPEED  , 1) 
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.2 ).normalized()) * enemy.SPEED * 1.4  , 1) 
 	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 80:
 		time_on_player += _delta
 		
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*4).normalized()) * enemy.SPEED  , 1)
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*4).normalized()) * enemy.SPEED * 1.4 , 1)
 	else:
 		
 		if  enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() < 80:
