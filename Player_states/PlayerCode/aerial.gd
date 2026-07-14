@@ -33,9 +33,7 @@ func attack_movement(delta):
 		if Input.is_action_pressed("aim_to_mouse"):
 				prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * guy1.velocity.length()
 				guy1.velocity = prior_vel
-		elif guy1.curr_out_attked != null:
-			prior_vel =  -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * guy1.velocity.length()
-			guy1.velocity = prior_vel
+
 		else:
 			prior_vel = guy1.velocity
 		
@@ -47,7 +45,7 @@ func attack_movement(delta):
 	if guy1.get_last_slide_collision() != null and guy1.get_last_slide_collision() != Enemy and !changed_dir:
 	
 	
-		var temp_prior_vel = (prior_vel.normalized() + 2*guy1.get_last_slide_collision().get_normal()).normalized() * guy1.velocity.length()/1.5
+		var temp_prior_vel = (prior_vel.normalized() + 2*guy1.get_last_slide_collision().get_normal()).normalized() * 400
 		if( guy1.get_last_slide_collision().get_normal().x >0) :
 			prior_vel.x = abs(temp_prior_vel.x)
 		else:

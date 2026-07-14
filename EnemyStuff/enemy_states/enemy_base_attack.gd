@@ -105,10 +105,10 @@ func move(delta : float ,modifier : float = 1):
 		enemy.direction = enemy.chase_dir
 	if enemy.player!= null and ((enemy.global_position - enemy.player.global_position + random_pt).normalized() - (enemy.direction)).length() < 0.7  and (enemy.global_position - enemy.player.global_position).length() > 60:
 		
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.2).normalized()) * enemy.SPEED * modifier , 1) 
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.2).normalized()) * enemy.SPEED * modifier , 0.1) 
 	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() > 60:
 		time_on_player += delta
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*1.05).normalized()) * enemy.SPEED * modifier , 1)
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*1.05).normalized()) * enemy.SPEED * modifier , 0.1)
 	else:
 		if  enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() < 60:
 			time_on_player += delta
@@ -121,14 +121,14 @@ func attack_rythm(_delta):
 	time_for_hit[amount_hits-1].time  -= _delta
 	if time_for_hit[amount_hits-1].time > init_time * 0.4:
 		if enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() >50:
-			enemy.velocity =  enemy.chase_dir *  enemy.player.MAX_SPEED 
+			enemy.velocity = lerp(enemy.velocity,enemy.chase_dir *  enemy.player.MAX_SPEED , 0.1) 
 		else:
 			move(_delta)
 			
 
 	if time_for_hit[amount_hits-1].time <= init_time * 0.3 and time_for_hit[amount_hits-1].time > init_time * 0.29:
 		if enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() >50:
-			enemy.velocity =  enemy.chase_dir *  enemy.player.MAX_SPEED * 1.5
+			enemy.velocity = lerp(enemy.velocity,enemy.chase_dir *  enemy.player.MAX_SPEED * 1.5 , 0.1) 
 		else:
 			move(_delta,1.5)
 		

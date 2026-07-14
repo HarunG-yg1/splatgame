@@ -42,12 +42,16 @@ func Exit() ->void:
 func Process(_delta:float)->Enemy_State:
 	#print("LEMME OUT")
 	if enemy.get_last_slide_collision() != null and enemy.get_last_slide_collision() != Player and !changed_dir:
-		var prior_vel = (enemy.velocity.normalized() - enemy.get_last_slide_collision().get_normal()).normalized() * max(enemy.velocity.length(),300)
-		if( prior_vel.x > 0 and  enemy.get_last_slide_collision().get_normal().x < 0) || (prior_vel.x < 0 and  enemy.get_last_slide_collision().get_normal().x > 0):
-			prior_vel.x *= -1
-		if (prior_vel.y > 0 and  enemy.get_last_slide_collision().get_normal().y < 0) || (prior_vel.y < 0 and enemy.get_last_slide_collision().get_normal().y > 0):
-			prior_vel.y *= -1
-		enemy.velocity = prior_vel
+		var temp_prior_vel = (enemy.velocity.normalized() + 2*enemy.get_last_slide_collision().get_normal()).normalized() * 400
+		if( enemy.get_last_slide_collision().get_normal().x >0) :
+			temp_prior_vel.x = abs(temp_prior_vel.x)
+		else:
+			temp_prior_vel.x = -abs(temp_prior_vel.x)
+		if(enemy.get_last_slide_collision().get_normal().y >0) :
+			temp_prior_vel.y = abs(temp_prior_vel.y)
+		else:
+			temp_prior_vel.y = -abs(temp_prior_vel.y)
+		enemy.velocity = temp_prior_vel
 	if (enemy.velocity.length()) > 1 :
 
 		enemy.velocity -= -enemy.secondary_vel.normalized() + enemy.velocity/45  
