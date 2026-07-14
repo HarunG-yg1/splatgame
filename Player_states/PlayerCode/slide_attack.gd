@@ -13,16 +13,8 @@ func Enter():
 	guy1.attack_shape.position.x -= 20
 	print("SlideAttack")
 	
-	if Input.is_action_pressed("aim_to_mouse"):
-		prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * guy1.velocity.length()
-		guy1.velocity = prior_vel
-	elif guy1.curr_out_attked != null:
-		prior_vel =  -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * guy1.velocity.length()
-		guy1.velocity = prior_vel
-	
-	else:
-		prior_vel = guy1.velocity
-		
+
+	prior_vel = guy1.velocity
 	
 	guy1.curr_attk = 2
 #	guy1.sprite.play("BasicATK")
@@ -38,20 +30,23 @@ func hit_boxOn()->bool:
 	
 func attack_movement(delta):
 	if hit_boxOn():
-	#	if Input.is_action_pressed("aim_to_mouse"):
-	#		prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * guy1.velocity.length()
-	#		guy1.velocity = prior_vel
-	#	elif guy1.curr_out_attked != null:
-	#		prior_vel =  -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * guy1.velocity.length()
-	#		guy1.velocity = prior_vel
+		if Input.is_action_pressed("aim_to_mouse"):
+			prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * guy1.velocity.length()
+			guy1.velocity = prior_vel
+		elif guy1.curr_out_attked != null:
+			prior_vel =  -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * guy1.velocity.length()
+			guy1.velocity = prior_vel
+		else:
+			prior_vel = guy1.velocity
+
 		guy1.sprite.play("BasicATK")
-	#	print("sliding RN")
+
 	elif RythmLoader.find_attkType(2) and timer > 0:
 		RythmLoader.setHit_attkType(2)
 		guy1.i_time = 0.2
 
 	guy1.attack_box.look_at(guy1.position+guy1.velocity)
-#	print("sliding")
+
 	prior_vel *= 0.97
 	if guy1.get_last_slide_collision() != null and guy1.get_last_slide_collision() != Enemy and !changed_dir:
 	
@@ -78,9 +73,9 @@ func attack_movement(delta):
 
 		guy1.velocity = (prior_vel + guy1.direction*150)
 		if !guy1.attack_shape.disabled and prior_vel.length() < 500:
-			#guy1.velocity = (prior_vel + guy1.direction*150)
 
-			prior_vel = prior_vel.normalized() * 600
+
+			prior_vel = guy1.velocity.normalized() * 600
 				
 		
 			

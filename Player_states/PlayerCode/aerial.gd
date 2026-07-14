@@ -3,6 +3,7 @@ var changed_dir : bool = false
 var prior_vel : Vector2
 
 func Enter():
+	guy1.jump()
 	changed_dir = false
 	prior_attack_box_size = guy1.attack_shape.shape.size.x
 	prior_attack_box_displace = guy1.attack_shape.position.x
@@ -10,18 +11,9 @@ func Enter():
 	guy1.attack_shape.position.x -= 24
 	print("AirAttack")
 
-	if Input.is_action_pressed("aim_to_mouse"):
-		prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized()
-		guy1.velocity = prior_vel* guy1.velocity.length()
 
-	elif guy1.curr_out_attked != null:
-			prior_vel = -(guy1.global_position - guy1.curr_out_attked.global_position).normalized()
-			guy1.velocity = prior_vel* guy1.velocity.length()
-	
-	else:
-		prior_vel = guy1.velocity.normalized()
-
-	speed_mod = 3
+	prior_vel = guy1.velocity 
+	speed_mod = 3.6
 	guy1.curr_attk = 2
 	
 	guy1.animfx.play("shineGreen")
@@ -38,12 +30,14 @@ func hit_boxOn()->bool:
 func attack_movement(delta):
 	if hit_boxOn():
 		guy1.sprite.play("BasicATK")
-	#	if Input.is_action_pressed("aim_to_mouse"):
-	#		prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized()
-	#		guy1.velocity = prior_vel* guy1.velocity.length()
-	#	elif guy1.curr_out_attked != null:
-	#		prior_vel = -(guy1.global_position - guy1.curr_out_attked.global_position).normalized()
-	#		guy1.velocity = prior_vel* guy1.velocity.length()
+		if Input.is_action_pressed("aim_to_mouse"):
+				prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * guy1.velocity.length()
+				guy1.velocity = prior_vel
+		elif guy1.curr_out_attked != null:
+			prior_vel =  -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * guy1.velocity.length()
+			guy1.velocity = prior_vel
+		else:
+			prior_vel = guy1.velocity
 		
 	elif RythmLoader.find_attkType(2) and timer > 0:
 			RythmLoader.setHit_attkType(2)
@@ -67,12 +61,13 @@ func attack_movement(delta):
 		guy1.velocity = prior_vel
 		print(guy1.get_last_slide_collision().get_normal(),"privel1")
 		print(prior_vel,"privel")
+	if !guy1.attack_shape.disabled:
 		
-	if (guy1.velocity.normalized()  -prior_vel.normalized()).length() > 1.4:
-		guy1.velocity= guy1.velocity.normalized() * guy1.MAX_SPEED  * speed_mod
-	else:
+		
 		guy1.velocity = (prior_vel.normalized() + guy1.direction).normalized() * guy1.MAX_SPEED *speed_mod
-	if speed_mod > 0.8:
-		speed_mod -= delta* 12
+		if speed_mod > 0.2:
+			speed_mod -= delta* 16
+		else:
+			speed_mod = 0.2
 	else:
-		speed_mod = 0.8
+		guy1.move(guy1.direction,0.4)

@@ -14,7 +14,7 @@ func init() -> void:
 func Enter() ->void:
 	enemy.stun = 0
 	print("chase" , enemy)
-	enemy.random_pt =  Vector2(randi_range(-25,25),randi_range(-25,25))
+	enemy.random_pt =  Vector2(randi_range(-10,10),randi_range(-10,10))
 	
 	timer.start(6)
 	enemy.g_timer.start(1)
@@ -41,20 +41,20 @@ func Process(_delta:float)->Enemy_State:
 	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt ).length() > 160:
 		
 		return runAway_state
-	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 80:
+	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 120:
 		time_on_player -= _delta/5
 
 		enemy.direction = enemy.chase_dir
-	if enemy.player!= null and ((enemy.global_position - enemy.player.global_position + enemy.random_pt).normalized() - (enemy.direction)).length() < 0.7  and (enemy.global_position - enemy.player.global_position).length() > 60:
+	if enemy.player!= null and ((enemy.global_position - enemy.player.global_position + enemy.random_pt).normalized() - (enemy.direction)).length() < 0.7  and (enemy.global_position - enemy.player.global_position).length() > 80:
 		#print("yoi")
 		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.2 ).normalized()) * enemy.SPEED  , 1) 
-	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 60:
+	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 80:
 		time_on_player += _delta
 		
 		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*4).normalized()) * enemy.SPEED  , 1)
 	else:
 		
-		if  enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() < 60:
+		if  enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() < 80:
 			time_on_player += _delta
 		enemy.velocity =  lerp(enemy.velocity, Vector2.ZERO,0.2)
 		

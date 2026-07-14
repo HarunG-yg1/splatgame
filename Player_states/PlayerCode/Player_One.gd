@@ -159,9 +159,9 @@ func jump()->void:
 	var tween = get_tree().create_tween()
 
 	
-	tween.tween_property(self, "scale", Vector2(1.5,1.5), 0.25)
+	tween.tween_property(sprite, "scale", Vector2(1,1), 0.25)
 
-	tween.tween_property(self, "scale", Vector2(1,1), 0.25)
+	tween.tween_property(sprite, "scale", Vector2(0.5,0.5), 0.25)
 
 func _physics_process(_delta: float) -> void:
 	if is_dead:
