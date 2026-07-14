@@ -18,10 +18,13 @@ func Enter():
 		guy1.check_puddle(guy1.last_puddle.puddle_val,guy1.last_puddle)
 	
 	prior_rotation = guy1.sprite.rotation
-	guy1.velocity = crouch_state.had_prior_vel * 1.3
-	guy1.jump_vel = 0
+	if statemachine.old_state is crouch_idle:
+		prior_vel_dir = crouch_state.had_prior_vel * 1.3
+		guy1.jump_vel = 0
 
-	prior_vel_dir = crouch_state.had_prior_vel  * 1.3
+		
+	else:
+		prior_vel_dir = guy1.velocity
 	print(prior_vel_dir)
 
 	pass
@@ -35,7 +38,7 @@ func Process(_delta):
 	prior_vel_dir *= 0.98
 	guy1.velocity = prior_vel_dir + guy1.direction*150
 	if (guy1.velocity.normalized()  -prior_vel_dir.normalized()).length() > 1.4:
-	#	print("ight stop")
+
 		guy1.velocity= guy1.velocity.normalized() *50
 		
 		return crouch_state

@@ -31,13 +31,16 @@ func hit_boxOn()->bool:
 func attack_movement(delta):
 	if hit_boxOn():
 		if Input.is_action_pressed("aim_to_mouse"):
-			prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * guy1.velocity.length()
+			prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * 600
 			guy1.velocity = prior_vel
 		elif guy1.curr_out_attked != null:
-			prior_vel =  -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * guy1.velocity.length()
+			prior_vel =  -(guy1.global_position - guy1.curr_out_attked.global_position).normalized() * 600
 			guy1.velocity = prior_vel
 		else:
-			prior_vel = guy1.velocity
+			if guy1.direction.length() > 0:
+				prior_vel = guy1.direction.normalized() * 600
+			else:
+				prior_vel = guy1.velocity.normalized() * 600
 
 		guy1.sprite.play("BasicATK")
 
@@ -47,7 +50,7 @@ func attack_movement(delta):
 
 	guy1.attack_box.look_at(guy1.position+guy1.velocity)
 
-	prior_vel *= 0.97
+	
 	if guy1.get_last_slide_collision() != null and guy1.get_last_slide_collision() != Enemy and !changed_dir:
 	
 	
@@ -66,16 +69,15 @@ func attack_movement(delta):
 		print(guy1.get_last_slide_collision().get_normal(),"privel1")
 		print(prior_vel,"privel")
 		
-	if (guy1.velocity.normalized()  -prior_vel.normalized()).length() > 1.4:
 
-		guy1.velocity= guy1.velocity.normalized() *50
-	else:
-
-		guy1.velocity = (prior_vel + guy1.direction*150)
-		if !guy1.attack_shape.disabled and prior_vel.length() < 500:
+	
+	print("vroo")
+	prior_vel *= 0.97
+	guy1.velocity = (prior_vel + guy1.direction*150)
 
 
-			prior_vel = guy1.velocity.normalized() * 600
+	
+			
 				
 		
 			
