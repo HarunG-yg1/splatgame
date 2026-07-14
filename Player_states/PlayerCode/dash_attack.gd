@@ -8,7 +8,7 @@ func Enter():
 	prior_attack_box_size = guy1.attack_shape.shape.size.x
 	prior_attack_box_displace = guy1.attack_shape.position.x
 	guy1.attack_shape.shape.size.x *= 1.6
-	guy1.attack_shape.position.x -= 20
+	guy1.attack_shape.position.x -= 24
 	
 
 	speed_mod = 3.6
