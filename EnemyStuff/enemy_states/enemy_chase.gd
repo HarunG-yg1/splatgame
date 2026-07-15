@@ -16,27 +16,24 @@ func Enter() ->void:
 	print("chase" , enemy)
 	enemy.random_pt =  Vector2(randi_range(-10,10),randi_range(-10,10))
 	enemy.velocity *= 0
-	timer.start(6)
-	enemy.g_timer.start(1)
-	await enemy.g_timer.timeout
+	if timer.get_time_left() <= 0.1:
+		timer.start(6)
 
-	pass
-	
-#what happens when player enters state
+
 func Exit() ->void:
 	pass
 	
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
 
-	if enemy.stun > 0 and timer.get_time_left() < 3:
-		print("wenis")
+	if enemy.stun > 0 and timer.get_time_left() < 2:
+		print("can attack")
 		enemy.enemy_fov.get_child(0).disabled = true
-	#	enemy.enemy_fov.get_child(1).disabled = true
 		enemy.player = null
 		enemy.chase = false
 		return stun_state
 	else:
+		print( timer.get_time_left(), "time chase")
 		enemy.stun = 0 
 	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt ).length() > 160:
 		

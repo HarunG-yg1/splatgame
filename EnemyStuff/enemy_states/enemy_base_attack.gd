@@ -18,7 +18,7 @@ func Enter() ->void:
 	enemy.stun = 0
 	print("attack" , enemy)
 	time_on_player = 0
-	gen_timer.start(7)
+	gen_timer.start(6)
 	var acc : float = 0
 
 	amount_hits= randi_range(3,8)
@@ -27,7 +27,6 @@ func Enter() ->void:
 		time_for_hit[i].time = enemy.out_attk_time[amount_hits - i - 1]
 		time_for_hit[i].number = enemy.out_attk_color[amount_hits - i - 1]
 		
-		#acc = time_for_hit[i].time
 	print(enemy.out_attk_time.size())
 	time_for_hit[amount_hits-1].time += 0.5
 	init_time = time_for_hit[amount_hits-1].time
@@ -39,27 +38,24 @@ func Enter() ->void:
 	
 #what happens when player enters state
 func Exit() ->void:
-	#if enemy.player != null:
-	#	enemy.player.refund_dodge()
 
 	RythmLoader.interrupt(enemy)
-#	pass
-	
-#what happens during process in state
+
 
 func Process(_delta:float)->Enemy_State:
 	
-	if enemy.stun > 0 and gen_timer.get_time_left() <= 4 :
-	#	RythmLoader.interrupt(enemy)
-		print("penis")
+	if enemy.stun > 0 and gen_timer.get_time_left() <= 1 :
+
+		print("can attack")
 		enemy.enemy_fov.get_child(0).disabled = true
-	#	enemy.enemy_fov.get_child(1).disabled = true
+
 		if enemy.player != null:
 			enemy.player.refund_dodge()
 			enemy.player = null
 		enemy.chase = false
 		return stun_state 
 	else:
+		print( gen_timer.get_time_left(), "time attk")
 		enemy.stun = 0
 	if (enemy.player!= null and time_on_player < 0.25) || ( enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt ).length() > 160):
 		if !was_out_of_range:
@@ -113,7 +109,7 @@ func move(delta : float ,modifier : float = 1):
 	else:
 		if  enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() < 60:
 			time_on_player += delta
-	#	enemy.velocity =  lerp(enemy.velocity, Vector2.ZERO,0.2)
+
 		
 
 
@@ -137,21 +133,21 @@ func attack_rythm(_delta):
 	
 		enemy.animfx.scale.y =1
 		print("gertfoeld")
-		#enemy.animfx.stop()
+
 		enemy.animfx.play("shine1")
 
-	#	enemy.animsprite.play("hit")
+
 		enemy.velocity =  lerp(enemy.velocity, Vector2.ZERO,0.2)
-		#enemy.velocity =  enemy.chase_dir * enemy.player.MAX_SPEED * 1.6
+
 		attack_now()
-	#	move(_delta, 1.5)
+
 		amount_hits -= 1
 
 		init_time = time_for_hit[amount_hits-1].time
 
 	if amount_hits <=0:
 		enemy.enemy_fov.get_child(0).disabled = true
-	#	enemy.enemy_fov.get_child(1).disabled = true
+
 		enemy.player = null
 		enemy.chase = false
 		return idle_state

@@ -176,7 +176,7 @@ func refund_dodge():
 
 func _on_attack_box_body_entered(body: Enemy) -> void:
 	if body != null:
-		
+		print(body.stun,"stun")
 		if attack_shape.disabled:
 			body.damage(5,global_position)
 			body.parried(self,1,0.6)
@@ -193,20 +193,17 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 				if curr_attk == blood_puddle.puddle_colors.RED and  body.in_attk_type[body.in_attk_index] == curr_attk:
 					body.damage(8,global_position)
 				elif body.in_attk_type[body.in_attk_index] == curr_attk || (curr_attk ==  blood_puddle.puddle_colors.RED and  body.in_attk_type[body.in_attk_index] ==  blood_puddle.puddle_colors.BLUE):
-				
 					body.damage(3*(abs(curr_attk)),global_position)
-				
-				if body.in_attk_type.size() <= body.in_attk_index:
-					body.in_attk_index = 99
-					body.parried(self,2)
-				else:
-					body.in_attk_index += 1
-					body.parried(self,1,1.5)
-				#	body.g_timer.start(1.5)
-			else:
-				body.in_attk_index = 99
-				body.stun = -1
-		#	print("enemy stun",body.stun)
+					
+				if body.in_attk_type[body.in_attk_index] == curr_attk || (curr_attk ==  blood_puddle.puddle_colors.RED and  body.in_attk_type[body.in_attk_index] ==  blood_puddle.puddle_colors.BLUE):
+					if body.in_attk_type.size() <= body.in_attk_index:
+						body.in_attk_index = 99
+						body.parried(self,2)
+					else:
+						body.in_attk_index += 1
+						body.parried(self,1,1.5)
+
+
 		
 			
 		#velocity += body.velocity
