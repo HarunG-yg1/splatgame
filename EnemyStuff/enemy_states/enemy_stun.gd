@@ -15,12 +15,15 @@ func Enter() ->void:
 	enemy.stun = 0
 	enemy.UpdateAnimation("idle")
 	if enemy.in_attk_index <= 7:
-		if enemy.in_attk_type[enemy.in_attk_index] == blood_puddle.puddle_colors.RED:
-			enemy.animfx.play("shineRed")
-		elif enemy.in_attk_type[enemy.in_attk_index] == blood_puddle.puddle_colors.BLUE:
-			enemy.animfx.play("shineBlue")
-		elif enemy.in_attk_type[enemy.in_attk_index] == blood_puddle.puddle_colors.GREEN:
-			enemy.animfx.play("shineGreen")
+		match enemy.in_attk_type[enemy.in_attk_index]:
+			blood_puddle.puddle_colors.RED:
+				enemy.animfx.play("shineRed")
+			blood_puddle.puddle_colors.BLUE:
+				enemy.animfx.play("shineBlue")
+			blood_puddle.puddle_colors.GREEN:
+				enemy.animfx.play("shineGreen")
+			_:
+				enemy.animfx.play("shine1")
 
 	pass
 	

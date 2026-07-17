@@ -276,7 +276,7 @@ polygon = PackedVector2Array(-70, 100, -70, 0, -20, 0, 0, 20, 20, 0, 0, -20, -20
 position = Vector2(0, 1)
 scale = Vector2(25, 1)
 sprite_frames = SubResource("SpriteFrames_ca1s1")
-animation = &"shineBlue"
+animation = &"shine1"
 offset = Vector2(16.92, -6)
 
 [node name="hitter" type="Area2D" parent="." unique_id=313074487]

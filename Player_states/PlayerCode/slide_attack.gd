@@ -21,15 +21,19 @@ func Enter():
 	guy1.animfx.play("shineGreen")
 	timer = 0.6
 
-	if RythmLoader.find_attkType(blood_puddle.puddle_colors.GREEN) and timer > 0:
+	if RythmLoader.find_attkType(blood_puddle.puddle_colors.GREEN):
 		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.GREEN)
 		guy1.i_time = 0.2
+
+	if statemachine.last_defend == blood_puddle.puddle_colors.GREEN and  RythmLoader.find_attkType(blood_puddle.puddle_colors.NO_COLOR):
+		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
 
 func hit_boxOn()->bool:
 	return timer <=0.25 and  timer > 0.24
 	
 func attack_movement(delta):
 	if hit_boxOn():
+		guy1.i_time = 0.24
 		if Input.is_action_pressed("aim_to_mouse"):
 			prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * 600
 			guy1.velocity = prior_vel
@@ -67,7 +71,9 @@ func attack_movement(delta):
 	if !guy1.attack_shape.disabled:
 		if RythmLoader.find_attkType(blood_puddle.puddle_colors.GREEN) and timer > 0:
 			RythmLoader.setHit_attkType(blood_puddle.puddle_colors.GREEN)
-			guy1.i_time = 0.2
+			
+		if statemachine.last_defend == blood_puddle.puddle_colors.GREEN and  RythmLoader.find_attkType(blood_puddle.puddle_colors.NO_COLOR):
+			RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
 	
 	print("vroo")
 	prior_vel *= 0.99

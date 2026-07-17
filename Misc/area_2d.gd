@@ -1,7 +1,7 @@
 class_name blood_puddle extends Area2D
 
 enum puddle_colors {NO_COLOR,GREEN,BLUE,RED}
-@export var puddle_val : puddle_colors
+@export var puddle_val : puddle_colors = puddle_colors.RED
 
 var velocity: Vector2 = Vector2.ZERO
 @export var friction: float = 400.0
@@ -9,6 +9,7 @@ var velocity: Vector2 = Vector2.ZERO
 func _ready() -> void:
 	#$Timer.start(20)
 	match puddle_val:
+	
 		puddle_colors.RED:
 			modulate = Color("red")
 		puddle_colors.BLUE:
