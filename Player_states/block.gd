@@ -69,27 +69,32 @@ func block_n_check_last_state():
 		timer = 0
 		guy1.stun = 0
 		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
-		guy1.i_time = 0.25
+	#	
 		consecutive_block += 2
 		guy1.animfx.play("parried")
 	if RythmLoader.find_attkType(blood_puddle.puddle_colors.RED) and statemachine.old_state is dash:
 		timer = 0
 		guy1.stun = 0
 		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.RED)
+		statemachine.last_defend = blood_puddle.puddle_colors.RED
 		guy1.i_time = 0.25
 		consecutive_block += 2
 		guy1.animfx.play("parried")
+	
 	elif RythmLoader.find_attkType(blood_puddle.puddle_colors.BLUE) and statemachine.old_state is jumpin:
 		timer = 0
 		guy1.stun = 0
 		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.BLUE)
+		statemachine.last_defend = blood_puddle.puddle_colors.BLUE
 		guy1.i_time = 0.25
 		consecutive_block += 2
 		guy1.animfx.play("parried")
+	
 	elif RythmLoader.find_attkType(blood_puddle.puddle_colors.GREEN) and statemachine.old_state is slide:
 		timer = 0
 		guy1.stun = 0
 		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.GREEN)
+		statemachine.last_defend = blood_puddle.puddle_colors.GREEN
 		guy1.i_time = 0.25
 		consecutive_block += 2
 		guy1.animfx.play("parried")

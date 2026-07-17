@@ -1,6 +1,6 @@
 class_name blood_puddle extends Area2D
 
-enum puddle_colors {NO_COLOR,RED,BLUE,GREEN}
+enum puddle_colors {NO_COLOR,GREEN,BLUE,RED}
 @export var puddle_val : puddle_colors
 
 var velocity: Vector2 = Vector2.ZERO

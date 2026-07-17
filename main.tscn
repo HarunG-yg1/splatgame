@@ -26,8 +26,6 @@ script = ExtResource("1_4c57u")
 [node name="enemy" parent="." unique_id=1466780452 instance=ExtResource("2_4c57u")]
 z_index = 1
 position = Vector2(631, 442)
-in_attk_type = Array[int]([0, 2, 2, 0, 2, 2, 2, 2])
-out_attk_color = Array[int]([0, 1, 2, 0, 0, 2, 2, 1])
 health = 20
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1731876850]

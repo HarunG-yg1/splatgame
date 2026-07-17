@@ -56,7 +56,7 @@ func Process(_delta:float)->Enemy_State:
 		enemy.velocity =  lerp(enemy.velocity, Vector2.ZERO,0.05)
 		
 		if enemy.player!= null and attk_timer.get_time_left() <= 0.1 and time_on_player > 0.5:
-			attk_timer.start(5)
+			attk_timer.start(2.5)
 			return attack_state
 
 	if timer.get_time_left() <= 0.1 || enemy.player == null:

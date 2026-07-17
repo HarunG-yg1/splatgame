@@ -230,8 +230,8 @@ collision_mask = 202
 motion_mode = 1
 script = ExtResource("1_8nqel")
 in_attk_type = Array[int]([0, 0, 0, 0, 0, 0, 0, 0])
-out_attk_time = Array[float]([0.5, 0.25, 0.75, 1.0, 1.25, 1.0, 0.75, 0.5])
-out_attk_color = Array[int]([0, 1, 2, 1, 0, 1, 2, 1])
+out_attk_time = Array[float]([1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0])
+out_attk_color = Array[int]([3, 3, 3, 0, 3, 3, 0, 0])
 health = 6
 
 [node name="statemachine" type="Node" parent="." unique_id=1213086234]

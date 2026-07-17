@@ -17,7 +17,8 @@ func Enter():
 	guy1.animfx.play("shineRed")
 	timer = 0.6
 
-	if RythmLoader.find_attkType(blood_puddle.puddle_colors.RED):
+	if  RythmLoader.find_attkType(blood_puddle.puddle_colors.RED)||RythmLoader.find_attkType(blood_puddle.puddle_colors.NO_COLOR):
+		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
 		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.RED)
 		guy1.i_time = 0.25
 
@@ -43,7 +44,8 @@ func attack_movement(delta):
 
 	if !guy1.attack_shape.disabled:
 		
-		if RythmLoader.find_attkType(blood_puddle.puddle_colors.RED):
+		if  RythmLoader.find_attkType(blood_puddle.puddle_colors.RED)||RythmLoader.find_attkType(blood_puddle.puddle_colors.NO_COLOR):
+			RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
 			RythmLoader.setHit_attkType(blood_puddle.puddle_colors.RED)
 			guy1.i_time = 0.25
 		

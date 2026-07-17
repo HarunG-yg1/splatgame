@@ -25,7 +25,7 @@ func Enter():
 
 	guy1.set_collision_mask_value(8,false)
 	had_prior_vel = (guy1.velocity).normalized() * (guy1.velocity.length() + abs(guy1.jump_vel)*1.6)
-	#print("crouch")
+	guy1.jump_vel = 0
 
 
 		#guy1.animfx.play("parried")

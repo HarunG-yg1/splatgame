@@ -1,6 +1,7 @@
 class_name PlayerStateMachine
 extends Node
 
+var last_defend : blood_puddle.puddle_colors = blood_puddle.puddle_colors.NO_COLOR
 var states : Array[state_class] 
 var curr_state : state_class
 var old_state : state_class

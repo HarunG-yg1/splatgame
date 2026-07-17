@@ -12,7 +12,11 @@ func Enter():
 	timer = 0.4
 	if RythmLoader.find_attkType(blood_puddle.puddle_colors.GREEN) :
 		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.GREEN)
-		guy1.i_time = 0.2
+		guy1.i_time = 0.25
+	if statemachine.last_defend == blood_puddle.puddle_colors.GREEN and  RythmLoader.find_attkType(blood_puddle.puddle_colors.NO_COLOR):
+		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
+		
+		
 	guy1.set_collision_mask_value(8,false)
 	if guy1.last_puddle != null:
 		guy1.check_puddle(guy1.last_puddle.puddle_val,guy1.last_puddle)
@@ -20,7 +24,7 @@ func Enter():
 	prior_rotation = guy1.sprite.rotation
 	if statemachine.old_state is crouch_idle:
 		prior_vel_dir = crouch_state.had_prior_vel * 1.3
-		guy1.jump_vel = 0
+		
 
 		
 	else:
@@ -32,7 +36,10 @@ func Process(_delta):
 	timer -= _delta
 	if RythmLoader.find_attkType(blood_puddle.puddle_colors.GREEN) and timer > 0:
 		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.GREEN)
-		guy1.i_time = 0.2
+		if guy1.i_time <= 0:
+			guy1.i_time = 0.15
+	if statemachine.last_defend == blood_puddle.puddle_colors.GREEN and  RythmLoader.find_attkType(blood_puddle.puddle_colors.NO_COLOR) and timer > 0:
+		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
 	guy1.sprite.look_at(guy1.velocity)
 #	print("sliding")
 	prior_vel_dir *= 0.98

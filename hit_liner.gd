@@ -10,7 +10,7 @@ var cardinal_dir : Vector2
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 
 
-func add(hit_type : int , hit_time : float , hit_owner : Enemy):
+func add(hit_type : blood_puddle.puddle_colors , hit_time : float , hit_owner : Enemy):
 	visible = true
 	var new_arrow = arrowArr_findFirstAvail()
 	if new_arrow == null:
@@ -41,19 +41,19 @@ func arrowArr_findFirstAvail()->arrow:
 
 func check_empty():
 	for i in arrowArr:
-		if i.alive:
+		if i.visible:
 			
 			return 
 	visible = false
 
-func find_arrow_type(type:int):
+func find_arrow_type(type: blood_puddle.puddle_colors):
 	var found : bool = false
 	for arrow_node : arrow in current_arrows:
 		if arrow_node.enemy_attk_type == type:
 			found = true
 	return found
 
-func set_arrow_type(type:int)->void:
+func set_arrow_type(type: blood_puddle.puddle_colors)->void:
 	
 	for arrow_node : arrow in current_arrows:
 		if arrow_node.enemy_attk_type == type:

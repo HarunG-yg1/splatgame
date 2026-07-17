@@ -142,7 +142,8 @@ func jump_and_fall(delta):
 		set_collision_mask_value(7,true)
 		sprite.position.y = 0
 		jumping = false
-		
+		if !crouch:
+			jump_vel  = 0
 
 
 func move(direct,modifier=1):
@@ -190,11 +191,14 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 				#print(curr_attk, "check here")
 			
 			elif body.in_attk_type.size() > body.in_attk_index:
-				if curr_attk == blood_puddle.puddle_colors.RED and  body.in_attk_type[body.in_attk_index] == curr_attk:
-					body.damage(8,global_position)
-				elif body.in_attk_type[body.in_attk_index] == curr_attk || (curr_attk ==  blood_puddle.puddle_colors.RED and  body.in_attk_type[body.in_attk_index] ==  blood_puddle.puddle_colors.BLUE):
-					body.damage(3*(abs(curr_attk)),global_position)
+				if body.in_attk_type[body.in_attk_index] == blood_puddle.puddle_colors.NO_COLOR:
+					body.damage(5,global_position)
+				elif body.in_attk_type[body.in_attk_index] == curr_attk:
 					
+					if curr_attk == blood_puddle.puddle_colors.GREEN || curr_attk == blood_puddle.puddle_colors.BLUE:
+						body.damage( 7,global_position)
+					elif curr_attk == blood_puddle.puddle_colors.RED:
+						body.damage( 10,global_position)
 				if body.in_attk_type[body.in_attk_index] == curr_attk || (curr_attk ==  blood_puddle.puddle_colors.RED and  body.in_attk_type[body.in_attk_index] ==  blood_puddle.puddle_colors.BLUE):
 					if body.in_attk_type.size() <= body.in_attk_index:
 						body.in_attk_index = 99
