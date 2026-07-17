@@ -64,17 +64,17 @@ func _input(event: InputEvent) -> void:
 		if abs(get_global_mouse_position() - global_position).x > abs(get_global_mouse_position() - global_position).y:
 			if (get_global_mouse_position() - global_position).x > 0:
 				cardinal_dir = Vector2.RIGHT
-				print("right")
+			#	print("right")
 			else:
 				cardinal_dir = Vector2.LEFT
-				print("left")
+			#	print("left")
 		else:
 			if (get_global_mouse_position() - global_position).y > 0:
 				cardinal_dir = Vector2.DOWN
-				print("down")
+			#	print("down")
 			else:
 				cardinal_dir = Vector2.UP
-				print("up")
+			#	print("up")
 		sprite.look_at(global_position + cardinal_dir )
 
 func _on_area_entered(area: arrow) -> void:

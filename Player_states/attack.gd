@@ -20,7 +20,7 @@ func Enter():
 
 	print("Attack")
 #	count += 1
-	guy1.curr_attk = 1
+	guy1.curr_attk = blood_puddle.puddle_colors.NO_COLOR
 
 	guy1.animfx.play("shineMelee")
 	timer = 0.5
@@ -54,6 +54,7 @@ func hit_boxOn()->bool:
 	return timer <= 0.25 and  timer > 0.24
 	
 func Exit():
+	
 	guy1.attack_shape.position.x = prior_attack_box_displace 
 	guy1.attack_shape.shape.size.x = prior_attack_box_size
 	guy1.attack_shape.disabled = true

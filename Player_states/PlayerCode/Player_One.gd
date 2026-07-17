@@ -91,7 +91,7 @@ func _process(delta: float) -> void:
 	jump_and_fall(delta)
 	
 		
-	if stun <= 0 || stun > 0.8:
+	if (stun <= 0 || stun > 0.8):
 		direction = Vector2(Input.get_axis("left","right"),Input.get_axis("up","down")).normalized()
 		
 	else:
@@ -182,7 +182,12 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 			body.damage(5,global_position)
 			body.parried(self,1,0.6)
 		else:
+			
 			curr_out_attked = body
+			
+			if curr_attk == blood_puddle.puddle_colors.NO_COLOR:
+				check_knockback.emit(true,body)
+			
 			if body.in_attk_index == 99:
 				body.in_attk_index = randi_range(0,7)
 				
@@ -271,12 +276,16 @@ func exit_puddle(this_puddle : blood_puddle):
 
 
 func _on_check_knockback(follow:bool, flourishee : Enemy) -> void:
-	g_timer.start(0.02)
+	g_timer.start(0.1)
+	
 	await g_timer.timeout
 	
-	if !flourishee.is_not_move and follow: 
-		velocity -= (global_position - flourishee.global_position ).normalized() * 300
-	elif flourishee.is_not_move:
+	if flourishee != null  and follow: 
+		direction = (global_position - flourishee.global_position ).normalized()
+		if flourishee.velocity.length() < 800:
+			velocity -= (global_position - flourishee.global_position ).normalized()*800
+			g_timer.start(0.25)
+		else:
+			velocity += flourishee.velocity 
+			g_timer.start(0.2)
 		
-		velocity += (global_position - flourishee.global_position ).normalized() * 300
-	pass # Replace with function body.
