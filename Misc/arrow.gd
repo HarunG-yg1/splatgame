@@ -1,25 +1,27 @@
 class_name arrow extends Node2D
 var enemy_Owner : Enemy
-enum enemy_attack_types  {RED,BLUE,GREEN}
-var enemy_attk_type : enemy_attack_types
+
+var enemy_attk_type : blood_puddle.puddle_colors
 var alive : bool = false
 var hit : bool = false
 var melee : bool
 @onready var animSprite = $AnimatedSprite2D
 
 # Called when the node enters the scene tree for the first time.
-func init(enemy : Enemy, attk_color : int, hit_time : float, is_melee : bool = true):
+func init(enemy : Enemy, attk_color : blood_puddle.puddle_colors , hit_time : float, is_melee : bool = true):
 #	position.y = 0
 	if  hit_time > 0.05:
 		enemy_Owner = enemy
 		enemy_attk_type = attk_color
 
 		match enemy_attk_type:
-			enemy_attack_types.RED:
+			blood_puddle.puddle_colors.NO_COLOR:
+				animSprite.play("no_color")
+			blood_puddle.puddle_colors.RED:
 				animSprite.play("red")
-			enemy_attack_types.BLUE:
+			blood_puddle.puddle_colors.BLUE:
 				animSprite.play("blue")
-			enemy_attack_types.GREEN:
+			blood_puddle.puddle_colors.GREEN:
 				animSprite.play("green")
 		visible  = true
 		alive = true

@@ -17,8 +17,8 @@ func Enter():
 	guy1.animfx.play("shineRed")
 	timer = 0.6
 
-	if RythmLoader.find_attkType(0):
-		RythmLoader.setHit_attkType(0)
+	if RythmLoader.find_attkType(blood_puddle.puddle_colors.RED):
+		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.RED)
 		guy1.i_time = 0.25
 
 
@@ -37,14 +37,15 @@ func attack_movement(delta):
 	
 		guy1.sprite.play("BasicATK")
 
-	elif RythmLoader.find_attkType(0):
-		RythmLoader.setHit_attkType(0)
-		guy1.i_time = 0.25
+
 
 	guy1.attack_box.look_at(guy1.position+guy1.velocity)
-	#if guy1.direction.length() > 0.0:
+
 	if !guy1.attack_shape.disabled:
-	
+		
+		if RythmLoader.find_attkType(blood_puddle.puddle_colors.RED):
+			RythmLoader.setHit_attkType(blood_puddle.puddle_colors.RED)
+			guy1.i_time = 0.25
 		
 		guy1.velocity = (prior_vel.normalized() + guy1.direction).normalized() * guy1.MAX_SPEED *speed_mod
 		print("ze speed",speed_mod )

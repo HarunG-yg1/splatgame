@@ -15,9 +15,9 @@ var cardinal_direction : Vector2 = Vector2.DOWN
 var direction : Vector2 = Vector2.ZERO
 var last_hit_from: Vector2 = Vector2.ZERO
 
-@export var in_attk_type : Array[blood_puddle.puddle_colors]
+@export var in_attk_type : Array[blood_puddle.puddle_colors] = [blood_puddle.puddle_colors.NO_COLOR]
 @export var out_attk_time : Array[float] 
-@export var out_attk_color : Array[blood_puddle.puddle_colors] 
+@export var out_attk_color : Array[blood_puddle.puddle_colors]  = [blood_puddle.puddle_colors.NO_COLOR]
 var in_attk_index : int = 99
 
 var time_inter_pos := 0.0

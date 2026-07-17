@@ -10,8 +10,8 @@ var timer : float = 0.4
 
 func Enter():
 	timer = 0.4
-	if RythmLoader.find_attkType(2) :
-		RythmLoader.setHit_attkType(2)
+	if RythmLoader.find_attkType(blood_puddle.puddle_colors.GREEN) :
+		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.GREEN)
 		guy1.i_time = 0.2
 	guy1.set_collision_mask_value(8,false)
 	if guy1.last_puddle != null:
@@ -30,8 +30,8 @@ func Enter():
 	pass
 func Process(_delta):
 	timer -= _delta
-	if RythmLoader.find_attkType(2) and timer > 0:
-		RythmLoader.setHit_attkType(2)
+	if RythmLoader.find_attkType(blood_puddle.puddle_colors.GREEN) and timer > 0:
+		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.GREEN)
 		guy1.i_time = 0.2
 	guy1.sprite.look_at(guy1.velocity)
 #	print("sliding")

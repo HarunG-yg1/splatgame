@@ -15,24 +15,20 @@ func Enter():
 	boost = 5
 	guy1.stun = 0
 
-	if RythmLoader.find_attkType(0) ||  RythmLoader.find_attkType(1):
-		RythmLoader.setHit_attkType(0)
-		RythmLoader.setHit_attkType(1)
+	if  RythmLoader.find_attkType(blood_puddle.puddle_colors.RED):
+		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.RED)
 		guy1.i_time = 0.25
-		if  RythmLoader.find_attkType(0):
-			guy1.refund_dodge()
-			remove_endlag = true
+		guy1.refund_dodge()
+		remove_endlag = true
 
 
 	pass
 func Process(delta):
-	if RythmLoader.find_attkType(0) ||  RythmLoader.find_attkType(1):
-		RythmLoader.setHit_attkType(0)
-		RythmLoader.setHit_attkType(1)
-		guy1.i_time = 0.25
-		if  RythmLoader.find_attkType(0):
-			guy1.refund_dodge()
-			remove_endlag = true
+	if  RythmLoader.find_attkType(blood_puddle.puddle_colors.RED):
+		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.RED)
+		guy1.refund_dodge()
+		remove_endlag = true
+
 
 	if dash_window > 0:
 		guy1.move(guy1.direction,boost)
@@ -49,7 +45,7 @@ func Process(delta):
 
 
 		return slide_state
-	elif remove_endlag and guy1.blocking and  dash_window <= 0.15:
+	elif remove_endlag and guy1.blocking and  dash_window <= 0.1:
 		return block_state
 	
 	

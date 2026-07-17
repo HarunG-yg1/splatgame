@@ -22,13 +22,8 @@ func Enter():
 #	count += 1
 	guy1.curr_attk = 1
 
-	guy1.animfx.play("shineBlue")
+	guy1.animfx.play("shineMelee")
 	timer = 0.5
-	if RythmLoader.find_attkType(1):
-		guy1.stun = 0
-		RythmLoader.setHit_attkType(1)
-		timer = 0
-		guy1.i_time = 0.1
 
 
 

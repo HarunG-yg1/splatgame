@@ -14,18 +14,12 @@ func _init() -> void:
 
 func Enter():
 	guy1.sprite.play("block")
-	timer = 0.4
-
-	if statemachine.old_state == block_move_state:
-		timer = block_move_state.timer
-		consecutive_block = block_move_state.consecutive_block
-	if RythmLoader.find_attkType(1):
-		guy1.stun = 0
-		RythmLoader.setHit_attkType(1)
-		timer = 0
-		guy1.i_time = 0.1
-		consecutive_block += 2
-		guy1.animfx.play("parried")
+	
+	if statemachine.old_state is attack:
+		timer = 0.8
+	else:
+		timer = 0.4
+		block_n_check_last_state()
 	
 	pass
 	
@@ -37,14 +31,10 @@ func Process(_delta):
 			if abs(guy1.velocity.length()) < 1:
 				guy1.velocity = Vector2(0,0)
 	timer -= _delta
+	
+	if timer > 0.15 and timer < 0.4:
+		block_n_check_last_state()
 
-	if RythmLoader.find_attkType(1) and timer > 0.15:
-		timer = 0
-		guy1.stun = 0
-		RythmLoader.setHit_attkType(1)
-		guy1.i_time = 0.25
-		consecutive_block += 2
-		guy1.animfx.play("parried")
 
 	if timer < 0:
 		if consecutive_block > 1:
@@ -73,3 +63,34 @@ func Exit():
 	if !guy1.blocking:
 		guy1.sprite.play("default")
 	pass
+
+func block_n_check_last_state():
+	if RythmLoader.find_attkType(blood_puddle.puddle_colors.NO_COLOR):
+		timer = 0
+		guy1.stun = 0
+		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
+		guy1.i_time = 0.25
+		consecutive_block += 2
+		guy1.animfx.play("parried")
+	if RythmLoader.find_attkType(blood_puddle.puddle_colors.RED) and statemachine.old_state is dash:
+		timer = 0
+		guy1.stun = 0
+		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.RED)
+		guy1.i_time = 0.25
+		consecutive_block += 2
+		guy1.animfx.play("parried")
+	elif RythmLoader.find_attkType(blood_puddle.puddle_colors.BLUE) and statemachine.old_state is jumpin:
+		timer = 0
+		guy1.stun = 0
+		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.BLUE)
+		guy1.i_time = 0.25
+		consecutive_block += 2
+		guy1.animfx.play("parried")
+	elif RythmLoader.find_attkType(blood_puddle.puddle_colors.GREEN) and statemachine.old_state is slide:
+		timer = 0
+		guy1.stun = 0
+		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.GREEN)
+		guy1.i_time = 0.25
+		consecutive_block += 2
+		guy1.animfx.play("parried")
+	

@@ -21,8 +21,8 @@ func Enter():
 	guy1.animfx.play("shineGreen")
 	timer = 0.6
 
-	if RythmLoader.find_attkType(2) and timer > 0:
-		RythmLoader.setHit_attkType(2)
+	if RythmLoader.find_attkType(blood_puddle.puddle_colors.GREEN) and timer > 0:
+		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.GREEN)
 		guy1.i_time = 0.2
 
 func hit_boxOn()->bool:
@@ -42,9 +42,6 @@ func attack_movement(delta):
 
 		guy1.sprite.play("BasicATK")
 
-	elif RythmLoader.find_attkType(2) and timer > 0:
-		RythmLoader.setHit_attkType(2)
-		guy1.i_time = 0.2
 
 	guy1.attack_box.look_at(guy1.position+guy1.velocity)
 
@@ -67,7 +64,10 @@ func attack_movement(delta):
 		print(guy1.get_last_slide_collision().get_normal(),"privel1")
 		print(prior_vel,"privel")
 		
-
+	if !guy1.attack_shape.disabled:
+		if RythmLoader.find_attkType(blood_puddle.puddle_colors.GREEN) and timer > 0:
+			RythmLoader.setHit_attkType(blood_puddle.puddle_colors.GREEN)
+			guy1.i_time = 0.2
 	
 	print("vroo")
 	prior_vel *= 0.99
