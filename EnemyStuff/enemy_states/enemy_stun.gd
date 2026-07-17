@@ -30,12 +30,13 @@ func Enter() ->void:
 #what happens when player enters state
 func Exit() ->void:
 	enemy.set_collision_mask_value(2,true)
-	enemy.animfx.stop()
+	
 	enemy.stun = -1
 	
 	
 	enemy.enemy_fov.get_child(0).disabled = false
 	enemy.in_attk_index = 99
+	enemy.animfx.stop()
 	enemy.animfx.play("default")
 	
 	
@@ -43,7 +44,17 @@ func Exit() ->void:
 	
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
-	#print("LEMME OUT")
+	if enemy.animfx.animation_finished and enemy.in_attk_index <= 7:
+		match enemy.in_attk_type[enemy.in_attk_index]:
+			blood_puddle.puddle_colors.RED:
+				enemy.animfx.play("shineRed")
+			blood_puddle.puddle_colors.BLUE:
+				enemy.animfx.play("shineBlue")
+			blood_puddle.puddle_colors.GREEN:
+				enemy.animfx.play("shineGreen")
+			_:
+				enemy.animfx.play("shine1")
+	
 	if enemy.get_last_slide_collision() != null and enemy.get_last_slide_collision() != Player and !changed_dir:
 		var temp_prior_vel = (enemy.velocity.normalized() + 2*enemy.get_last_slide_collision().get_normal()).normalized() * 400
 		if( enemy.get_last_slide_collision().get_normal().x >0) :
@@ -55,11 +66,12 @@ func Process(_delta:float)->Enemy_State:
 		else:
 			temp_prior_vel.y = -abs(temp_prior_vel.y)
 		enemy.velocity = temp_prior_vel
-	if (enemy.velocity.length()) > 1 :
+	if (enemy.velocity.length()) > 2:
 
-		enemy.velocity -= -enemy.secondary_vel.normalized() + enemy.velocity/45  
-	elif abs(enemy.velocity.length()) < 1:
+		enemy.velocity = ( enemy.velocity)*0.98
+	else:
 		enemy.velocity = Vector2(0,0)
+
 	if timer.get_time_left() < 0.05 and enemy.stun <= 0:
 		
 		return idle_state

@@ -104,6 +104,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_nu33k")
+}, {
+"duration": 1.0,
+"texture": null
 }],
 "loop": 0,
 "name": &"shineBlue",
@@ -115,6 +118,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("12_7peym")
+}, {
+"duration": 1.0,
+"texture": null
 }],
 "loop": 0,
 "name": &"shineGreen",
@@ -161,6 +167,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1k2p4")
+}, {
+"duration": 1.0,
+"texture": null
 }],
 "loop": 0,
 "name": &"shineRed",
@@ -274,9 +283,8 @@ polygon = PackedVector2Array(-70, 100, -70, 0, -20, 0, 0, 20, 20, 0, 0, -20, -20
 
 [node name="AnimatedFX" type="AnimatedSprite2D" parent="." unique_id=298680621]
 position = Vector2(0, 1)
-scale = Vector2(25, 1)
 sprite_frames = SubResource("SpriteFrames_ca1s1")
-animation = &"shine1"
+animation = &"shineRed"
 offset = Vector2(16.92, -6)
 
 [node name="hitter" type="Area2D" parent="." unique_id=313074487]

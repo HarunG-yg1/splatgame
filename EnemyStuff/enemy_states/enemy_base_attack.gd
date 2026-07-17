@@ -38,7 +38,8 @@ func Enter() ->void:
 	
 #what happens when player enters state
 func Exit() ->void:
-
+	enemy.animfx.stop()
+	enemy.animfx.play("default")
 	RythmLoader.interrupt(enemy)
 
 
@@ -130,9 +131,9 @@ func attack_rythm(_delta):
 			move(_delta,1.5)
 		
 	elif time_for_hit[amount_hits-1].time <= 0:
-	
+		enemy.animfx.scale.x =1
 		enemy.animfx.scale.y =1
-		print("gertfoeld")
+		
 
 		enemy.animfx.play("shine1")
 
