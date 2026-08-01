@@ -41,8 +41,11 @@ func Process(_delta:float)->Enemy_State:
 			enemy.player =  enemy.hitter2.get_collider()
 			enemy.chase = true
 			range_chase = true
-			
-	enemy.velocity = lerp (enemy.velocity,Vector2.ZERO,0.2)
+	if enemy.velocity.length() > 2:
+		enemy.velocity = ( enemy.velocity)*0.975
+	else:
+		enemy.velocity = lerp (enemy.velocity,Vector2.ZERO,0.2)
+	
 	if enemy.chase and chasing != null:
 		if runaway != null and range_chase:
 			return runaway

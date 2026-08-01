@@ -5,44 +5,53 @@ var changed_dir := false
 
 	
 func Enter():
-	
+	target = guy1.curr_out_attked
+	guy1.curr_out_attked = null
 	changed_dir = false
-	prior_attack_box_size = guy1.attack_shape.shape.size.x
-	prior_attack_box_displace = guy1.attack_shape.position.x
-	guy1.attack_shape.shape.size.x *= 1.6
-	guy1.attack_shape.position.x -= 24
+
+
 	print("SlideAttack")
 	
 	guy1.velocity = guy1.velocity.normalized() * 450
 	prior_vel = guy1.velocity
 	
-	guy1.curr_attk = 2
-#	guy1.sprite.play("BasicATK")
-	guy1.animfx.play("shineGreen")
+	guy1.curr_attk = RythmLoader.add_color(Color.GREEN,guy1.curr_attk)
+	guy1.animfx.modulate = guy1.curr_attk
+	guy1.animfx.play("shine1")
 	timer = 0.6
 
-	if RythmLoader.find_attkType(blood_puddle.puddle_colors.GREEN):
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.GREEN)
+	if RythmLoader.find_attkType(Color.GREEN):
+		RythmLoader.setHit_attkType(Color.GREEN)
 		guy1.i_time = 0.2
 
-	if statemachine.last_defend == blood_puddle.puddle_colors.GREEN and  RythmLoader.find_attkType(blood_puddle.puddle_colors.NO_COLOR):
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
+	if  RythmLoader.check_similiar_colour(statemachine.last_defend,Color.GREEN) and  RythmLoader.find_attkType(Color.WHITE):
+		RythmLoader.setHit_attkType(Color.WHITE)
 
 func hit_boxOn()->bool:
-	return timer <=0.25 and  timer > 0.24
-	
+	return timer <=0.35 and  timer > 0.34
+
+func hit_boxOff()->bool:
+	return timer <=0.1 and  timer > 0.09
 func attack_movement(delta):
 	if hit_boxOn():
+		guy1.set_collision_layer_value(2,false)
+		guy1.start_trail.emit(guy1)
 		guy1.i_time = 0.24
 		if Input.is_action_pressed("aim_to_mouse"):
 			prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * 600
 			guy1.velocity = prior_vel
 	#
 		else:
-			if guy1.direction.length() > 0:
-				prior_vel = guy1.direction.normalized() * 600
-			else:
-				prior_vel = guy1.velocity.normalized() * 600
+			if guy1.follow_up_time <=0 || (target != null and ((target.global_position - guy1.global_position).normalized()-guy1.direction.normalized()).length() > 1.41):
+				guy1.follow_up_time = 0
+				if guy1.direction.length() > 0:
+					prior_vel = guy1.direction.normalized() * 600
+				else:
+					prior_vel = guy1.velocity.normalized() * 600
+			elif target != null:
+				print("mooo")
+				prior_vel = (target.global_position - guy1.global_position).normalized()*600
+
 
 		guy1.sprite.play("BasicATK")
 
@@ -69,19 +78,12 @@ func attack_movement(delta):
 		print(prior_vel,"privel")
 		
 	if !guy1.attack_shape.disabled:
-		if RythmLoader.find_attkType(blood_puddle.puddle_colors.GREEN) and timer > 0:
-			RythmLoader.setHit_attkType(blood_puddle.puddle_colors.GREEN)
+		if RythmLoader.find_attkType(Color.GREEN):
+			RythmLoader.setHit_attkType(Color.GREEN)
 			
-		if statemachine.last_defend == blood_puddle.puddle_colors.GREEN and  RythmLoader.find_attkType(blood_puddle.puddle_colors.NO_COLOR):
-			RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
+		if  RythmLoader.check_similiar_colour(statemachine.last_defend,Color.GREEN) and  RythmLoader.find_attkType(Color.WHITE):
+			RythmLoader.setHit_attkType(Color.WHITE)
 	
 	print("vroo")
 	prior_vel *= 0.99
 	guy1.velocity = (prior_vel + guy1.direction*150)
-
-
-	
-			
-				
-		
-			

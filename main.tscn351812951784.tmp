@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://mwt707ye8c83" path="res://UI/death_screen.tscn" id="5_lquwl"]
 [ext_resource type="PackedScene" uid="uid://frfx08efdqq" path="res://UI/ammo_ui.tscn" id="8_4c57u"]
 [ext_resource type="PackedScene" uid="uid://c1dtlyw1778et" path="res://fx_trail.tscn" id="8_5vw27"]
-[ext_resource type="PackedScene" uid="uid://dhn48urtcty6k" path="res://trailing_hurtbox.tscn" id="9_kek77"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kl0as"]
 size = Vector2(29, 696)
@@ -85,5 +84,3 @@ z_as_relative = false
 z_index = 1
 
 [node name="fx_trail" parent="." unique_id=933946899 instance=ExtResource("8_5vw27")]
-
-[node name="trail_hurt" parent="." unique_id=2145789447 instance=ExtResource("9_kek77")]

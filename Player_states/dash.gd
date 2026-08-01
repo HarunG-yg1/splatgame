@@ -1,6 +1,7 @@
 class_name dash extends state_class
 @onready var idle_state =  $"../idle"
 @onready var dash_attack_state =  $"../dash_attack"
+@onready var attack_state =  $"../attack"
 @onready var move_state = $"../move"
 @onready var jump_state = $"../jump"
 @onready var slide_state = $"../crouching"
@@ -14,28 +15,28 @@ func Enter():
 	dash_window = 0.25
 	boost = 5
 	guy1.stun = 0
-
-	if  RythmLoader.find_attkType(blood_puddle.puddle_colors.RED):
+	print(RythmLoader.measure_similiar_color(guy1.curr_attk,Color.RED),"measureee")
+	if  RythmLoader.find_attkType(Color.RED):
 		
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.RED)
+		RythmLoader.setHit_attkType(Color.RED)
 		guy1.i_time = 0.25
 		guy1.refund_dodge()
 		remove_endlag = true
 	
-	if statemachine.last_defend == blood_puddle.puddle_colors.RED and  RythmLoader.find_attkType(blood_puddle.puddle_colors.NO_COLOR):
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
+	if  RythmLoader.check_similiar_colour(statemachine.last_defend,Color.RED) and  RythmLoader.find_attkType(Color.WHITE):
+		RythmLoader.setHit_attkType(Color.WHITE)
 
 
 	pass
 func Process(delta):
-	if  RythmLoader.find_attkType(blood_puddle.puddle_colors.RED):
+	if   RythmLoader.find_attkType(Color.RED):
 		
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.RED)
+		RythmLoader.setHit_attkType(Color.RED)
 		guy1.refund_dodge()
 		remove_endlag = true
 
-	if statemachine.last_defend == blood_puddle.puddle_colors.RED and  RythmLoader.find_attkType(blood_puddle.puddle_colors.NO_COLOR):
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
+	if RythmLoader.check_similiar_colour(statemachine.last_defend,Color.RED) and  RythmLoader.find_attkType(Color.WHITE):
+		RythmLoader.setHit_attkType(Color.WHITE)
 
 	if dash_window > 0:
 		guy1.move(guy1.direction,boost)
@@ -45,9 +46,13 @@ func Process(delta):
 
 		return move_state
 		
-	if guy1.is_attack and dash_window < 0.15:
-
-		return dash_attack_state
+	if guy1.is_attack and dash_window < 0.15 :
+		if RythmLoader.measure_similiar_color(guy1.curr_attk,Color.RED) < 1:
+			guy1.dash_num -= 1
+			return dash_attack_state
+		else:
+			return attack_state
+		
 	elif guy1.crouch and dash_window < 0.1:
 
 

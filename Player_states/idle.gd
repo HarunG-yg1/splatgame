@@ -16,8 +16,10 @@ func Process(_delta):
 	if guy1.crouch:
 		return crouch_state
 	if (guy1.velocity.length()) > 1 and !guy1.jumping:
-
-		guy1.velocity -= guy1.velocity/15  
+		if statemachine.old_state is attack:
+			guy1.velocity -= guy1.velocity/45 
+		else:
+			guy1.velocity -= guy1.velocity/15
 		if abs(guy1.velocity.length()) < 1:
 			guy1.velocity = Vector2(0,0)
 	if guy1.direction.length() > 0.0:

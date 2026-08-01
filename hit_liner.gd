@@ -1,8 +1,8 @@
 class_name defense_box extends Node2D
 @onready var sprite = $Sprite2D
 var arrow_node = preload("res://Misc/arrow.tscn")
-var arrowArr : Array[arrow]
-var current_arrows : Array[arrow]
+var arrowArr : Array[arrow] = []
+var current_arrows : Array[arrow] = []
 var player : Player 
 var time_on : float
 var cardinal_dir : Vector2
@@ -10,7 +10,7 @@ var cardinal_dir : Vector2
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 
 
-func add(hit_type : blood_puddle.puddle_colors , hit_time : float , hit_owner : Enemy):
+func add(hit_type : Color , hit_time : float , hit_owner : Enemy):
 	visible = true
 	var new_arrow = arrowArr_findFirstAvail()
 	if new_arrow == null:
@@ -46,17 +46,19 @@ func check_empty():
 			return 
 	visible = false
 
-func find_arrow_type(type: blood_puddle.puddle_colors):
-	var found : bool = false
+func find_arrow_type(type: Color):
+#	var found : bool = false
+#	print(current_arrows.size(),"size")
 	for arrow_node : arrow in current_arrows:
-		if arrow_node.enemy_attk_type == type:
-			found = true
-	return found
+		
+		if RythmLoader.check_similiar_colour(arrow_node.enemy_attk_type,type):
+			return true
+	return false
 
-func set_arrow_type(type: blood_puddle.puddle_colors)->void:
+func set_arrow_type(type: Color)->void:
 	
 	for arrow_node : arrow in current_arrows:
-		if arrow_node.enemy_attk_type == type:
+		if RythmLoader.check_similiar_colour(arrow_node.enemy_attk_type,type):
 			arrow_node.hit = true
 
 func _input(event: InputEvent) -> void:
@@ -79,6 +81,7 @@ func _input(event: InputEvent) -> void:
 
 func _on_area_entered(area: arrow) -> void:
 	current_arrows.append(area)
+	#print(area.enemy_attk_type,"enemy_attk_type")
 	pass # Replace with function body.
 
 
@@ -91,12 +94,13 @@ func _on_area_exited(area: arrow) -> void:
 	if player.i_time <= 0 and !area.hit and area.alive and area.visible:
 		area.animSprite.play("miss")
 		if area.enemy_Owner != null:
+			area.modulate = Color.WHITE
 			#player.velocity -=  (area.enemy_Owner.global_position - player.global_position)
 			player.missed = true
 
 	elif area.alive and area.visible:
 		player.missed = false
-		
+		area.modulate = Color.WHITE
 		area.animSprite.play("hit")
 	area.alive = false
 	#area.process_mode = Node.PROCESS_MODE_DISABLED

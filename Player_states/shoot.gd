@@ -37,8 +37,7 @@ func Process(_delta):
 
 	
 func Exit():
-	guy1.attack_shape.position.x = prior_attack_box_displace 
-	guy1.attack_shape.shape.size.x = prior_attack_box_size
+
 	
 	guy1.is_shoot = false
 

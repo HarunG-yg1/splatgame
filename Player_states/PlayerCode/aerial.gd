@@ -3,33 +3,37 @@ var changed_dir : bool = false
 var prior_vel : Vector2
 
 func Enter():
+	target = guy1.curr_out_attked
+	guy1.curr_out_attked = null
 	guy1.jump()
 	changed_dir = false
-	prior_attack_box_size = guy1.attack_shape.shape.size.x
-	prior_attack_box_displace = guy1.attack_shape.position.x
-	guy1.attack_shape.shape.size.x *= 1.6
-	guy1.attack_shape.position.x -= 20
+
+
 	print("AirAttack")
 
 
 	prior_vel = guy1.velocity 
 	speed_mod = 3.6
-	guy1.curr_attk = 2
-	
-	guy1.animfx.play("shineBlue")
-	timer = 0.5
-	if RythmLoader.find_attkType(blood_puddle.puddle_colors.BLUE):
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.BLUE)
+	guy1.curr_attk = RythmLoader.add_color(Color.BLUE,guy1.curr_attk)
+	guy1.animfx.modulate = guy1.curr_attk
+	guy1.animfx.play("shine1")
+	timer = 0.7
+	if RythmLoader.find_attkType(Color.BLUE):
+		RythmLoader.setHit_attkType(Color.BLUE)
 		guy1.i_time = 0.25
-	if statemachine.last_defend == blood_puddle.puddle_colors.BLUE and  RythmLoader.find_attkType(blood_puddle.puddle_colors.NO_COLOR):
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
+	if  RythmLoader.check_similiar_colour(statemachine.last_defend,Color.BLUE) and  RythmLoader.find_attkType(Color.WHITE):
+		RythmLoader.setHit_attkType(Color.WHITE)
 
 
 func hit_boxOn()->bool:
+	return timer <=0.45 and  timer > 0.44
+
+func hit_boxOff()->bool:
 	return timer <=0.2 and  timer > 0.19
-	
 func attack_movement(delta):
 	if hit_boxOn():
+		guy1.set_collision_layer_value(2,false)
+		guy1.start_trail.emit(guy1)
 		guy1.i_time = 0.2
 		guy1.sprite.play("BasicATK")
 		if Input.is_action_pressed("aim_to_mouse"):
@@ -37,7 +41,12 @@ func attack_movement(delta):
 				guy1.velocity = prior_vel
 
 		else:
-			prior_vel = guy1.velocity
+			if guy1.follow_up_time <=0 || (target != null and ((target.global_position - guy1.global_position).normalized()-guy1.direction.normalized()).length() > 1.41):
+				guy1.follow_up_time = 0
+				prior_vel = guy1.velocity
+			elif target != null:
+				print("mooo")
+				prior_vel = (target.global_position - guy1.global_position).normalized()*guy1.velocity.length()
 		
 	
 
@@ -57,14 +66,15 @@ func attack_movement(delta):
 		changed_dir = true
 		
 		guy1.velocity = prior_vel
-		print(guy1.get_last_slide_collision().get_normal(),"privel1")
-		print(prior_vel,"privel")
+	#	print(guy1.get_last_slide_collision().get_normal(),"privel1")
+	#	print(prior_vel,"privel")
 	if !guy1.attack_shape.disabled:
 
-		if RythmLoader.find_attkType(blood_puddle.puddle_colors.BLUE) and timer > 0.09:
-			RythmLoader.setHit_attkType(blood_puddle.puddle_colors.BLUE)
-		if statemachine.last_defend == blood_puddle.puddle_colors.BLUE and  RythmLoader.find_attkType(blood_puddle.puddle_colors.NO_COLOR):
-			RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
+		if RythmLoader.find_attkType(Color.BLUE):
+			RythmLoader.setHit_attkType(Color.BLUE)
+			guy1.i_time = 0.25
+		if  RythmLoader.check_similiar_colour(statemachine.last_defend,Color.BLUE) and  RythmLoader.find_attkType(Color.WHITE):
+			RythmLoader.setHit_attkType(Color.WHITE)
 			
 		
 		guy1.velocity = (prior_vel.normalized() + guy1.direction).normalized() * guy1.MAX_SPEED *speed_mod

@@ -10,12 +10,14 @@ extends CharacterBody2D
 @onready var attack_shape: CollisionShape2D = $AttackBox/CollisionShape2D
 @onready var gun = $Gun
 @onready var g_timer = $Timer
-
+@onready var color_att_sprite : Sprite2D = $Sprite2D
 @export var max_health: int = 20
 
 var last_dir : Vector2
 var is_attack := false
 var is_shoot := false
+
+var follow_up_time : float = 0
 
 signal check_knockback
 
@@ -36,8 +38,8 @@ var crouch : bool = false
 
 var dive_in : = false
 
-var arr_of_blood : Array[blood_puddle.puddle_colors] 
-var curr_attk : blood_puddle.puddle_colors
+var arr_of_blood : Array[Color] 
+var curr_attk : Color
 
 var curr_out_attked : Enemy
 var curr_in_attker : Enemy
@@ -52,7 +54,7 @@ var last_puddle : blood_puddle
 #var curr_hitEnemy : Enemy = null
 
 
-
+signal start_trail
 signal health_changed(current: int, max: int)
 signal died 
 
@@ -70,7 +72,30 @@ func _ready() -> void:
 	
 
 
+func adjust_curr_attk(delta):
+	if curr_attk.r < 1:
+		curr_attk.r += delta/5
+	else:
+		curr_attk.r = 1
+		
+	if curr_attk.g < 1:
+		curr_attk.g += delta/5
+	else:
+		curr_attk.g = 1
+		
+	if curr_attk.b < 1:
+		curr_attk.b += delta/5
+	else:
+		curr_attk.b = 1
+	color_att_sprite.modulate = curr_attk
 func _process(delta: float) -> void:
+	if follow_up_time > 0:
+		follow_up_time -= delta
+	else:
+		follow_up_time = 0
+		curr_out_attked = null
+	adjust_curr_attk(delta)
+	
 	if dash_num < 2:
 		dash_cd -= delta
 		if dash_cd <= 0:
@@ -98,7 +123,8 @@ func _process(delta: float) -> void:
 		direction = Vector2.ZERO
 	if direction.length() > 0:
 		last_dir = direction
-
+	
+	
 	
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("block"):
@@ -123,7 +149,7 @@ func _input(event: InputEvent) -> void:
 		is_shoot = true
 	
 	if event.is_action_pressed("jump") and !jumping:
-		#jump_vel = 0
+		jump_vel = -80
 		jumping = true
 		jump()
 	
@@ -132,15 +158,16 @@ func jump_and_fall(delta):
 	if jumping:
 		#print(jump_vel)
 		jump_vel += delta * 320
-		para_in_sinwave += delta * 640
+		para_in_sinwave += delta * 360
 
 		#if para_in_sinwave <= 360:
 			
-		sprite.position.y += 20 * -(sin(deg_to_rad(para_in_sinwave)))*0.02
+		sprite.position.x = -10 * abs(sin(deg_to_rad(para_in_sinwave)))
 
 	if jump_vel >= 80:
 		set_collision_mask_value(7,true)
-		sprite.position.y = 0
+		sprite.position.x = 0
+		print("yoee")
 		jumping = false
 		if !crouch:
 			jump_vel  = 0
@@ -160,9 +187,9 @@ func jump()->void:
 	var tween = get_tree().create_tween()
 
 	
-	tween.tween_property(sprite, "scale", Vector2(1,1), 0.25)
+	tween.tween_property(sprite, "scale", Vector2(2,2), 0.25)
 
-	tween.tween_property(sprite, "scale", Vector2(0.5,0.5), 0.25)
+	tween.tween_property(sprite, "scale", Vector2(1,1), 0.25)
 
 func _physics_process(_delta: float) -> void:
 	if is_dead:
@@ -179,39 +206,46 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 	if body != null:
 		print(body.stun,"stun")
 		if attack_shape.disabled:
-			body.damage(5,global_position)
+			body.damage(curr_attk,5,global_position)
 			body.parried(self,1,0.6)
 		else:
+
 			
-			curr_out_attked = body
-			
-			if curr_attk == blood_puddle.puddle_colors.NO_COLOR:
+			if  curr_out_attked == null and statemachine.curr_state is attack and (statemachine.old_state is moving || statemachine.old_state is idle):
+				
 				check_knockback.emit(true,body)
 			
 			if body.in_attk_index == 99:
 				body.in_attk_index = randi_range(0,7)
 				
-				body.damage(0,global_position)
+				body.damage(curr_attk,0,global_position)
 				body.parried(self,0.75,1.2)
 				#print(curr_attk, "check here")
 			
 			elif body.in_attk_type.size() > body.in_attk_index:
-				if body.in_attk_type[body.in_attk_index] == blood_puddle.puddle_colors.NO_COLOR:
-					body.damage(5,global_position)
-				elif body.in_attk_type[body.in_attk_index] == curr_attk:
-					
-					if curr_attk == blood_puddle.puddle_colors.GREEN || curr_attk == blood_puddle.puddle_colors.BLUE:
-						body.damage( 7,global_position)
-					elif curr_attk == blood_puddle.puddle_colors.RED:
-						body.damage( 10,global_position)
+				if RythmLoader.check_similiar_colour(body.in_attk_type[body.in_attk_index],Color.WHITE):
+					body.damage(curr_attk,5,global_position)
+				elif RythmLoader.check_similiar_colour(body.in_attk_type[body.in_attk_index],curr_attk):
+					print("hitt",(body.in_attk_type[body.in_attk_index]),curr_attk )
+					if statemachine.curr_state is attack and (statemachine.old_state is moving || statemachine.old_state is idle):
+						body.damage( curr_attk,4,global_position)
+					else:
+						body.damage( curr_attk,7,global_position)
+				else:
+					body.damage(curr_attk, 1,global_position)
+					body.stun = -1
+					body.in_attk_type = body.in_attk_type_copy
 				
-			if body.in_attk_type.size() < body.in_attk_index:
+			if body.in_attk_type.size() <= body.in_attk_index and body.in_attk_index != 99:
 				body.in_attk_index = 99
-				body.parried(self,2)
+				body.in_attk_type = body.in_attk_type_copy
+				body.parried(self,1,1.25)
 			else:
 				body.in_attk_index += 1
-				body.parried(self,1,1.5)
-
+				body.parried(self,1.5,1.5)
+			if curr_out_attked == null:
+				curr_out_attked = body
+				follow_up_time = 3
 
 		
 			
@@ -250,7 +284,7 @@ func die() -> void:
 	velocity = Vector2.ZERO
 	died.emit()
 
-func check_puddle(puddle_val : int, this_puddle : blood_puddle):
+func check_puddle(puddle_val : Color, this_puddle : blood_puddle):
 #	print("puddle check")
 	var temp = last_puddle
 	last_puddle =  this_puddle
@@ -282,10 +316,8 @@ func _on_check_knockback(follow:bool, flourishee : Enemy) -> void:
 	
 	if flourishee != null  and follow: 
 		direction = (global_position - flourishee.global_position ).normalized()
-		if flourishee.velocity.length() < 800:
-			velocity -= (global_position - flourishee.global_position ).normalized()*800
-			g_timer.start(0.25)
-		else:
-			velocity += flourishee.velocity 
-			g_timer.start(0.2)
+		#if flourishee.velocity.length() < 600:
+		velocity -= (global_position - flourishee.global_position ).normalized()*800
+		#	g_timer.start(0.25)
+
 		

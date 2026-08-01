@@ -10,18 +10,18 @@ var timer : float = 0.4
 
 func Enter():
 	timer = 0.4
-	if RythmLoader.find_attkType(blood_puddle.puddle_colors.GREEN) :
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.GREEN)
+	if RythmLoader.find_attkType(Color.GREEN) :
+		RythmLoader.setHit_attkType(Color.GREEN)
 		guy1.i_time = 0.25
-	if statemachine.last_defend == blood_puddle.puddle_colors.GREEN and  RythmLoader.find_attkType(blood_puddle.puddle_colors.NO_COLOR):
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
+	if  RythmLoader.check_similiar_colour(statemachine.last_defend,Color.GREEN) and  RythmLoader.find_attkType(Color.WHITE):
+		RythmLoader.setHit_attkType(Color.WHITE)
 		
 		
 	guy1.set_collision_mask_value(8,false)
 	if guy1.last_puddle != null:
-		guy1.check_puddle(guy1.last_puddle.puddle_val,guy1.last_puddle)
+		guy1.check_puddle(guy1.last_puddle.color_hex,guy1.last_puddle)
 	
-	prior_rotation = guy1.sprite.rotation
+	prior_rotation = guy1.attack_box.rotation
 	if statemachine.old_state is crouch_idle:
 		prior_vel_dir = crouch_state.had_prior_vel * 1.3
 		
@@ -34,13 +34,13 @@ func Enter():
 	pass
 func Process(_delta):
 	timer -= _delta
-	if RythmLoader.find_attkType(blood_puddle.puddle_colors.GREEN) and timer > 0:
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.GREEN)
+	if RythmLoader.find_attkType(Color.GREEN) and timer > 0:
+		RythmLoader.setHit_attkType(Color.GREEN)
 		if guy1.i_time <= 0:
 			guy1.i_time = 0.15
-	if statemachine.last_defend == blood_puddle.puddle_colors.GREEN and  RythmLoader.find_attkType(blood_puddle.puddle_colors.NO_COLOR) and timer > 0:
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
-	guy1.sprite.look_at(guy1.velocity)
+#	if  RythmLoader.check_similiar_colour(statemachine.last_defend,Color.GREEN) and  RythmLoader.find_attkType(Color.WHITE):
+	#	RythmLoader.setHit_attkType(Color.WHITE)
+	guy1.attack_box.look_at(guy1.position+guy1.velocity)
 #	print("sliding")
 	prior_vel_dir *= 0.98
 	guy1.velocity = prior_vel_dir + guy1.direction*150
@@ -69,12 +69,15 @@ func Process(_delta):
 		guy1.set_collision_mask_value(8,true)
 		return crouch_state.block_state
 	elif guy1.is_attack:
-		return crouch_state.slide_attack_state
+		if RythmLoader.measure_similiar_color(guy1.curr_attk,Color.GREEN) < 1:
+			return crouch_state.slide_attack_state
+		else:
+			return crouch_state.attack_state
 	elif guy1.is_shoot:
 		return crouch_state.shoot_state
 
 func Exit():
 	
 	
-	guy1.sprite.rotation=prior_rotation
+	guy1.attack_box.rotation=prior_rotation
 	pass

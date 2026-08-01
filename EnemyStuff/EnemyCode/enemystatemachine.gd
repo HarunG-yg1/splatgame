@@ -21,6 +21,7 @@ func _ready() -> void:
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+
 	change_state(curr_state.Process(delta))
 	
 
@@ -29,8 +30,10 @@ func change_state(new_state):
 	
 	if new_state == null || new_state == curr_state:
 		return
+	
 	old_state = curr_state
 	curr_state.Exit()
 
 	curr_state = new_state
 	new_state.Enter()
+	#enemy.label.text = curr_state.name

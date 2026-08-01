@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://c1dtlyw1778et"]
+
+[ext_resource type="Script" uid="uid://de735wo628jux" path="res://fx_trail.gd" id="1_8beep"]
+
+[node name="fx_trail" type="Node" unique_id=933946899]
+process_mode = 4
+script = ExtResource("1_8beep")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1949295945]
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1581308506]
+
+[node name="Sprite2D3" type="Sprite2D" parent="." unique_id=1054277905]
+
+[node name="Sprite2D4" type="Sprite2D" parent="." unique_id=764899163]
+
+[node name="Sprite2D5" type="Sprite2D" parent="." unique_id=685694733]
+
+[node name="Sprite2D6" type="Sprite2D" parent="." unique_id=498815543]
+
+[node name="Timer" type="Timer" parent="." unique_id=201184706]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

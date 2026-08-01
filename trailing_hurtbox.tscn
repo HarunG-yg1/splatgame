@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dhn48urtcty6k"]
+
+[ext_resource type="Script" uid="uid://3cwnxy3yon3d" path="res://trailing_hurtbox.gd" id="1_u5v3b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kl0as"]
+size = Vector2(80, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u5v3b"]
+size = Vector2(80, 60)
+
+[node name="trail_hurt" type="Area2D" unique_id=2145789447]
+script = ExtResource("1_u5v3b")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=678391352]
+shape = SubResource("RectangleShape2D_kl0as")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=1479378712]
+shape = SubResource("RectangleShape2D_u5v3b")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="." unique_id=1185705635]
+shape = SubResource("RectangleShape2D_kl0as")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="." unique_id=1028534937]
+shape = SubResource("RectangleShape2D_kl0as")
+
+[node name="Timer" type="Timer" parent="." unique_id=2104123853]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

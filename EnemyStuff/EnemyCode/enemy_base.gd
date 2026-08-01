@@ -5,7 +5,10 @@ class_name Enemy extends CharacterBody2D
 @onready var animfx = $AnimatedFX
 @onready var state_machine  = $statemachine
 @onready var g_timer  =  $general_timer
+@onready var label  =  $Label
 var stun : float = 0
+var was_last_hit : float
+
 
 var bodyIsee : Array[CharacterBody2D]
 var player
@@ -15,9 +18,14 @@ var cardinal_direction : Vector2 = Vector2.DOWN
 var direction : Vector2 = Vector2.ZERO
 var last_hit_from: Vector2 = Vector2.ZERO
 
-@export var in_attk_type : Array[blood_puddle.puddle_colors] = [blood_puddle.puddle_colors.NO_COLOR]
+@export var hit_tol : int = 3
+var hit_tol_max : int
+
+
+@export var in_attk_type : Array[Color]
+var  in_attk_type_copy : Array[Color]
 @export var out_attk_time : Array[float] 
-@export var out_attk_color : Array[blood_puddle.puddle_colors]  = [blood_puddle.puddle_colors.NO_COLOR]
+@export var out_attk_color : Array[Color] 
 var in_attk_index : int = 99
 
 var time_inter_pos := 0.0
@@ -34,9 +42,9 @@ const BLOOD_PUDDLE = preload("res://puddle.tscn")
 @export var blood_count: int = 6
 @export var blood_speed: float = 300.0
 @export var blood_spread_degrees: float = 40.0
-@export var puddle_color: blood_puddle.puddle_colors = blood_puddle.puddle_colors.RED
+@export var puddle_color: Color = Color.RED
 @export var health: int = 1
-var enemy_color: blood_puddle.puddle_colors 
+var enemy_color: Color
 
 func die() -> void:
 	visible = false
@@ -71,13 +79,16 @@ func spawn_blood() -> void:
 	puddle.launch(away_dir * blood_speed)
 
 func _ready() -> void:
-
+	label.text = str(health)
+	in_attk_type_copy = in_attk_type
+	hit_tol_max = hit_tol
 	state_machine.init()
 	enemy_color = puddle_color
 	#direction.y = 1
 	pass # Replace with function body.
 
 func _process(delta: float) -> void:
+	was_last_hit += delta
 	if stun < -0.05:
 		stun += delta
 	elif  stun < 0 and stun >= -0.05:
@@ -103,6 +114,16 @@ func UpdateAnimation(state : String) -> void:
 	#animation_player.play(state + "_" + AnimDirect())
 	pass
 	
+func increment_in_attk_type(color : Color):
+	if in_attk_index <= 7:
+		
+		if RythmLoader.measure_similiar_color(color,in_attk_type[in_attk_index-1]) < 1.3 and RythmLoader.check_similiar_colour(color,in_attk_type[in_attk_index-1]) :
+			in_attk_type[in_attk_index] = RythmLoader.minus_color(in_attk_type[in_attk_index],color,true)
+			print(RythmLoader.measure_similiar_color(color,in_attk_type[in_attk_index-1]),"check_here")
+			print(color,"check_here")
+			print(in_attk_type[in_attk_index-1],"check_here")
+		animfx.modulate =  in_attk_type[in_attk_index]
+		animfx.play("shine1")
 
 
 func choose_randomly(list_of_entries):
@@ -141,18 +162,19 @@ func boids():
 		if  !is_nan(steer_Away.x):
 			secondary_vel += (steer_Away)
 			
-		#print("poofart")
-		#print(secondary_vel,avgVel,avgPosition,steer_Away)
-	
 
 
-func damage(amount: int, from: Vector2 = Vector2.ZERO) -> void:
 
-	health -= amount
-	if from != Vector2.ZERO:
-		last_hit_from = from
-	if health <= 0:
-		die()
+func damage(color : Color,amount: int, from: Vector2 = Vector2.ZERO) -> void:
+	if was_last_hit > 0.2:
+		was_last_hit = 0
+		increment_in_attk_type(color )
+		health -= amount
+		label.text = str(health)
+		if from != Vector2.ZERO:
+			last_hit_from = from
+		if health <= 0:
+			die()
 
 func _on_enemy_fov_body_entered(body: CharacterBody2D) -> void:
 	if body is Player   :
@@ -175,12 +197,23 @@ func _on_enemy_fov_body_exited(body: CharacterBody2D) -> void:
 func parried( from : Player ,pwer : float = 1,stun_time : float = 1):
 
 	if stun <= 0 and stun > -0.01:
-		stun = stun_time
+		hit_tol -= 1
+		if hit_tol <= 0:
+			stun = stun_time
+			hit_tol = hit_tol_max
+		else:
+			stun = 0.1
+
 	if from.velocity.length() > 100:
-		velocity += (from.velocity) * 1.005
+		if (velocity + (from.velocity.normalized()) * 600).length() < 600:
+			velocity += (from.velocity.normalized()) * 600
+		else:
+			velocity = (from.velocity.normalized()) * 600
 	else:
-		velocity += -(from.global_position-global_position).normalized()* max(from.velocity.length(),400)* pwer
-		
+		if( velocity +  -(from.global_position-global_position).normalized()* max(from.velocity.length(),400)* pwer).length() < 600:
+			velocity += -(from.global_position-global_position).normalized()* max(from.velocity.length(),400)* pwer
+		else:
+			velocity = -(from.global_position-global_position).normalized()* max(from.velocity.length(),400)* pwer
 	pass
 	
 func pos_check(_delta : float)-> bool:

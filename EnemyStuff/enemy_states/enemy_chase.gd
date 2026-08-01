@@ -27,17 +27,20 @@ func Exit() ->void:
 func Process(_delta:float)->Enemy_State:
 
 	if enemy.stun > 0 and timer.get_time_left() < 2:
-		print("can attack")
+		#print("can attack")
 		enemy.enemy_fov.get_child(0).disabled = true
 		enemy.player = null
 		enemy.chase = false
 		return stun_state
 	else:
-		print( timer.get_time_left(), "time chase")
+		#print( timer.get_time_left(), "time chase")
 		enemy.stun = 0 
 	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt ).length() > 160:
 		
-		return runAway_state
+		if runAway_state != null:
+			return runAway_state
+		else:
+			enemy.direction = enemy.chase_dir
 	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 120:
 		time_on_player -= _delta/5
 
@@ -53,7 +56,11 @@ func Process(_delta:float)->Enemy_State:
 		
 		if  enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() < 80:
 			time_on_player += _delta
-		enemy.velocity =  lerp(enemy.velocity, Vector2.ZERO,0.05)
+			
+			if (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() < 30:
+				enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() - enemy.direction*1.05).normalized()) * enemy.SPEED * 0.5 , 0.1)
+			elif (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() < 60:
+				enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + Vector2(enemy.direction.y,enemy.direction.x)*1.05).normalized()) * enemy.SPEED * 0.5 , 0.1)
 		
 		if enemy.player!= null and attk_timer.get_time_left() <= 0.1 and time_on_player > 0.5:
 			attk_timer.start(2.5)

@@ -1,28 +1,20 @@
 class_name arrow extends Node2D
 var enemy_Owner : Enemy
 
-var enemy_attk_type : blood_puddle.puddle_colors
+var enemy_attk_type : Color
 var alive : bool = false
 var hit : bool = false
 var melee : bool
 @onready var animSprite = $AnimatedSprite2D
 
 # Called when the node enters the scene tree for the first time.
-func init(enemy : Enemy, attk_color : blood_puddle.puddle_colors , hit_time : float, is_melee : bool = true):
+func init(enemy : Enemy, attk_color : Color , hit_time : float, is_melee : bool = true):
 #	position.y = 0
 	if  hit_time > 0.05:
 		enemy_Owner = enemy
 		enemy_attk_type = attk_color
-
-		match enemy_attk_type:
-			blood_puddle.puddle_colors.NO_COLOR:
-				animSprite.play("no_color")
-			blood_puddle.puddle_colors.RED:
-				animSprite.play("red")
-			blood_puddle.puddle_colors.BLUE:
-				animSprite.play("blue")
-			blood_puddle.puddle_colors.GREEN:
-				animSprite.play("green")
+		modulate = attk_color
+		animSprite.play("default")
 		visible  = true
 		alive = true
 		hit = false
@@ -36,6 +28,7 @@ func init(enemy : Enemy, attk_color : blood_puddle.puddle_colors , hit_time : fl
 		process_mode = Node.PROCESS_MODE_DISABLED
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
 	position.y += (get_viewport_rect().size.y * delta) * 1.5
 	pass
 	

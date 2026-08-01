@@ -5,6 +5,7 @@ class_name jumpin extends state_class
 @onready var dash_state =  $"../dash"
 @onready var block_state = $"../block"
 @onready var aerial_attack_state = $"../air_attack"
+@onready var attack_state = $"../attack"
 @onready var shoot_state = $"../shoot"
 func Enter():
 
@@ -15,13 +16,15 @@ func Enter():
 func Process(_delta):
 
 	guy1.move(guy1.direction,0.75)
-	if RythmLoader.find_attkType(blood_puddle.puddle_colors.BLUE) and guy1.jump_vel < 65 and  guy1.jump_vel > -65:
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.BLUE)
+	#if RythmLoader.find_attkType(Color.GREEN) and timer > 0:
+		#RythmLoader.setHit_attkType(Color.GREEN)
+	if RythmLoader.find_attkType(Color.BLUE) and guy1.jump_vel < 65 and  guy1.jump_vel > -65:
+		RythmLoader.setHit_attkType(Color.BLUE)
 		if guy1.i_time <= 0:
 			guy1.i_time = 0.15
 
-	if statemachine.last_defend == blood_puddle.puddle_colors.BLUE and  RythmLoader.find_attkType(blood_puddle.puddle_colors.NO_COLOR) and guy1.jump_vel < 65 and  guy1.jump_vel > -65:
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
+	if  RythmLoader.check_similiar_colour(statemachine.last_defend,Color.BLUE) and  RythmLoader.find_attkType(Color.WHITE) and guy1.jump_vel < 65 and  guy1.jump_vel > -65:
+		RythmLoader.setHit_attkType(Color.WHITE)
 	
 	if !guy1.jumping:
 		guy1.set_collision_mask_value(7,true)
@@ -35,7 +38,15 @@ func Process(_delta):
 		
 		return block_state
 	elif guy1.is_attack and guy1.jump_vel >=-20 :
-		return aerial_attack_state
+		if RythmLoader.measure_similiar_color(guy1.curr_attk,Color.BLUE) < 1:
+			
+			return aerial_attack_state
+		else:
+			print(RythmLoader.measure_similiar_color(guy1.curr_attk,Color.BLUE),"vro")
+			return attack_state
+			
+		
+		
 
 func Exit():
 

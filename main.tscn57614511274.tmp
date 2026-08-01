@@ -7,8 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://8015johpad1n" path="res://UI/hp_bar.tscn" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://mwt707ye8c83" path="res://UI/death_screen.tscn" id="5_lquwl"]
 [ext_resource type="PackedScene" uid="uid://frfx08efdqq" path="res://UI/ammo_ui.tscn" id="8_4c57u"]
-[ext_resource type="PackedScene" uid="uid://c1dtlyw1778et" path="res://fx_trail.tscn" id="8_5vw27"]
-[ext_resource type="PackedScene" uid="uid://dhn48urtcty6k" path="res://trailing_hurtbox.tscn" id="9_kek77"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kl0as"]
 size = Vector2(29, 696)
@@ -25,12 +23,12 @@ size = Vector2(1171, 14)
 [node name="Node2D" type="Node2D" unique_id=1267132106]
 script = ExtResource("1_4c57u")
 
-[node name="enemy2" parent="." unique_id=969408239 instance=ExtResource("2_4c57u")]
+[node name="enemy" parent="." unique_id=1466780452 instance=ExtResource("2_4c57u")]
 z_index = 1
 position = Vector2(631, 442)
-in_attk_type = Array[Color]([Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1)])
-out_attk_color = Array[Color]([Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1)])
-health = 100
+in_attk_type = Array[Color]([Color(0.6901961, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1)])
+out_attk_color = Array[Color]([Color(0.6901961, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1)])
+health = 20
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1731876850]
 modulate = Color(1, 1, 1, 0.18431373)
@@ -83,7 +81,3 @@ z_as_relative = false
 
 [node name="AmmoUI" parent="CanvasLayer" unique_id=849057996 instance=ExtResource("8_4c57u")]
 z_index = 1
-
-[node name="fx_trail" parent="." unique_id=933946899 instance=ExtResource("8_5vw27")]
-
-[node name="trail_hurt" parent="." unique_id=2145789447 instance=ExtResource("9_kek77")]

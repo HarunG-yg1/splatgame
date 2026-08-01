@@ -1,61 +1,43 @@
 class_name Enemy_State_Stun extends Enemy_State
 @onready var timer = $"../../StateTimer"
 @onready var idle_state = $"../idle"
-
+var init_stun_time : float
 var changed_dir := false
 func init() -> void:
 	pass
 func Enter() ->void:
 	changed_dir = false
-	
+	init_stun_time = enemy.stun
 	print("stun" , enemy)
-	enemy.set_collision_mask_value(2,false)
+	#enemy.set_collision_mask_value(2,false)
 	print(enemy.stun,"stunn")
 	timer.start(enemy.stun)
 	enemy.stun = 0
 	enemy.UpdateAnimation("idle")
-	if enemy.in_attk_index <= 7:
-		match enemy.in_attk_type[enemy.in_attk_index]:
-			blood_puddle.puddle_colors.RED:
-				enemy.animfx.play("shineRed")
-			blood_puddle.puddle_colors.BLUE:
-				enemy.animfx.play("shineBlue")
-			blood_puddle.puddle_colors.GREEN:
-				enemy.animfx.play("shineGreen")
-			_:
-				enemy.animfx.play("shine1")
 
 	pass
 	
 #what happens when player enters state
 func Exit() ->void:
-	enemy.set_collision_mask_value(2,true)
-	
-	enemy.stun = -1
-	
+	#enemy.set_collision_mask_value(2,true)
 	
 	enemy.enemy_fov.get_child(0).disabled = false
-	enemy.in_attk_index = 99
-	enemy.animfx.stop()
-	enemy.animfx.play("default")
+	if init_stun_time > 0.5:
+		enemy.stun = -1
+	#enemy.velocity *= 0.1
+		enemy.in_attk_type = enemy.in_attk_type_copy
+		enemy.in_attk_index = 99
+		enemy.animfx.stop()
+		enemy.animfx.modulate = Color.WHITE
+		enemy.animfx.play("default")
 	
 	
 	pass
 	
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
-	if enemy.animfx.animation_finished and enemy.in_attk_index <= 7:
-		match enemy.in_attk_type[enemy.in_attk_index]:
-			blood_puddle.puddle_colors.RED:
-				enemy.animfx.play("shineRed")
-			blood_puddle.puddle_colors.BLUE:
-				enemy.animfx.play("shineBlue")
-			blood_puddle.puddle_colors.GREEN:
-				enemy.animfx.play("shineGreen")
-			_:
-				enemy.animfx.play("shine1")
-	
-	if enemy.get_last_slide_collision() != null and enemy.get_last_slide_collision() != Player and !changed_dir:
+
+	if  enemy.get_last_slide_collision() != null and enemy.get_last_slide_collision() != Player and !changed_dir:
 		var temp_prior_vel = (enemy.velocity.normalized() + 2*enemy.get_last_slide_collision().get_normal()).normalized() * 400
 		if( enemy.get_last_slide_collision().get_normal().x >0) :
 			temp_prior_vel.x = abs(temp_prior_vel.x)
@@ -68,14 +50,14 @@ func Process(_delta:float)->Enemy_State:
 		enemy.velocity = temp_prior_vel
 	if (enemy.velocity.length()) > 2:
 
-		enemy.velocity = ( enemy.velocity)*0.98
+		enemy.velocity = ( enemy.velocity)*0.975
 	else:
 		enemy.velocity = Vector2(0,0)
 
 	if timer.get_time_left() < 0.05 and enemy.stun <= 0:
 		
 		return idle_state
-	elif timer.get_time_left() < 0.05 and enemy.stun > 0.1:
+	elif timer.get_time_left() < 0.05 and enemy.stun > 0.02:
 		Enter()
 		
 	return null

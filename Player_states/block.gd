@@ -65,36 +65,36 @@ func Exit():
 	pass
 
 func block_n_check_last_state():
-	if RythmLoader.find_attkType(blood_puddle.puddle_colors.NO_COLOR):
+	if RythmLoader.find_attkType(Color.WHITE):
 		timer = 0
 		guy1.stun = 0
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.NO_COLOR)
+		RythmLoader.setHit_attkType(Color.WHITE)
 	#	
 		consecutive_block += 2
 		guy1.animfx.play("parried")
-	if RythmLoader.find_attkType(blood_puddle.puddle_colors.RED) and statemachine.old_state is dash:
+	if RythmLoader.find_attkType(Color.RED) and statemachine.old_state is dash:
 		timer = 0
 		guy1.stun = 0
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.RED)
-		statemachine.last_defend = blood_puddle.puddle_colors.RED
+		RythmLoader.setHit_attkType(Color.RED)
+		statemachine.last_defend = RythmLoader.add_color(Color.RED,statemachine.last_defend)
 		guy1.i_time = 0.25
 		consecutive_block += 2
 		guy1.animfx.play("parried")
 	
-	elif RythmLoader.find_attkType(blood_puddle.puddle_colors.BLUE) and statemachine.old_state is jumpin:
+	elif RythmLoader.find_attkType(Color.BLUE) and statemachine.old_state is jumpin:
 		timer = 0
 		guy1.stun = 0
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.BLUE)
-		statemachine.last_defend = blood_puddle.puddle_colors.BLUE
+		RythmLoader.setHit_attkType(Color.BLUE)
+		statemachine.last_defend = RythmLoader.add_color(Color.BLUE,statemachine.last_defend)
 		guy1.i_time = 0.25
 		consecutive_block += 2
 		guy1.animfx.play("parried")
 	
-	elif RythmLoader.find_attkType(blood_puddle.puddle_colors.GREEN) and statemachine.old_state is slide:
+	elif RythmLoader.find_attkType(Color.GREEN) and statemachine.old_state is slide:
 		timer = 0
 		guy1.stun = 0
-		RythmLoader.setHit_attkType(blood_puddle.puddle_colors.GREEN)
-		statemachine.last_defend = blood_puddle.puddle_colors.GREEN
+		RythmLoader.setHit_attkType(Color.GREEN)
+		statemachine.last_defend = RythmLoader.add_color(Color.GREEN,statemachine.last_defend)
 		guy1.i_time = 0.25
 		consecutive_block += 2
 		guy1.animfx.play("parried")
