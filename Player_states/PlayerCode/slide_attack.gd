@@ -12,7 +12,7 @@ func Enter():
 
 	print("SlideAttack")
 	
-	guy1.velocity = guy1.velocity.normalized() * 450
+	guy1.velocity = guy1.velocity.normalized() * 300
 	prior_vel = guy1.velocity
 	
 	guy1.curr_attk = RythmLoader.add_color(Color.GREEN,guy1.curr_attk)
@@ -38,19 +38,18 @@ func attack_movement(delta):
 		guy1.start_trail.emit(guy1)
 		guy1.i_time = 0.24
 		if Input.is_action_pressed("aim_to_mouse"):
-			prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * 600
+			prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * 450
 			guy1.velocity = prior_vel
 	#
 		else:
 			if guy1.follow_up_time <=0 || (target != null and ((target.global_position - guy1.global_position).normalized()-guy1.direction.normalized()).length() > 1.41):
 				guy1.follow_up_time = 0
-				if guy1.direction.length() > 0:
-					prior_vel = guy1.direction.normalized() * 600
-				else:
-					prior_vel = guy1.velocity.normalized() * 600
+		
+				prior_vel = guy1.last_dir.normalized() * 450
+
 			elif target != null:
 				print("mooo")
-				prior_vel = (target.global_position - guy1.global_position).normalized()*600
+				prior_vel = (target.global_position - guy1.global_position).normalized()*450
 
 
 		guy1.sprite.play("BasicATK")
@@ -86,4 +85,4 @@ func attack_movement(delta):
 	
 	print("vroo")
 	prior_vel *= 0.99
-	guy1.velocity = (prior_vel + guy1.direction*150)
+	guy1.velocity = (prior_vel + guy1.last_dir*100)

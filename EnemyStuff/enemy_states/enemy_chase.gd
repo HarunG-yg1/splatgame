@@ -15,7 +15,7 @@ func Enter() ->void:
 	enemy.stun = 0
 	print("chase" , enemy)
 	enemy.random_pt =  Vector2(randi_range(-10,10),randi_range(-10,10))
-	enemy.velocity *= 0
+
 	if timer.get_time_left() <= 0.1:
 		timer.start(6)
 

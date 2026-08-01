@@ -27,6 +27,7 @@ func remove(hit_owner : Enemy):
 	for i in arrowArr:
 		if i.enemy_Owner == hit_owner:
 			i.alive = false
+			i.hit = false
 			i.process_mode = Node.PROCESS_MODE_DISABLED
 			i.visible = false
 	
@@ -93,10 +94,10 @@ func _on_area_exited(area: arrow) -> void:
 	check_empty()
 	if player.i_time <= 0 and !area.hit and area.alive and area.visible:
 		area.animSprite.play("miss")
-		if area.enemy_Owner != null:
-			area.modulate = Color.WHITE
-			#player.velocity -=  (area.enemy_Owner.global_position - player.global_position)
-			player.missed = true
+
+		area.modulate = Color.WHITE
+		#player.velocity -=  (area.enemy_Owner.global_position - player.global_position)
+		player.missed = true
 
 	elif area.alive and area.visible:
 		player.missed = false

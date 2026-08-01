@@ -115,7 +115,7 @@ func UpdateAnimation(state : String) -> void:
 	pass
 	
 func increment_in_attk_type(color : Color):
-	if in_attk_index <= 7:
+	if in_attk_index < 7:
 		
 		if RythmLoader.measure_similiar_color(color,in_attk_type[in_attk_index-1]) < 1.3 and RythmLoader.check_similiar_colour(color,in_attk_type[in_attk_index-1]) :
 			in_attk_type[in_attk_index] = RythmLoader.minus_color(in_attk_type[in_attk_index],color,true)
@@ -124,7 +124,9 @@ func increment_in_attk_type(color : Color):
 			print(in_attk_type[in_attk_index-1],"check_here")
 		animfx.modulate =  in_attk_type[in_attk_index]
 		animfx.play("shine1")
-
+	else:
+		animfx.modulate = Color.WHITE
+		animfx.play("default")
 
 func choose_randomly(list_of_entries):
 	return list_of_entries[randi() % list_of_entries.size()]
@@ -203,7 +205,9 @@ func parried( from : Player ,pwer : float = 1,stun_time : float = 1):
 			hit_tol = hit_tol_max
 		else:
 			stun = 0.1
-
+	velocity *= 0
+	g_timer.start(0.15)
+	await g_timer.timeout
 	if from.velocity.length() > 100:
 		if (velocity + (from.velocity.normalized()) * 600).length() < 600:
 			velocity += (from.velocity.normalized()) * 600

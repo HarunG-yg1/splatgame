@@ -15,7 +15,7 @@ var color_for_hit : Array[Color] = [Color.WHITE,Color.WHITE,Color.WHITE,Color.WH
 var init_time : float
 #what happens when player enters state
 func Enter() ->void:
-	enemy.velocity *= 0
+
 	enemy.stun = 0
 	print("attack" , enemy)
 	time_on_player = 0

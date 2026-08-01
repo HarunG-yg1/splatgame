@@ -76,7 +76,7 @@ func attack_movement(delta):
 				prior_vel.y = -abs(temp_prior_vel.y)
 			changed_dir = true
 		
-		guy1.velocity = (prior_vel + guy1.direction*250).normalized() * guy1.MAX_SPEED *speed_mod
+		guy1.velocity = (prior_vel + guy1.last_dir*200).normalized() * guy1.MAX_SPEED *speed_mod
 		#print("ze speed",speed_mod )
 		
 		if speed_mod > 0.2:

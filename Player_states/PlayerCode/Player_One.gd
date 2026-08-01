@@ -236,13 +236,14 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 					body.stun = -1
 					body.in_attk_type = body.in_attk_type_copy
 				
-			if body.in_attk_type.size() <= body.in_attk_index and body.in_attk_index != 99:
+			elif body.in_attk_type.size() <= body.in_attk_index - 1  and body.in_attk_index != 99:
 				body.in_attk_index = 99
 				body.in_attk_type = body.in_attk_type_copy
 				body.parried(self,1,1.25)
 			else:
 				body.in_attk_index += 1
 				body.parried(self,1.5,1.5)
+			
 			if curr_out_attked == null:
 				curr_out_attked = body
 				follow_up_time = 3
