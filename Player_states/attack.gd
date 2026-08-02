@@ -5,16 +5,23 @@ class_name attack extends state_class
 @onready var move_state = $"../move"
 @onready var jump_state = $"../jump"
 @onready var dash_state = $"../dash"
+@onready var crouch_state = $"../crouching"
 @onready var stun_state = $"../stun"
+var hitspam_tol : int = 3
+var hit_lag : float = -0.3
 var target : Enemy
 var timer :=0.4
+var num_of_hits : int = 0
 var speed_mod : float= 1
 func _init() -> void:
+	#hit_lag = player.hitlag
+	#hitspam_tol = player.hitspam_tol
 	for i in get_children():
 		i.guy1 = self.guy1
 		i.statemachine = self.statemachine
 
 func Enter():
+	num_of_hits += 1
 	target = guy1.curr_out_attked
 	guy1.curr_out_attked = null
 
@@ -33,7 +40,8 @@ func Process(_delta):
 	
 	#print(guy1.out_attk_time)
 	
-	
+	if guy1.stun_time > 0:
+		return stun_state
 	timer -= _delta
 	if timer > 0:
 
@@ -43,13 +51,18 @@ func Process(_delta):
 		guy1.attack_shape.disabled = false 
 	if hit_boxOff():
 		guy1.attack_shape.disabled = true
-	elif timer <= 0 || guy1.stun_time > 0:
-		if guy1.stun_time > 0:
-			return stun_state
+	elif (timer <= 0 and num_of_hits < hitspam_tol) || (timer <= hit_lag and num_of_hits >= hitspam_tol) || guy1.stun_time > 0:
+		if num_of_hits >=  hitspam_tol:
+			num_of_hits = 0
+		
+
 		elif statemachine.old_state is not dash and statemachine.old_state is not jumpin and statemachine.old_state is not dive and statemachine.old_state is not block  and statemachine.old_state is not attack:
 			
 			return statemachine.old_state
 		else:
+			if (statemachine.old_state is dash || statemachine.old_state is jumpin) and guy1.crouch:
+			#	
+				return crouch_state.slide_state
 			return idle_state 
 		
 	

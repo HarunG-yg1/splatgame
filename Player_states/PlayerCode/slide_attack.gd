@@ -4,6 +4,15 @@ var prior_vel : Vector2
 var changed_dir := false
 
 	
+func _init() -> void:
+	#hit_lag = player.hitlag
+	#hitspam_tol = player.hitspam_tol
+	hit_lag = -0.3
+	hitspam_tol = 2
+	for i in get_children():
+		i.guy1 = self.guy1
+		i.statemachine = self.statemachine
+	
 func Enter():
 	target = guy1.curr_out_attked
 	guy1.curr_out_attked = null

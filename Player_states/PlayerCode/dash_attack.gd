@@ -2,13 +2,21 @@ class_name dash_attack extends attack
 
 var prior_vel : Vector2
 var changed_dir : bool = false
+
+func _init() -> void:
+	#hit_lag = player.hitlag
+	#hitspam_tol = player.hitspam_tol
+	hit_lag = -0.3
+	hitspam_tol = 2
+	for i in get_children():
+		i.guy1 = self.guy1
+		i.statemachine = self.statemachine
+
 func Enter():
 	target = guy1.curr_out_attked
 	guy1.curr_out_attked = null
 	print("dashAttack")
-
-	
-
+	guy1.velocity /= 1.6
 	speed_mod = 3.6
 	guy1.curr_attk = RythmLoader.add_color(Color.RED,guy1.curr_attk)
 	guy1.animfx.modulate = guy1.curr_attk
@@ -79,9 +87,9 @@ func attack_movement(delta):
 		guy1.velocity = (prior_vel + guy1.last_dir*200).normalized() * guy1.MAX_SPEED *speed_mod
 		#print("ze speed",speed_mod )
 		
-		if speed_mod > 0.2:
-			speed_mod -= delta* 12
+		if speed_mod > 1.2:
+			speed_mod -= delta* 8
 		else:
-			speed_mod = 0.2
+			speed_mod = 1.2
 	else:
 		guy1.move(guy1.direction,0.5)
