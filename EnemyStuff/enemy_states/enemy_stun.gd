@@ -48,11 +48,13 @@ func Process(_delta:float)->Enemy_State:
 		else:
 			temp_prior_vel.y = -abs(temp_prior_vel.y)
 		enemy.velocity = temp_prior_vel
-	if (enemy.velocity.length()) > 2:
+		changed_dir = true
+	if timer.get_time_left() < init_stun_time - 0.11 :
+		if (enemy.velocity.length()) > 2:
 
-		enemy.velocity = ( enemy.velocity)*0.975
-	else:
-		enemy.velocity = Vector2(0,0)
+			enemy.velocity = ( enemy.velocity)*0.98
+		else:
+			enemy.velocity = Vector2(0,0)
 
 	if timer.get_time_left() < 0.05 and enemy.stun <= 0:
 		if enemy.velocity.length() < 160:
