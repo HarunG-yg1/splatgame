@@ -32,44 +32,56 @@ func Process(_delta:float)->Enemy_State:
 		enemy.player = null
 		enemy.chase = false
 		return stun_state
+	
 	else:
-		#print( timer.get_time_left(), "time chase")
+
 		enemy.stun = 0 
+	
 	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt ).length() > 160:
 		
 		if runAway_state != null:
 			return runAway_state
 		else:
 			enemy.direction = enemy.chase_dir
-	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 120:
-		time_on_player -= _delta/5
-
+	
+	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 100:
+	
+		time_on_player -= _delta
 		enemy.direction = enemy.chase_dir
+	
 	if enemy.player!= null and ((enemy.global_position - enemy.player.global_position + enemy.random_pt).normalized() - (enemy.direction)).length() < 0.7  and (enemy.global_position - enemy.player.global_position).length() > 80:
-		#print("yoi")
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.2 ).normalized()) * enemy.SPEED * 1.4  , 0.05) 
-	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 80:
-		time_on_player += _delta
 		
-		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*4).normalized()) * enemy.SPEED * 1.4 , 0.05)
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction/1.2 ).normalized())  , 0.1) 
+	
+	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 80:
+		
+		time_on_player += _delta
+		enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + enemy.direction*4).normalized()) * enemy.SPEED * 1.2 , 0.1)
+	
 	else:
 		
 		if  enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() < 80:
+		
 			time_on_player += _delta
 			
 			if (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() < 30:
-				enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() - enemy.direction*1.05).normalized()) * enemy.SPEED * 0.5 , 0.1)
+			
+				enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() - enemy.direction*1.05).normalized()) * enemy.SPEED * 0.5 , 0.2)
+			
 			elif (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() < 60:
-				enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + Vector2(enemy.direction.y,enemy.direction.x)*1.05).normalized()) * enemy.SPEED * 0.5 , 0.1)
+			
+				enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + Vector2(enemy.direction.y,enemy.direction.x)*1.05).normalized()) * enemy.SPEED * 0.5 , 0.2)
 		
-		if enemy.player!= null and attk_timer.get_time_left() <= 0.1 and time_on_player > 0.5:
+		if enemy.player!= null and attk_timer.get_time_left() <= 0.1 and time_on_player > 0.25:
+			
 			attk_timer.start(2.5)
 			return attack_state
 
 	if timer.get_time_left() <= 0.1 || enemy.player == null:
+		
 		enemy.player = null
 		enemy.chase = false
 		enemy.enemy_fov.get_child(0).disabled = true
-	#	enemy.enemy_fov.get_child(1).disabled = true
 		return idle_state
+		
 	return null

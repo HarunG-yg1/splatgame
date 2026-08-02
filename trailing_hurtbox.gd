@@ -57,6 +57,6 @@ func _on_timer_timeout() -> void:
 
 
 func _on_body_entered(body: CharacterBody2D) -> void:
-	if body is Enemy and !player.attack_shape.disabled:
+	if body is Enemy and player != null and !player.attack_shape.disabled:
 		
 		player._on_attack_box_body_entered(body)

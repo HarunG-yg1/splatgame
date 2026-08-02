@@ -6,6 +6,7 @@ class_name idle extends state_class
 @onready var jump_state = $"../jump"
 @onready var attack_state = $"../attack"
 @onready var shoot_state = $"../shoot"
+@onready var stun_state = $"../stun"
 
 func Enter():
 	#print("idle")
@@ -34,6 +35,8 @@ func Process(_delta):
 		return shoot_state
 	elif guy1.is_attack:
 		return attack_state
+	elif guy1.stun_time > 0:
+		return stun_state
 
 func Exit():
 	pass

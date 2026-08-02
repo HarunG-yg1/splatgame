@@ -38,8 +38,7 @@ func Process(_delta):
 		RythmLoader.setHit_attkType(Color.GREEN)
 		if guy1.i_time <= 0:
 			guy1.i_time = 0.15
-#	if  RythmLoader.check_similiar_colour(statemachine.last_defend,Color.GREEN) and  RythmLoader.find_attkType(Color.WHITE):
-	#	RythmLoader.setHit_attkType(Color.WHITE)
+
 	guy1.attack_box.look_at(guy1.position+guy1.velocity)
 #	print("sliding")
 	prior_vel_dir *= 0.98
@@ -75,7 +74,8 @@ func Process(_delta):
 			return crouch_state.attack_state
 	elif guy1.is_shoot:
 		return crouch_state.shoot_state
-
+	elif guy1.stun_time > 0:
+		return crouch_state.stun_state
 func Exit():
 	
 	

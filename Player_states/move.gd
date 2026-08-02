@@ -6,6 +6,7 @@ class_name moving extends state_class
 @onready var jump_state = $"../jump"
 @onready var attack_state = $"../attack"
 @onready var shoot_state = $"../shoot"
+@onready var stun_state = $"../stun"
 var had_prior_vel : Vector2
 func Enter():
 	#print("move")
@@ -28,6 +29,8 @@ func Process(_delta):
 		return shoot_state
 	elif guy1.jumping:
 		return jump_state
+	elif guy1.stun_time > 0:
+		return stun_state
 	
 
 func Exit():

@@ -23,7 +23,7 @@ func Exit() ->void:
 	
 	enemy.enemy_fov.get_child(0).disabled = false
 	if init_stun_time > 0.5:
-		enemy.stun = -1
+
 	#enemy.velocity *= 0.1
 		enemy.in_attk_type = enemy.in_attk_type_copy
 		enemy.in_attk_index = 99

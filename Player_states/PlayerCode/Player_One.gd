@@ -5,7 +5,7 @@ extends CharacterBody2D
 
 @onready var animfx = $animfx
 @onready var sprite = $AttackBox/Sprite2D
-@onready var statemachine = $statemachine
+@onready var statemachine : PlayerStateMachine = $statemachine
 @onready var attack_box: Area2D = $AttackBox
 @onready var attack_shape: CollisionShape2D = $AttackBox/CollisionShape2D
 @onready var gun = $Gun
@@ -19,7 +19,7 @@ var is_shoot := false
 
 var follow_up_time : float = 0
 
-signal check_knockback
+
 
 var dash_num : int = 2
 var dash_cd : float = 0
@@ -31,7 +31,7 @@ var missed := true
 
 var i_time : float = 0
 var blocking : bool = false
-var stun : float = 0
+var stun_time : float = 0
 var jumping : bool = false
 var jump_vel : float = 0.0
 var crouch : bool = false
@@ -110,45 +110,43 @@ func _process(delta: float) -> void:
 	attack_box.look_at(get_global_mouse_position())
 	if i_time > 0:
 		i_time -= delta
-	if stun > 0:
-		stun -= delta
+
 	
 	jump_and_fall(delta)
 	
 		
-	if (stun <= 0 || stun > 0.8):
-		direction = Vector2(Input.get_axis("left","right"),Input.get_axis("up","down")).normalized()
+
+	direction = Vector2(Input.get_axis("left","right"),Input.get_axis("up","down")).normalized()
 		
-	else:
-		direction = Vector2.ZERO
+
 	if direction.length() > 0:
 		last_dir = direction
 	
 	
 	
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("block"):
+	if event.is_action_pressed("block") and (statemachine.curr_state is not stun):
 
 		blocking = true
 	else:
 		blocking = false
-	if event.is_action_pressed("crouch"):
+	if event.is_action_pressed("crouch") and (statemachine.curr_state is not stun):
 		crouch = true
 	elif  event.is_action_released("crouch"):
 		crouch = false 
-	if event.is_action_pressed("dash") and dash_cd <= 0.15 and dash_num > 0 and stun < 0.5 and !dashing:
+	if event.is_action_pressed("dash") and dash_cd <= 0.15 and dash_num > 0 and (statemachine.curr_state is not stun) and !dashing:
 		dashing = true
 		dash_num -= 1
 		dash_cd = 0.75
 	
-	if event.is_action_released("Attack") and stun <= 0.1:
+	if event.is_action_released("Attack") and (statemachine.curr_state is not stun):
 		is_attack = true
 		
 
-	if event.is_action_pressed("shoot") and stun <= 0.1:
+	if event.is_action_pressed("shoot") and (statemachine.curr_state is not stun):
 		is_shoot = true
 	
-	if event.is_action_pressed("jump") and !jumping:
+	if event.is_action_pressed("jump") and !jumping and (statemachine.curr_state is not stun):
 		jump_vel = -80
 		jumping = true
 		jump()
@@ -211,9 +209,7 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 		else:
 
 			
-			if  curr_out_attked == null and statemachine.curr_state is attack and (statemachine.old_state is moving || statemachine.old_state is idle):
-				
-				check_knockback.emit(true,body)
+			
 			
 			if body.in_attk_index == 99:
 				body.in_attk_index = randi_range(0,7)
@@ -248,9 +244,6 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 				curr_out_attked = body
 				follow_up_time = 3
 
-		
-			
-		#velocity += body.velocity
 
 
 
@@ -264,13 +257,13 @@ func damage(attker : Enemy, melee : bool, pwer : float):
 		return
 	
 	curr_in_attker = attker
-	if i_time <= 0 and stun <= 0:
-		stun = 0.5
+	if i_time <= 0 and stun_time <= 0:
+		stun_time = 0.4
 		current_health -= attker.damage_amnt
 		health_changed.emit(current_health, max_health)
 		if current_health <= 0:
 			die()
-	
+	if i_time <= 0:
 		velocity -=  (attker.global_position - global_position).normalized()*pwer
 
 
@@ -306,19 +299,9 @@ func exit_puddle(this_puddle : blood_puddle):
 		visible = true
 		last_puddle = null
 		dive_in = false
-	pass
+
 	
 
 
-func _on_check_knockback(follow:bool, flourishee : Enemy) -> void:
-	g_timer.start(0.1)
-	
-	await g_timer.timeout
-	
-	if flourishee != null  and follow: 
-		direction = (global_position - flourishee.global_position ).normalized()
-		#if flourishee.velocity.length() < 600:
-		velocity -= (global_position - flourishee.global_position ).normalized()*800
-		#	g_timer.start(0.25)
 
 		

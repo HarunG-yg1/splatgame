@@ -230,7 +230,7 @@ func pos_check(_delta : float)-> bool:
 func _on_hitter_body_entered(body: Player) -> void:
 	if body.missed:
 		print("fruhh")
-		body.damage(self, true, 100)
+		body.damage(self, true, 400)
 		body.missed = false
 	g_timer.start(0.2)
 	await g_timer.timeout

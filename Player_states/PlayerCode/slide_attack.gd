@@ -12,7 +12,7 @@ func Enter():
 
 	print("SlideAttack")
 	
-	guy1.velocity = guy1.velocity.normalized() * 300
+	#guy1.velocity = guy1.velocity.normalized() * 300
 	prior_vel = guy1.velocity
 	
 	guy1.curr_attk = RythmLoader.add_color(Color.GREEN,guy1.curr_attk)
@@ -38,18 +38,18 @@ func attack_movement(delta):
 		guy1.start_trail.emit(guy1)
 		guy1.i_time = 0.24
 		if Input.is_action_pressed("aim_to_mouse"):
-			prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * 420
+			prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * 450
 			guy1.velocity = prior_vel
 	#
 		else:
 			if guy1.follow_up_time <=0 || (target != null and ((target.global_position - guy1.global_position).normalized()-guy1.direction.normalized()).length() > 1.41):
 				guy1.follow_up_time = 0
 		
-				prior_vel = guy1.last_dir.normalized() * 400
+				prior_vel = guy1.last_dir.normalized() * 450
 
 			elif target != null:
 				print("mooo")
-				prior_vel = (target.global_position - guy1.global_position).normalized()*420
+				prior_vel = (target.global_position - guy1.global_position).normalized()*450
 
 
 		guy1.sprite.play("BasicATK")
@@ -61,7 +61,7 @@ func attack_movement(delta):
 	if guy1.get_last_slide_collision() != null and guy1.get_last_slide_collision() != Enemy and !changed_dir:
 	
 	
-		var temp_prior_vel = (prior_vel.normalized() + 2*guy1.get_last_slide_collision().get_normal()).normalized() * 420
+		var temp_prior_vel = (prior_vel.normalized() + 2*guy1.get_last_slide_collision().get_normal()).normalized() * 450
 		if( guy1.get_last_slide_collision().get_normal().x >0) :
 			prior_vel.x = abs(temp_prior_vel.x)
 		else:
@@ -76,7 +76,7 @@ func attack_movement(delta):
 		print(guy1.get_last_slide_collision().get_normal(),"privel1")
 		print(prior_vel,"privel")
 		
-	if !guy1.attack_shape.disabled:
+	if guy1.attack_shape.disabled:
 		if RythmLoader.find_attkType(Color.GREEN):
 			RythmLoader.setHit_attkType(Color.GREEN)
 			
@@ -85,4 +85,7 @@ func attack_movement(delta):
 	
 	print("vroo")
 	prior_vel *= 0.98
-	guy1.velocity = (prior_vel + guy1.last_dir*250).normalized() * 420
+	if guy1.velocity.length() > 300:
+		guy1.velocity = (prior_vel + guy1.direction*200)
+	else:
+		guy1.velocity = (prior_vel + guy1.direction*200).normalized() * 300

@@ -32,6 +32,9 @@ func Process(_delta):
 	elif guy1.blocking:
 		guy1.set_collision_mask_value(8,true)
 		return crouch_idle_state.block_state
+	elif guy1.stun_time > 0: 
+		
+		return crouch_idle_state.stun_state
 
 func Exit():
 	pass

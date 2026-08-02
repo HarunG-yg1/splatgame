@@ -7,6 +7,7 @@ class_name jumpin extends state_class
 @onready var aerial_attack_state = $"../air_attack"
 @onready var attack_state = $"../attack"
 @onready var shoot_state = $"../shoot"
+@onready var stun_state = $"../stun"
 func Enter():
 
 	guy1.velocity *= 0.75
@@ -31,6 +32,8 @@ func Process(_delta):
 		if guy1.crouch:
 			return crouch_state
 		return move_state
+	elif guy1.stun_time > 0:
+		return stun_state
 	elif guy1.dashing and guy1.jump_vel >=0:
 		
 		return dash_state

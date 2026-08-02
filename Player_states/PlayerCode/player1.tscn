@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://ctog7ixvmi0mn" path="res://gun.tscn" id="15_y0uv2"]
 [ext_resource type="Texture2D" uid="uid://ddqsq7rgytjlc" path="res://Animations/SWINGKNIGHT.png" id="16_2nwgi"]
 [ext_resource type="Texture2D" uid="uid://0b3dbnuiyequ" path="res://Animations/PARRYKNIGHT.png" id="17_5yovl"]
+[ext_resource type="Script" uid="uid://tqwgjxiwkikb" path="res://Player_states/stun.gd" id="17_lh0bs"]
 [ext_resource type="Texture2D" uid="uid://q61jx1vclrxp" path="res://Animations/IDLEKNIGHT.png" id="18_lh0bs"]
 [ext_resource type="Texture2D" uid="uid://bk6hrymqnbxrp" path="res://Assets/yellow.png" id="20_f6lud"]
 [ext_resource type="Texture2D" uid="uid://ckqt4h2s0qcl3" path="res://Assets/LOGO.png" id="25_5yovl"]
@@ -270,6 +271,9 @@ script = ExtResource("14_2nwgi")
 [node name="slide_attack" type="Node" parent="statemachine" unique_id=363927193]
 script = ExtResource("15_5yovl")
 
+[node name="stun" type="Node" parent="statemachine" unique_id=1207545851]
+script = ExtResource("17_lh0bs")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1712918288]
 shape = SubResource("CircleShape2D_5vw27")
 
@@ -304,5 +308,4 @@ position = Vector2(-160, 86)
 scale = Vector2(0.2, 0.01)
 texture = ExtResource("25_5yovl")
 
-[connection signal="check_knockback" from="." to="." method="_on_check_knockback"]
 [connection signal="body_entered" from="AttackBox" to="." method="_on_attack_box_body_entered"]

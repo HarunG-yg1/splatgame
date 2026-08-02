@@ -9,6 +9,7 @@ class_name crouch_idle extends state_class
 @onready var slide_attack_state = $"../slide_attack"
 @onready var shoot_state = $"../shoot"
 @onready var block_state = $"../block"
+@onready var stun_state = $"../stun"
 var had_prior_vel : Vector2
 
 func _init() -> void:
@@ -33,10 +34,12 @@ func Enter():
 	
 	pass
 func Process(_delta):
-
+	
 	if !guy1.crouch:
 		guy1.set_collision_mask_value(8,true)
 		return idle_state
+	elif guy1.stun_time > 0: 
+		return stun_state
 	elif guy1.jumping:
 		guy1.set_collision_mask_value(8,true)
 		guy1.crouch = false
