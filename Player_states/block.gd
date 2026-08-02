@@ -56,7 +56,7 @@ func Process(_delta):
 		
 		else:
 			return idle_state 
-	elif guy1.stun_timr > 0:
+	elif guy1.stun_time > 0:
 		return stun_state
 func Exit():
 

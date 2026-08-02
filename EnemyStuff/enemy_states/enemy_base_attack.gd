@@ -22,11 +22,11 @@ func Enter() ->void:
 	gen_timer.start(6)
 	var acc : float = 0
 
-	amount_hits= randi_range(3,8)
-	for i : int in range(amount_hits-1):
+	amount_hits= randi_range(2,7)
+	for i : int in range(amount_hits):
 		
-		time_for_hit[i] = enemy.out_attk_time[amount_hits - i - 1]
-		color_for_hit[i] = enemy.out_attk_color[amount_hits - i - 1]
+		time_for_hit[i] = enemy.out_attk_time[amount_hits - i]
+		color_for_hit[i] = enemy.out_attk_color[amount_hits - i]
 		
 	print(enemy.out_attk_time.size())
 	time_for_hit[amount_hits-1] += 0.5

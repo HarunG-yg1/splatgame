@@ -7,7 +7,7 @@ func Enter():
 	guy1.curr_out_attked = null
 	print("dashAttack")
 
-	guy1.velocity /=5
+	
 
 	speed_mod = 3.6
 	guy1.curr_attk = RythmLoader.add_color(Color.RED,guy1.curr_attk)
@@ -84,4 +84,4 @@ func attack_movement(delta):
 		else:
 			speed_mod = 0.2
 	else:
-		guy1.move(guy1.direction,0.3)
+		guy1.move(guy1.direction,0.5)

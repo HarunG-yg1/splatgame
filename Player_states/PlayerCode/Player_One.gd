@@ -172,10 +172,8 @@ func jump_and_fall(delta):
 
 
 func move(direct,modifier=1):
-	if ((direct.length()) > 0.0 and abs(velocity.length()) <  MAX_SPEED):
-		velocity += (direct * INITIAL_SPEED) *modifier
-	elif (direct.length()) > 0.0 and (abs(velocity.length()) >=  MAX_SPEED):
-		velocity -=  velocity/4 - (direct* INITIAL_SPEED)*modifier
+	velocity = lerp(velocity, direct*MAX_SPEED* modifier,0.1)
+	
 
 func jump()->void:
 	para_in_sinwave = 0

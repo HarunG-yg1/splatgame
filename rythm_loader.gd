@@ -3,12 +3,13 @@ extends Node
 var player : Player
 var hitlineScene = preload("res://Misc/defense.tscn")
 var  hitline : defense_box
+
 func addTo_hitline(hit_arr : Array[float] , color_arr : Array[Color], hit_owner : Enemy):
 	var acc : float = 0
 	if hitline == null:
 		_show_attack_box()
 	for i : int in range(hit_arr.size()):
-		if hit_arr[hit_arr.size() - i - 1]>= 0.0:
+		if hit_arr[hit_arr.size() - i - 1]> 0.0:
 			
 			acc += hit_arr[hit_arr.size() - i - 1]
 			#var time = acc
