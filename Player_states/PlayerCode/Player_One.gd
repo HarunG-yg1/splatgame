@@ -268,6 +268,7 @@ func damage(attker : Enemy, melee : bool, pwer : float):
 		if current_health <= 0:
 			die()
 	if i_time <= 0:
+
 		velocity -=  (attker.global_position - global_position).normalized()*pwer
 
 
