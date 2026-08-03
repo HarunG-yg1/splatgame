@@ -159,7 +159,7 @@ func attack_rythm(_delta):
 	
 		enemy.animfx.scale.x =1
 		enemy.animfx.scale.y =1
-		enemy.velocity /= 2
+		enemy.velocity /= 10
 		attack_now()
 
 		amount_hits -= 1

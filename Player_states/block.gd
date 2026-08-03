@@ -38,13 +38,12 @@ func Process(_delta):
 		block_n_check_last_state()
 
 
-	if timer < 0:
+	if timer < 0 and !guy1.blocking:
 		if consecutive_block > 1:
 			consecutive_block -= 1
-		guy1.blocking = false
 		
-	#	if guy1.signal_attk:
-#			return attack_state
+		
+
 			
 		if guy1.jumping:
 			guy1.blocking = false
@@ -54,8 +53,9 @@ func Process(_delta):
 			guy1.blocking = false
 			return dash_state
 		
-		else:
+		elif !guy1.blocking:
 			return idle_state 
+			
 	elif guy1.stun_time > 0:
 		return stun_state
 func Exit():
@@ -64,41 +64,41 @@ func Exit():
 		guy1.curr_in_attker.parried(guy1,1.2,1.5)
 		consecutive_block = 0
 	if !guy1.blocking:
-		guy1.sprite.play("default")
+		guy1.sprite.play("block")
 	pass
 
 func block_n_check_last_state():
 	if RythmLoader.find_attkType(Color.WHITE):
-		timer = 0
+		timer = 0.4
 
 		RythmLoader.setHit_attkType(Color.WHITE)
 	#	
 		consecutive_block += 2
 		guy1.animfx.play("parried")
 	if RythmLoader.find_attkType(Color.RED) and statemachine.old_state is dash:
-		timer = 0
+		timer = 0.4
 
 		RythmLoader.setHit_attkType(Color.RED)
 		statemachine.last_defend = RythmLoader.add_color(Color.RED,statemachine.last_defend)
-		guy1.i_time = 0.25
+		guy1.i_time = 0.15
 		consecutive_block += 2
 		guy1.animfx.play("parried")
 	
 	elif RythmLoader.find_attkType(Color.BLUE) and statemachine.old_state is jumpin:
-		timer = 0
+		timer = 0.4
 
 		RythmLoader.setHit_attkType(Color.BLUE)
 		statemachine.last_defend = RythmLoader.add_color(Color.BLUE,statemachine.last_defend)
-		guy1.i_time = 0.25
+		guy1.i_time = 0.15
 		consecutive_block += 2
 		guy1.animfx.play("parried")
 	
 	elif RythmLoader.find_attkType(Color.GREEN) and statemachine.old_state is slide:
-		timer = 0
+		timer = 0.4
 
 		RythmLoader.setHit_attkType(Color.GREEN)
 		statemachine.last_defend = RythmLoader.add_color(Color.GREEN,statemachine.last_defend)
-		guy1.i_time = 0.25
+		guy1.i_time = 0.15
 		consecutive_block += 2
 		guy1.animfx.play("parried")
 	

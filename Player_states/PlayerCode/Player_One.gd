@@ -128,7 +128,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("block") and (statemachine.curr_state is not stun):
 
 		blocking = true
-	else:
+	elif  event.is_action_released("block"):
 		blocking = false
 	if event.is_action_pressed("crouch") and (statemachine.curr_state is not stun):
 		crouch = true
