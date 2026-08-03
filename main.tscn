@@ -88,3 +88,8 @@ z_index = 1
 [node name="fx_trail" parent="." unique_id=933946899 instance=ExtResource("8_5vw27")]
 
 [node name="trail_hurt" parent="." unique_id=2145789447 instance=ExtResource("9_kek77")]
+
+[node name="enemy" parent="." unique_id=1466780452 instance=ExtResource("2_4c57u")]
+position = Vector2(276, 551)
+in_attk_type = Array[Color]([Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1)])
+out_attk_color = Array[Color]([Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1), Color(1, 0.5019608, 0, 1)])

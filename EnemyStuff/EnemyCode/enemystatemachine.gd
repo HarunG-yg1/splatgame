@@ -1,6 +1,6 @@
 class_name EnemyStateMachine
 extends Node
-
+var timer : float = 0.05
 var states : Array[Enemy_State] 
 var curr_state : Enemy_State
 var old_state : Enemy_State
@@ -21,9 +21,10 @@ func _ready() -> void:
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-
-	change_state(curr_state.Process(delta))
-	
+	timer -= delta
+	if timer < 0:
+		change_state(curr_state.Process(0.05 + delta))
+		timer = 0.05
 
 
 func change_state(new_state):

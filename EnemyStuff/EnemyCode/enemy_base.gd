@@ -7,6 +7,8 @@ class_name Enemy extends CharacterBody2D
 @onready var g_timer  =  $general_timer
 @onready var label  =  $Label
 var stun : float = 0
+
+
 var was_last_hit : float
 
 
@@ -169,8 +171,9 @@ func boids():
 
 
 func damage(color : Color,amount: int, from: Vector2 = Vector2.ZERO) -> void:
-	if was_last_hit > 0.2:
+	if was_last_hit >= 0.2:
 		was_last_hit = 0
+		
 		increment_in_attk_type(color )
 		health -= amount
 		label.text = str(health)
@@ -198,7 +201,8 @@ func _on_enemy_fov_body_exited(body: CharacterBody2D) -> void:
 
 		
 func parried( from : Player ,pwer : float = 1,stun_time : float = 1):
-
+	if player == null:
+		player= from
 	if stun <= 0 and stun > -0.01:
 		hit_tol -= 1
 		if hit_tol <= 0:
@@ -206,16 +210,19 @@ func parried( from : Player ,pwer : float = 1,stun_time : float = 1):
 			hit_tol = hit_tol_max
 		else:
 			stun = 0.25
-	velocity *= 0
-	var new_vel : Vector2 = -( Vector2(from.velocity.y,from.velocity.x)/2 + from.velocity ).normalized()* 600
-	
-	g_timer.start(0.1)
-	await g_timer.timeout
 
 		
-	velocity = new_vel
+	var vel : Vector2 =  (player.global_position - global_position).normalized() * 600
+	g_timer.start(0.1)
+	await g_timer.timeout
+	print("stun works")
+	if (velocity).length() <= 100 and state_machine.curr_state is Enemy_State_Stun:
+		velocity = -vel
+
 	
-	pass
+	
+
+
 	
 func pos_check(_delta : float)-> bool:
 	time_inter_pos += _delta

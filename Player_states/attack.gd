@@ -91,7 +91,7 @@ func attack_movement(delta):
 				guy1.velocity = Vector2(0,0)
 	else:
 		if hit_boxOn():
-			guy1.velocity += guy1.velocity.normalized() * 600
+			guy1.velocity += guy1.velocity.normalized() * 400
 		else:
 			if (guy1.velocity.length()) > 1 :
 				guy1.velocity -= guy1.velocity/15  

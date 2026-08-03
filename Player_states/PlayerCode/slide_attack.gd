@@ -54,7 +54,7 @@ func attack_movement(delta):
 			if guy1.follow_up_time <=0 || (target != null and ((target.global_position - guy1.global_position).normalized()-guy1.direction.normalized()).length() > 1.41):
 				guy1.follow_up_time = 0
 		
-				prior_vel = guy1.last_dir.normalized() * 450
+				prior_vel = guy1.velocity.normalized() * 450
 
 			elif target != null:
 				print("mooo")

@@ -22,9 +22,12 @@ func get_box(coll : CollisionShape2D):
 	coll.disabled = false
 	
 	coll.global_position = player.global_position + player.velocity.normalized() *40
-	coll.scale.x =  player.velocity.length()/(coll.shape.size.x * 4)
+	if player.velocity.length()/(coll.shape.size.x * 4) > 1:
+		coll.scale.x =  player.velocity.length()/(coll.shape.size.x * 4)
+	else:
+		coll.scale.x =  0.75
 	if index ==0:
-		coll.rotation = player.attack_box.rotation
+		coll.look_at(player.global_position + player.velocity)
 	else:
 		coll.look_at(coll_arr[index-1].global_position)
 	
@@ -44,6 +47,8 @@ func start_trail(plyr):
 func _on_timer_timeout() -> void:
 
 	if index < coll_arr.size():
+		if index >= 2:
+			coll_arr[index-2].disabled = true
 		get_box(coll_arr[index])
 		index += 1
 		timer.start(0.1)
