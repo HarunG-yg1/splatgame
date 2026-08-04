@@ -69,7 +69,7 @@ func Process(_delta:float)->Enemy_State:
 	if timer.get_time_left() <= 0.05 and (enemy.stun <= 0 || init_stun_time > 1):
 		if enemy.velocity.length() < 160:
 			return idle_state
-	elif timer.get_time_left() <= 0.05 and enemy.stun >= 0.05:
+	elif timer.get_time_left() <= 0.05 and enemy.stun >= 0.25:
 		
 		Enter()
 

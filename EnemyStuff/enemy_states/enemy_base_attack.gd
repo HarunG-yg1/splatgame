@@ -143,7 +143,7 @@ func attack_rythm(_delta):
 		
 		if enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() >60:
 	
-			enemy.velocity = lerp(enemy.velocity,enemy.chase_dir *  enemy.player.MAX_SPEED *1.5,0.2) 
+			enemy.velocity = lerp(enemy.velocity,enemy.chase_dir *  enemy.player.MAX_SPEED *1.5,0.5) 
 	
 		else:
 	
@@ -162,7 +162,7 @@ func attack_rythm(_delta):
 		enemy.animfx.scale.x =1
 		enemy.animfx.scale.y =1
 		
-		enemy.velocity /= 1.5
+		enemy.velocity /= 2
 		attack_now()
 		
 		amount_hits -= 1

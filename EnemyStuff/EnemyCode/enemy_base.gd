@@ -81,7 +81,7 @@ func spawn_blood() -> void:
 	puddle.launch(away_dir * blood_speed)
 
 func _ready() -> void:
-	EnemyHandler.get_enemy(self)
+
 	label.text = str(health)
 	in_attk_type_copy = in_attk_type
 	hit_tol_max = hit_tol
@@ -124,12 +124,23 @@ func increment_in_attk_type(color : Color):
 		
 		if RythmLoader.measure_similiar_color(color,in_attk_type[in_attk_index-1]) < 1.3 and RythmLoader.check_similiar_colour(color,in_attk_type[in_attk_index-1]) :
 			in_attk_type[in_attk_index] = RythmLoader.minus_color(in_attk_type[in_attk_index],color,true)
-			print(RythmLoader.measure_similiar_color(color,in_attk_type[in_attk_index-1]),"check_here")
-			print(color,"check_here")
-			print(in_attk_type[in_attk_index-1],"check_here")
-		animfx.modulate =  in_attk_type[in_attk_index]
-		animfx.play("shine1")
+			#print(RythmLoader.measure_similiar_color(color,in_attk_type[in_attk_index-1]),"check_here")
+		#	print(color,"check_here")
+			#print(in_attk_type[in_attk_index-1],"check_here")
+			animfx.modulate =  in_attk_type[in_attk_index]
+			animfx.play("shine1")
+			
+		elif RythmLoader.check_similiar_colour(color,in_attk_type[in_attk_index-1]):
+			
+			animfx.modulate =  in_attk_type[in_attk_index]
+			animfx.play("shine1")
+			
+		else:
+			in_attk_index = 99
+			animfx.modulate = Color.WHITE
+			animfx.play("default")
 	else:
+		in_attk_index = 99
 		animfx.modulate = Color.WHITE
 		animfx.play("default")
 		
@@ -219,7 +230,7 @@ func parried( from : Player ,pwer : float = 1,stun_time : float = 1):
 	g_timer.start(0.08)
 	await g_timer.timeout
 	print("stun works")
-	if (velocity.normalized() + vel.normalized()).length() > 0.7 and state_machine.curr_state is Enemy_State_Stun:
+	if (velocity.normalized() + vel.normalized()).length() > 0.7 and state_machine.curr_state is Enemy_State_Stun and  state_machine.curr_state.timer.get_time_left() > 0.11:
 		velocity = -vel
 
 	

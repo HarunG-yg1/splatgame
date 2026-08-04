@@ -7,4 +7,8 @@ extends Node2D
 func _ready() -> void:
 	trail.init(player)
 	hurttrail.init(player)
+	EnemyHandler.clear()
+	for i in get_children():
+		if i is Enemy:
+			EnemyHandler.get_enemy(i)
 	pass # Replace with function body.

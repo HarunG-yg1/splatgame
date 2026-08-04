@@ -8,6 +8,7 @@ func get_enemy(enemy : Enemy):
 	enemies.append(enemy)
 
 func clear():
+	prev_time = 0
 	enemies = []
 	
 func _process(delta: float) -> void:
@@ -17,17 +18,18 @@ func _process(delta: float) -> void:
 			
 			if index < enemies.size():
 				if enemies[index] != null:
-					enemies[index].Process(timer+prev_time)
-					enemies[index].state_machine.Process(timer+prev_time)
+					enemies[index].Process(prev_time+delta)
+					enemies[index].state_machine.Process(prev_time+delta)
+					print(prev_time,"prev_time")
 				index += 1
 				
 			else:
 				index = 0
-				timer = 0
+
 				break
 
-		if prev_time < 0.05:
+		if prev_time < max_process_interval:
 			prev_time += timer
 		else:
-			prev_time = 0.05
+			prev_time = max_process_interval
 		timer = 0

@@ -215,35 +215,39 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 				
 				body.damage(curr_attk,0,global_position)
 				body.parried(self,0.75,1.2)
-				#print(curr_attk, "check here")
+				print(curr_attk, "check here" , body.name)
 			
 			elif body.in_attk_type.size() > body.in_attk_index:
+				
 				if RythmLoader.check_similiar_colour(body.in_attk_type[body.in_attk_index],Color.WHITE):
+					
 					body.damage(curr_attk,5,global_position)
-					body.in_attk_index += 1
+					
 					body.parried(self,1.5,1)
 					
 				elif RythmLoader.check_similiar_colour(body.in_attk_type[body.in_attk_index],curr_attk):
-					#print("hitt",(body.in_attk_type[body.in_attk_index]),curr_attk )
+
 					if statemachine.curr_state is attack and (statemachine.old_state is moving || statemachine.old_state is idle):
 						body.damage( curr_attk,4,global_position)
 					else:
 						body.damage( curr_attk,7,global_position)
-					body.in_attk_index += 1
+					
 					body.parried(self,1.5,1)
 				else:
+
 					body.damage(curr_attk, 1,global_position)
 					body.parried(self,1.5,0.5)
-					body.stun = -1
-					body.in_attk_index = 99
-					body.in_attk_type = body.in_attk_type_copy
+					
 				
-			elif body.in_attk_type.size() <= body.in_attk_index  and body.in_attk_index != 99:
+					
+				
+			if body.in_attk_type.size() <= body.in_attk_index and body.in_attk_index != 99:
 				body.in_attk_index = 99
 				body.in_attk_type = body.in_attk_type_copy
-				body.parried(self,1,1.25)
+				#body.parried(self,1,1.25)
 
-
+			elif  body.in_attk_type.size() > body.in_attk_index:
+				body.in_attk_index += 1
 			
 			if curr_out_attked == null:
 				curr_out_attked = body
