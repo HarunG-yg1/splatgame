@@ -26,6 +26,7 @@ Dialogue="*uid://7rovv8pcbh5q"
 Statloader="*uid://cnv53tx3vw5fq"
 MusicPlayer="*uid://c462a4svv5e0j"
 RythmLoader="*uid://bjqewkdvgpqnv"
+EnemyHandler="*uid://dsyo6aqvle1sf"
 
 [input]
 

@@ -21,9 +21,9 @@ func init( plyr:Player,emit : bool = false):
 func get_box(coll : CollisionShape2D):
 	coll.disabled = false
 	
-	coll.global_position = player.global_position + player.velocity.normalized() *40
-	if player.velocity.length()/(coll.shape.size.x * 4) > 1:
-		coll.scale.x =  player.velocity.length()/(coll.shape.size.x * 4)
+	coll.global_position = player.global_position -player.velocity.normalized() *20
+	if player.velocity.length()/(coll.shape.size.x * 8) > 1:
+		coll.scale.x =  player.velocity.length()/(coll.shape.size.x * 8)
 	else:
 		coll.scale.x =  0.75
 	if index ==0:

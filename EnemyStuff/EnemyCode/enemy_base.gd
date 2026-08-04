@@ -81,6 +81,7 @@ func spawn_blood() -> void:
 	puddle.launch(away_dir * blood_speed)
 
 func _ready() -> void:
+	EnemyHandler.get_enemy(self)
 	label.text = str(health)
 	in_attk_type_copy = in_attk_type
 	hit_tol_max = hit_tol
@@ -89,7 +90,9 @@ func _ready() -> void:
 	#direction.y = 1
 	pass # Replace with function body.
 
-func _process(delta: float) -> void:
+func Process(delta: float) -> void:
+	
+	
 	was_last_hit += delta
 	if stun < -0.05:
 		stun += delta
@@ -103,10 +106,10 @@ func _process(delta: float) -> void:
 	if velocity.length() > 0:
 		enemy_fov.position = velocity.normalized()*70
 		enemy_fov.rotation =  (velocity).angle()
-	pass
+	boids()
 	
 func _physics_process(delta: float) -> void:
-	boids()
+
 	
 	move_and_slide()
 	
@@ -171,7 +174,7 @@ func boids():
 
 
 func damage(color : Color,amount: int, from: Vector2 = Vector2.ZERO) -> void:
-	if was_last_hit >= 0.2:
+	if was_last_hit >= 0.125:
 		was_last_hit = 0
 		
 		increment_in_attk_type(color )
@@ -213,10 +216,10 @@ func parried( from : Player ,pwer : float = 1,stun_time : float = 1):
 
 		
 	var vel : Vector2 =  (player.global_position - global_position).normalized() * 600
-	g_timer.start(0.1)
+	g_timer.start(0.08)
 	await g_timer.timeout
 	print("stun works")
-	if (velocity).length() <= 100 and state_machine.curr_state is Enemy_State_Stun:
+	if (velocity.normalized() + vel.normalized()).length() > 0.7 and state_machine.curr_state is Enemy_State_Stun:
 		velocity = -vel
 
 	
@@ -226,7 +229,7 @@ func parried( from : Player ,pwer : float = 1,stun_time : float = 1):
 	
 func pos_check(_delta : float)-> bool:
 	time_inter_pos += _delta
-	if time_inter_pos < 0.02:
+	if time_inter_pos < 0.05:
 		inter_pos = global_position
 	else:
 		time_inter_pos = 0

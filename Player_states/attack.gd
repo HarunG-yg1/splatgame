@@ -81,7 +81,7 @@ func Exit():
 
 func attack_movement(delta):
 	
-	if guy1.attack_shape.disabled:
+	if guy1.attack_shape.disabled || timer <= 0.05:
 		if guy1.direction.length() > 0.0:
 			guy1.move(guy1.direction,speed_mod)
 		elif (guy1.velocity.length()) > 1 :

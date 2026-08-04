@@ -38,16 +38,16 @@ func Process(_delta:float)->state_class:
 
 	if (guy1.velocity.length()) > 2:
 
-		guy1.velocity = ( guy1.velocity)*0.98
+		guy1.velocity = ( guy1.velocity)*0.95
 		
 	else:
 		
 		guy1.velocity = Vector2(0,0)
 
-	if timer.get_time_left() < 0.05 and guy1.stun_time <= 0:
+	if timer.get_time_left() <= 0.08 and guy1.stun_time <= 0:
 		if guy1.velocity.length() < 160:
 			return idle_state
-	elif timer.get_time_left() < 0.05 and guy1.stun_time > 0.02:
+	elif timer.get_time_left() <= 0.08 and guy1.stun_time > 0.02:
 		Enter()
 		
 	return null

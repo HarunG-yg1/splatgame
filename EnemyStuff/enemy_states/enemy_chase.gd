@@ -16,8 +16,8 @@ func Enter() ->void:
 	print("chase" , enemy)
 	enemy.random_pt =  Vector2(randi_range(-10,10),randi_range(-10,10))
 
-	if timer.get_time_left() <= 0.1:
-		timer.start(6)
+
+	timer.start(6)
 
 
 func Exit() ->void:
@@ -47,12 +47,12 @@ func Process(_delta:float)->Enemy_State:
 	
 	if enemy.player!= null and (enemy.secondary_vel.normalized() - (enemy.direction)).length() < 0.7  and (enemy.global_position - enemy.player.global_position).length() > 80:
 		
-		enemy.velocity =  lerp(enemy.velocity,(enemy.secondary_vel.normalized())  , 1) 
+		enemy.velocity =  lerp(enemy.velocity,(enemy.secondary_vel.normalized())  , 0.2) 
 	
 	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 80:
 		
 		time_on_player += _delta
-		enemy.velocity =  lerp(enemy.velocity,((enemy.direction)) * enemy.SPEED * 1.2 , 1)
+		enemy.velocity =  lerp(enemy.velocity,((enemy.direction)) * enemy.SPEED * 1.2 , 0.2)
 	
 	else:
 		

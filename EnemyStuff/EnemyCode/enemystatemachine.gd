@@ -20,11 +20,11 @@ func _ready() -> void:
 	curr_state = states[0]
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	timer -= delta
-	if timer < 0:
-		change_state(curr_state.Process(0.05 + delta))
-		timer = 0.05
+func Process(delta: float) -> void:
+
+
+	change_state(curr_state.Process(delta))
+
 
 
 func change_state(new_state):

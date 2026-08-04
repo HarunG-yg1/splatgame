@@ -89,6 +89,7 @@ func adjust_curr_attk(delta):
 		curr_attk.b = 1
 	color_att_sprite.modulate = curr_attk
 func _process(delta: float) -> void:
+	print("delta",delta)
 	if follow_up_time > 0:
 		follow_up_time -= delta
 	else:
@@ -223,7 +224,7 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 					body.parried(self,1.5,1)
 					
 				elif RythmLoader.check_similiar_colour(body.in_attk_type[body.in_attk_index],curr_attk):
-					print("hitt",(body.in_attk_type[body.in_attk_index]),curr_attk )
+					#print("hitt",(body.in_attk_type[body.in_attk_index]),curr_attk )
 					if statemachine.curr_state is attack and (statemachine.old_state is moving || statemachine.old_state is idle):
 						body.damage( curr_attk,4,global_position)
 					else:

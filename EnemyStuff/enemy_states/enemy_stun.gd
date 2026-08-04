@@ -55,7 +55,7 @@ func Process(_delta:float)->Enemy_State:
 		enemy.velocity = temp_prior_vel
 		changed_dir = true
 	
-	if timer.get_time_left() <= init_stun_time - 0.10 and enemy.velocity.length() <= 0:
+	if timer.get_time_left() <= init_stun_time - 0.1 and enemy.velocity.length() <= 0:
 		enemy.velocity = ( away_dir) 
 		print("stun wnot")
 
@@ -64,9 +64,9 @@ func Process(_delta:float)->Enemy_State:
 		
 		enemy.velocity *= 0.75
 
-	#print(timer.get_time_left())
+	print(timer.get_time_left(),"timee")
 
-	if timer.get_time_left() <= 0.05 and (enemy.stun <= 0 || init_stun_time > 1.2):
+	if timer.get_time_left() <= 0.05 and (enemy.stun <= 0 || init_stun_time > 1):
 		if enemy.velocity.length() < 160:
 			return idle_state
 	elif timer.get_time_left() <= 0.05 and enemy.stun >= 0.05:

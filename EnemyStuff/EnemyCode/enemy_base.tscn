@@ -13,7 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://dbv7vu0du21w0" path="res://Animations/FINALSPRITES/BLUE-GOLEM/PUNCHBLUEGOLEM.png" id="10_7peym"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ehnrd"]
-radius = 15.0
+radius = 11.045361
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xgwlu"]
 atlas = ExtResource("9_gak77")
