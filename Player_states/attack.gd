@@ -9,7 +9,7 @@ class_name attack extends state_class
 @onready var stun_state = $"../stun"
 var hitspam_tol : int = 3
 var hit_lag : float = -0.3
-var start_up_lag : float = -0.1
+var start_up_lag : float = -0.2
 var target : Enemy
 var timer :=0.4
 var num_of_hits : int = 0
@@ -24,7 +24,9 @@ func _init() -> void:
 func Enter():
 	if guy1.statemachine.last_attk_time < 0.9:
 		num_of_hits += 1
-	guy1.statemachine.last_attk_time = 0
+	else:
+		num_of_hits  = 0
+	guy1.statemachine.last_attk_time = -0.5
 	target = guy1.curr_out_attked
 	guy1.curr_out_attked = null
 
@@ -61,7 +63,7 @@ func Process(_delta):
 	elif (timer <= start_up_lag and num_of_hits == 0) || (timer <= 0 and num_of_hits < hitspam_tol and num_of_hits > 0) || (timer <= hit_lag and num_of_hits >= hitspam_tol) || guy1.stun_time > 0:
 		if num_of_hits >=  hitspam_tol:
 			num_of_hits = 0
-			print("endlag")
+		#	print("endlag")
 
 			
 
@@ -111,6 +113,6 @@ func attack_movement(delta):
 			guy1.velocity += guy1.velocity.normalized() * 400
 		else:
 			if (guy1.velocity.length()) > 1 :
-				guy1.velocity -= guy1.velocity/15  
+				guy1.velocity -= guy1.velocity/20  
 			else:
 				guy1.velocity = Vector2(0,0)
