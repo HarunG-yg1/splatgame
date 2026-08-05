@@ -28,13 +28,15 @@ func Exit() ->void:
 	
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
-	if enemy.stun > 0:
+	if enemy.stun > 0 and statemachine.old_state is not Enemy_State_Stun:
 		print("penis")
 		enemy.enemy_fov.get_child(0).disabled = true
 
 		enemy.player = null
 		enemy.chase = false
 		return stun_state 
+	else:
+		enemy.stun = 0
 	if enemy is ranged:
 		enemy.hitter2.rotation += deg_to_rad(0.5)
 		if enemy.hitter2.get_collider() != null and  enemy.hitter2.get_collider() is Player and (enemy.global_position - enemy.hitter2.get_collider().global_position ).length()>180:
@@ -44,7 +46,7 @@ func Process(_delta:float)->Enemy_State:
 
 	enemy.velocity = lerp (enemy.velocity,Vector2.ZERO,0.2)
 	
-	if enemy.chase and chasing != null:
+	if enemy.chase and chasing != null and timer.get_time_left() <= 0.1:
 		if runaway != null and range_chase:
 			return runaway
 		return chasing

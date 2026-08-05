@@ -21,7 +21,10 @@ region = Rect2(0, 12, 32, 6)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ca1s1"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": null
+}],
 "loop": 0,
 "name": &"default",
 "speed": 12.0
@@ -146,12 +149,9 @@ polygon = PackedVector2Array(-70, 100, -70, 0, -20, 0, 0, 20, 20, 0, 0, -20, -20
 
 [node name="StateTimer" type="Timer" parent="." unique_id=1208297385]
 
-[node name="AttkCDTimer" type="Timer" parent="." unique_id=1078823862]
-
 [node name="AnimatedFX" type="AnimatedSprite2D" parent="." unique_id=298680621]
 position = Vector2(0, 1)
 sprite_frames = SubResource("SpriteFrames_ca1s1")
-animation = &"shine1"
 offset = Vector2(16.92, -6)
 
 [node name="hitter" type="Area2D" parent="." unique_id=313074487]

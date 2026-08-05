@@ -2,7 +2,7 @@ class_name Enemy_State_Chase extends Enemy_State
 ##ref to what this state belongs to
 @onready var runAway_state = $"../runAway"
 @onready var timer = $"../../StateTimer"
-@onready var attk_timer = $"../../AttkCDTimer"
+
 @onready var idle_state =$"../idle"
 @onready var attack_state = $"../attackMelee"
 @onready var stun_state = $"../stun"
@@ -17,7 +17,7 @@ func Enter() ->void:
 	enemy.random_pt =  Vector2(randi_range(-10,10),randi_range(-10,10))
 
 
-	timer.start(6)
+	timer.start(5)
 
 
 func Exit() ->void:
@@ -26,13 +26,14 @@ func Exit() ->void:
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
 
-	if enemy.stun > 0:
+	if enemy.stun > 0 and timer.get_time_left() < 4:
 		print("stunned haha")
 		enemy.enemy_fov.get_child(0).disabled = true
-		enemy.player = null
+		timer.stop()
 		enemy.chase = false
 		return stun_state
-
+	else:
+		enemy.stun = 0
 	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt ).length() > 160:
 		
 		if runAway_state != null:
@@ -40,23 +41,23 @@ func Process(_delta:float)->Enemy_State:
 		else:
 			enemy.direction = enemy.chase_dir
 	
-	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 90:
+	if enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 100:
 	
 		time_on_player -= _delta
 		enemy.direction = enemy.chase_dir
 	
-	if enemy.player!= null and (enemy.secondary_vel.normalized() - (enemy.direction)).length() < 0.7  and (enemy.global_position - enemy.player.global_position).length() > 80:
+	if enemy.player!= null and (enemy.secondary_vel.normalized() - (enemy.direction)).length() < 0.7  and (enemy.global_position - enemy.player.global_position).length() > 90:
 		
-		enemy.velocity =  lerp(enemy.velocity,(enemy.secondary_vel.normalized())  , 0.2) 
+		enemy.velocity =  lerp(enemy.velocity,(enemy.secondary_vel.normalized()) * enemy.SPEED * 1.2  ,0.6) 
 	
-	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 80:
+	elif enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() > 90:
 		
 		time_on_player += _delta
-		enemy.velocity =  lerp(enemy.velocity,((enemy.direction)) * enemy.SPEED * 1.2 , 0.2)
+		enemy.velocity =  lerp(enemy.velocity,((enemy.direction)) * enemy.SPEED * 1.2 ,0.6)
 	
 	else:
 		
-		if  enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() < 80:
+		if  enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() < 90:
 		
 			time_on_player += _delta
 			
@@ -65,19 +66,19 @@ func Process(_delta:float)->Enemy_State:
 				if ((enemy.secondary_vel).normalized() + (enemy.direction)).length() < 0.7:
 					enemy.velocity =  lerp(enemy.velocity,enemy.secondary_vel.normalized() * enemy.SPEED * 0.5 , 0.1)
 				else:
-					enemy.velocity =  lerp(enemy.velocity,-enemy.direction * enemy.SPEED * 0.5 , 0.1)
+					enemy.velocity =  lerp(enemy.velocity,-enemy.direction * enemy.SPEED * 0.5 , 0.2)
 			
-			elif (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() < 60:
+			elif (enemy.global_position - enemy.player.global_position + enemy.random_pt).length() < 70:
 			
-				enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + Vector2(enemy.direction.y,enemy.direction.x)*1.05).normalized()) * enemy.SPEED * 0.5 , 0.1)
+				enemy.velocity =  lerp(enemy.velocity,((enemy.secondary_vel.normalized() + Vector2(enemy.direction.y,enemy.direction.x)*1.05).normalized()) * enemy.SPEED * 0.5 , 0.2)
 		
-		if enemy.player!= null and attk_timer.get_time_left() <= 0.1 and time_on_player >= 0.25:
+		if enemy.player!= null and time_on_player >= 0.25 and timer.get_time_left() <= 4:
 			
-			attk_timer.start(2.5)
+
 			return attack_state
 
 	if timer.get_time_left() <= 0.1 || enemy.player == null:
-		
+		timer.stop()
 		enemy.player = null
 		enemy.chase = false
 		enemy.enemy_fov.get_child(0).disabled = true

@@ -20,7 +20,7 @@ func _process(delta: float) -> void:
 				if enemies[index] != null:
 					enemies[index].Process(prev_time+delta)
 					enemies[index].state_machine.Process(prev_time+delta)
-					print(prev_time,"prev_time")
+					
 				index += 1
 				
 			else:

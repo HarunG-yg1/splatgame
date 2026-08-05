@@ -89,7 +89,7 @@ func adjust_curr_attk(delta):
 		curr_attk.b = 1
 	color_att_sprite.modulate = curr_attk
 func _process(delta: float) -> void:
-	print("delta",delta)
+
 	if follow_up_time > 0:
 		follow_up_time -= delta
 	else:
@@ -201,7 +201,7 @@ func refund_dodge():
 
 func _on_attack_box_body_entered(body: Enemy) -> void:
 	if body != null:
-		print(body.stun,"stun")
+
 		if attack_shape.disabled:
 			body.damage(curr_attk,5,global_position)
 			body.parried(self,1,0.6)
@@ -211,11 +211,12 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 			
 			
 			if body.in_attk_index == 99:
-				body.in_attk_index = randi_range(0,7)
+				
 				
 				body.damage(curr_attk,0,global_position)
-				body.parried(self,0.75,1.2)
-				print(curr_attk, "check here" , body.name)
+				body.parried(self,0.75,0.5)
+				
+			#	print(curr_attk, "check here" , body.name)
 			
 			elif body.in_attk_type.size() > body.in_attk_index:
 				
@@ -223,7 +224,7 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 					
 					body.damage(curr_attk,5,global_position)
 					
-					body.parried(self,1.5,1)
+					body.parried(self,0.75,0.5)
 					
 				elif RythmLoader.check_similiar_colour(body.in_attk_type[body.in_attk_index],curr_attk):
 
@@ -232,7 +233,7 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 					else:
 						body.damage( curr_attk,7,global_position)
 					
-					body.parried(self,1.5,1)
+					body.parried(self,0.75,0.5)
 				else:
 
 					body.damage(curr_attk, 1,global_position)
@@ -244,10 +245,9 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 			if body.in_attk_type.size() <= body.in_attk_index and body.in_attk_index != 99:
 				body.in_attk_index = 99
 				body.in_attk_type = body.in_attk_type_copy
-				#body.parried(self,1,1.25)
 
-			elif  body.in_attk_type.size() > body.in_attk_index:
-				body.in_attk_index += 1
+
+
 			
 			if curr_out_attked == null:
 				curr_out_attked = body

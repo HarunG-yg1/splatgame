@@ -71,7 +71,7 @@ func hit_boxOn()->bool:
 	return timer <= 0.25 and  timer > 0.24
 	
 func hit_boxOff()->bool:
-	return timer <= 0.01 and  timer > 0.02
+	return timer <= 0.02 and  timer > 0.01
 func Exit():
 	
 

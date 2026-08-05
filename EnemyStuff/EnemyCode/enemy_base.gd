@@ -94,10 +94,8 @@ func Process(delta: float) -> void:
 	
 	
 	was_last_hit += delta
-	if stun < -0.05:
-		stun += delta
-	elif  stun < 0 and stun >= -0.05:
-		stun = 0
+	
+	stun = move_toward(stun,0,delta)
 	is_not_move = pos_check(delta)
 	if player != null and chase == true:
 		hitter.get_parent().look_at(player.position)
@@ -120,30 +118,37 @@ func UpdateAnimation(state : String) -> void:
 	pass
 	
 func increment_in_attk_type(color : Color):
-	if in_attk_index <= 7:
+	if in_attk_index < 7:
 		
-		if RythmLoader.measure_similiar_color(color,in_attk_type[in_attk_index-1]) < 1.3 and RythmLoader.check_similiar_colour(color,in_attk_type[in_attk_index-1]) :
-			in_attk_type[in_attk_index] = RythmLoader.minus_color(in_attk_type[in_attk_index],color,true)
-			#print(RythmLoader.measure_similiar_color(color,in_attk_type[in_attk_index-1]),"check_here")
-		#	print(color,"check_here")
-			#print(in_attk_type[in_attk_index-1],"check_here")
-			animfx.modulate =  in_attk_type[in_attk_index]
+		if RythmLoader.measure_similiar_color(color,in_attk_type[in_attk_index]) < 1.3 and RythmLoader.check_similiar_colour(color,in_attk_type[in_attk_index]) :
+			in_attk_type[in_attk_index+1] = RythmLoader.minus_color(in_attk_type[in_attk_index],color,true)
+			animfx.modulate =  in_attk_type[in_attk_index+1]
 			animfx.play("shine1")
+			in_attk_index += 1
+
+		elif RythmLoader.check_similiar_colour(color,in_attk_type[in_attk_index]):
 			
-		elif RythmLoader.check_similiar_colour(color,in_attk_type[in_attk_index-1]):
-			
-			animfx.modulate =  in_attk_type[in_attk_index]
+			animfx.modulate =  in_attk_type[in_attk_index+1]
 			animfx.play("shine1")
-			
+			in_attk_index += 1
+
 		else:
 			in_attk_index = 99
+			in_attk_type = in_attk_type_copy
 			animfx.modulate = Color.WHITE
 			animfx.play("default")
 	else:
-		in_attk_index = 99
-		animfx.modulate = Color.WHITE
-		animfx.play("default")
 		
+		if in_attk_index != 99:
+			in_attk_index = 99
+			in_attk_type = in_attk_type_copy
+			animfx.modulate = Color.WHITE
+			animfx.play("default")
+		else:
+			in_attk_index = randi_range(0,7)
+			animfx.modulate =  in_attk_type[in_attk_index]
+			animfx.play("shine1")
+	#print("most recent ",animfx.modulate, in_attk_index)
 
 func choose_randomly(list_of_entries):
 	return list_of_entries[randi() % list_of_entries.size()]
@@ -225,13 +230,14 @@ func parried( from : Player ,pwer : float = 1,stun_time : float = 1):
 		else:
 			stun = 0.25
 
-		
-	var vel : Vector2 =  (player.global_position - global_position).normalized() * 600
-	g_timer.start(0.08)
-	await g_timer.timeout
-	print("stun works")
-	if (velocity.normalized() + vel.normalized()).length() > 0.7 and state_machine.curr_state is Enemy_State_Stun and  state_machine.curr_state.timer.get_time_left() > 0.11:
-		velocity = -vel
+
+	var vel : Vector2 =  (player.velocity.normalized() + secondary_vel.normalized()/2).normalized() * 600
+	if state_machine.curr_state is Enemy_State_Stun and velocity.length() <= 450:
+		g_timer.start(0.08)
+		await g_timer.timeout
+		print("stun works")
+
+		velocity = vel * pwer
 
 	
 	

@@ -13,6 +13,7 @@ func _init() -> void:
 		i.statemachine = self.statemachine
 
 func Enter():
+	changed_dir = false
 	target = guy1.curr_out_attked
 	guy1.curr_out_attked = null
 	print("dashAttack")
