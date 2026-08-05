@@ -5,7 +5,7 @@ var slide_diving : = true
 func Process(_delta):
 	guy1.i_time = 1
 	if slide_diving:
-		guy1.sprite.look_at(guy1.velocity)
+		#guy1.sprite.look_at(guy1.velocity)
 	#	print("sliding")
 		prior_vel_dir *= 0.98
 		guy1.velocity = (prior_vel_dir + guy1.direction*250).normalized() * 250
@@ -35,5 +35,5 @@ func Exit():
 	guy1.i_time = 0.25
 	guy1.sprite.visible = true
 	guy1.crouch=false
-	guy1.sprite.rotation=prior_rotation
+#	guy1.sprite.rotation=prior_rotation
 	pass

@@ -52,8 +52,8 @@ func Process(_delta):
 	if guy1.stun_time > 0:
 		return stun_state
 	timer -= _delta
-	
 
+	guy1.attack_box.look_at(guy1.global_position+guy1.last_dir)
 	attack_movement(_delta)
 
 	if hit_boxOn():

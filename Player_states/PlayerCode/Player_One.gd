@@ -106,8 +106,18 @@ func _process(delta: float) -> void:
 
 	if is_dead:
 		return
+	if Input.is_action_pressed("aim_to_mouse"):
+		attack_box.look_at(get_global_mouse_position())
+	else:
+		print("end",round(rad_to_deg(get_angle_to(global_position+last_dir))))
+		if statemachine.curr_state is not attack:
+			if round(rad_to_deg(get_angle_to(global_position+last_dir))) == -90 and round(rad_to_deg(attack_box.rotation)) > 90:
+				attack_box.rotation = deg_to_rad(-177)
+				#
+			else:
+				
+				attack_box.rotation = move_toward(attack_box.rotation,get_angle_to(global_position+last_dir),0.1)
 	
-	attack_box.look_at(get_global_mouse_position())
 	if i_time > 0:
 		i_time -= delta
 
