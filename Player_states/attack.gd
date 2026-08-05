@@ -9,7 +9,7 @@ class_name attack extends state_class
 @onready var stun_state = $"../stun"
 var hitspam_tol : int = 4
 var hit_lag : float = -0.3
-var start_up_lag : float = -0.1
+var start_up_lag : float = -0.16
 var target : Enemy
 var timer :=0.4
 var num_of_hits : int = 0
