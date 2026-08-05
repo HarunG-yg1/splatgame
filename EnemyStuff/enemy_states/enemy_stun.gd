@@ -11,14 +11,15 @@ func Enter() ->void:
 	enemy.set_collision_mask_value(2,false)
 	if enemy.player != null:
 		away_dir =  (enemy.player.velocity.normalized() + enemy.secondary_vel.normalized()/2).normalized() *600
-		enemy.player = null
+		#enemy.player = null
 	init_stun_time = enemy.stun
 	print("stunnigga ", enemy.stun , enemy)
 	enemy.velocity *= 0
 	
 	timer.start(enemy.stun)
+	
 	enemy.stun = 0
-
+	
 	enemy.UpdateAnimation("idle")
 	index += 1
 	pass
@@ -32,7 +33,7 @@ func Exit() ->void:
 	if init_stun_time >= 0.75:
 
 	#enemy.velocity *= 0.1
-		enemy.stun = -2
+		enemy.stun = -1
 		enemy.in_attk_type = enemy.in_attk_type_copy
 		enemy.in_attk_index = 99
 		enemy.animfx.stop()

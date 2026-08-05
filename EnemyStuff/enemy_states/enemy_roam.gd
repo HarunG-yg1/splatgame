@@ -29,6 +29,9 @@ func Exit() ->void:
 	
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
+	
+	
+	
 	if enemy.stun > 0:
 		print("penis")
 		enemy.enemy_fov.get_child(0).disabled = true

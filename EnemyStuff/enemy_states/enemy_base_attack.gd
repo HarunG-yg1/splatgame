@@ -33,7 +33,7 @@ func Enter() ->void:
 	init_time = time_for_hit[amount_hits-1]
 	enemy.random_pt =  Vector2(randi_range(-7,7),randi_range(-7,7))
 	
-	timer.start(5)
+	timer.start(3)
 	was_out_of_range = true
 
 	
@@ -148,18 +148,18 @@ func attack_rythm(_delta):
 		
 		if enemy.player!= null and (enemy.global_position - enemy.player.global_position + random_pt).length() >60:
 	
-			enemy.velocity = lerp(enemy.velocity,enemy.chase_dir *  enemy.player.MAX_SPEED * 1.5 ,0.5) 
+			enemy.velocity = lerp(enemy.velocity,enemy.chase_dir *  enemy.SPEED * 1.5 ,0.5) 
 	
 		else:
 	
 			move(_delta, 1.5)
 			
 
-	if time_for_hit[amount_hits-1] <= 0.2 and time_for_hit[amount_hits-1] > 0.19:
+	if time_for_hit[amount_hits-1] <= 0.2 and time_for_hit[amount_hits-1] > 0.14 and (enemy.global_position - enemy.player.global_position + random_pt).length() >30:
 		if enemy.player!= null and ((enemy.secondary_vel).normalized() - (enemy.chase_dir)).length() < 0.7:
-			enemy.velocity += enemy.secondary_vel.normalized()*  enemy.SPEED *  2.5
+			enemy.velocity += enemy.secondary_vel.normalized()*  enemy.SPEED 
 		elif enemy.player != null:
-			enemy.velocity += enemy.chase_dir *  enemy.SPEED * 2.5
+			enemy.velocity += enemy.chase_dir *  enemy.SPEED 
 		#	move(_delta)
 		
 	elif time_for_hit[amount_hits-1]<= 0:
@@ -167,7 +167,7 @@ func attack_rythm(_delta):
 		enemy.animfx.scale.x =1
 		enemy.animfx.scale.y =1
 		
-		enemy.velocity /= 2
+		enemy.velocity /= 3
 		attack_now()
 		
 		amount_hits -= 1

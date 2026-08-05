@@ -224,7 +224,7 @@ func parried( from : Player ,pwer : float = 1,stun_time : float = 1):
 		player= from
 	if stun <= 0 and stun > -0.01:
 		hit_tol -= 1
-		if hit_tol <= 0:
+		if hit_tol <= 0 and state_machine.curr_state is not enemy_attack:
 			stun = stun_time
 			hit_tol = hit_tol_max
 		else:
@@ -232,7 +232,7 @@ func parried( from : Player ,pwer : float = 1,stun_time : float = 1):
 
 
 	var vel : Vector2 =  (player.velocity.normalized() + secondary_vel.normalized()/2).normalized() * 600
-	if state_machine.curr_state is Enemy_State_Stun and velocity.length() <= 450:
+	if velocity.length() <= 450:
 		g_timer.start(0.08)
 		await g_timer.timeout
 		print("stun works")
