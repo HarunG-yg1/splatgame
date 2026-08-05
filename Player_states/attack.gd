@@ -9,7 +9,7 @@ class_name attack extends state_class
 @onready var stun_state = $"../stun"
 var hitspam_tol : int = 4
 var hit_lag : float = -0.3
-var start_up_lag : float = -0.16
+var start_up_lag : float = -0.2
 var target : Enemy
 var timer :=0.4
 var num_of_hits : int = 0
@@ -22,7 +22,7 @@ func _init() -> void:
 		i.statemachine = self.statemachine
 
 func Enter():
-	if guy1.statemachine.last_attk_time < 0.9:
+	if guy1.statemachine.last_attk_time < 1:
 		num_of_hits += 1
 	else:
 		num_of_hits  = 0
@@ -52,9 +52,9 @@ func Process(_delta):
 	if guy1.stun_time > 0:
 		return stun_state
 	timer -= _delta
-	if timer > 0:
+	
 
-		attack_movement(_delta)
+	attack_movement(_delta)
 
 	if hit_boxOn():
 		guy1.attack_shape.disabled = false 
@@ -100,7 +100,7 @@ func Exit():
 
 func attack_movement(delta):
 	
-	if guy1.attack_shape.disabled :
+	if guy1.attack_shape.disabled and timer > 0:
 		if guy1.direction.length() > 0.0:
 			guy1.move(guy1.direction,speed_mod)
 		elif (guy1.velocity.length()) > 1 :
