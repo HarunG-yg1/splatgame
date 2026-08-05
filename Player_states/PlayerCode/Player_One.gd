@@ -73,17 +73,17 @@ func _ready() -> void:
 
 func adjust_curr_attk(delta):
 	if curr_attk.r < 1:
-		curr_attk.r += delta/5
+		curr_attk.r += delta/8
 	else:
 		curr_attk.r = 1
 		
 	if curr_attk.g < 1:
-		curr_attk.g += delta/5
+		curr_attk.g += delta/8
 	else:
 		curr_attk.g = 1
 		
 	if curr_attk.b < 1:
-		curr_attk.b += delta/5
+		curr_attk.b += delta/8
 	else:
 		curr_attk.b = 1
 	color_att_sprite.modulate = curr_attk

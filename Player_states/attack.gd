@@ -7,9 +7,9 @@ class_name attack extends state_class
 @onready var dash_state = $"../dash"
 @onready var crouch_state = $"../crouching"
 @onready var stun_state = $"../stun"
-var hitspam_tol : int = 3
+var hitspam_tol : int = 4
 var hit_lag : float = -0.3
-var start_up_lag : float = -0.2
+var start_up_lag : float = -0.1
 var target : Enemy
 var timer :=0.4
 var num_of_hits : int = 0
