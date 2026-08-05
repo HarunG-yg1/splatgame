@@ -157,9 +157,9 @@ func attack_rythm(_delta):
 
 	if time_for_hit[amount_hits-1] <= 0.2 and time_for_hit[amount_hits-1] > 0.14 and (enemy.global_position - enemy.player.global_position + random_pt).length() >30:
 		if enemy.player!= null and ((enemy.secondary_vel).normalized() - (enemy.chase_dir)).length() < 0.7:
-			enemy.velocity += enemy.secondary_vel.normalized()*  enemy.SPEED 
+			enemy.velocity += enemy.secondary_vel.normalized()*  enemy.SPEED/1.5 
 		elif enemy.player != null:
-			enemy.velocity += enemy.chase_dir *  enemy.SPEED 
+			enemy.velocity += enemy.chase_dir *  enemy.SPEED/1.5  
 		#	move(_delta)
 		
 	elif time_for_hit[amount_hits-1]<= 0:

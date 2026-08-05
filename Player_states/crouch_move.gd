@@ -9,7 +9,7 @@ func Enter():
 	guy1.set_collision_mask_value(8,false)
 	pass
 func Process(_delta):
-	guy1.move(guy1.direction,0.2)
+	guy1.move(guy1.direction,0.5)
 	
 
 	if guy1.direction.length() == 0.0:

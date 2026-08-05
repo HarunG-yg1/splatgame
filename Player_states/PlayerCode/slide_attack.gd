@@ -29,12 +29,7 @@ func Enter():
 	guy1.animfx.play("shine1")
 	timer = 0.6
 
-	if RythmLoader.find_attkType(Color.GREEN):
-		RythmLoader.setHit_attkType(Color.GREEN)
-		guy1.i_time = 0.2
 
-	if  RythmLoader.check_similiar_colour(statemachine.last_defend,Color.GREEN) and  RythmLoader.find_attkType(Color.WHITE):
-		RythmLoader.setHit_attkType(Color.WHITE)
 
 func hit_boxOn()->bool:
 	return timer <=0.35 and  timer > 0.34
@@ -88,7 +83,7 @@ func attack_movement(delta):
 	if guy1.attack_shape.disabled:
 		if RythmLoader.find_attkType(Color.GREEN):
 			RythmLoader.setHit_attkType(Color.GREEN)
-			
+			guy1.i_time = 0.1
 		if  RythmLoader.check_similiar_colour(statemachine.last_defend,Color.GREEN) and  RythmLoader.find_attkType(Color.WHITE):
 			RythmLoader.setHit_attkType(Color.WHITE)
 	

@@ -43,14 +43,14 @@ func Process(_delta):
 #	print("sliding")
 	prior_vel_dir *= 0.98
 	guy1.velocity = prior_vel_dir + guy1.direction*150
-	if (guy1.velocity.normalized()  -prior_vel_dir.normalized()).length() > 1.4:
+	if (guy1.last_dir -prior_vel_dir.normalized()).length() > 1.4:
 
-		guy1.velocity= guy1.velocity.normalized() *50
+		guy1.velocity= guy1.velocity.normalized() *150
 		
 		return crouch_state
 	
 
-	elif !guy1.crouch:
+	if !guy1.crouch and (guy1.velocity.length() < 250 || guy1.i_time > 0 || guy1.stun_time > 0):
 		guy1.set_collision_mask_value(8,true)
 		return crouch_state.idle_state
 	elif guy1.dashing:
