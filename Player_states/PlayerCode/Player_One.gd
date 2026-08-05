@@ -51,7 +51,6 @@ var direction : Vector2
 
 var last_puddle : blood_puddle
 
-#var curr_hitEnemy : Enemy = null
 
 
 signal start_trail

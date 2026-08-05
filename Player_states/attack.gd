@@ -9,6 +9,7 @@ class_name attack extends state_class
 @onready var stun_state = $"../stun"
 var hitspam_tol : int = 3
 var hit_lag : float = -0.3
+var start_up_lag : float = -0.1
 var target : Enemy
 var timer :=0.4
 var num_of_hits : int = 0
@@ -21,7 +22,9 @@ func _init() -> void:
 		i.statemachine = self.statemachine
 
 func Enter():
-	num_of_hits += 1
+	if guy1.statemachine.last_attk_time < 0.9:
+		num_of_hits += 1
+	guy1.statemachine.last_attk_time = 0
 	target = guy1.curr_out_attked
 	guy1.curr_out_attked = null
 
@@ -31,7 +34,11 @@ func Enter():
 	guy1.curr_attk = RythmLoader.add_color(Color.WHITE,guy1.curr_attk)
 	guy1.animfx.modulate = guy1.curr_attk
 	guy1.animfx.play("shine1")
-	guy1.sprite.play("BasicATK")
+	if num_of_hits > 0:
+		
+		guy1.sprite.play("BasicATK")
+	else:
+		guy1.sprite.play("BasicATK") # make this slower later
 	timer = 0.4
 
 
@@ -51,10 +58,12 @@ func Process(_delta):
 		guy1.attack_shape.disabled = false 
 	if hit_boxOff():
 		guy1.attack_shape.disabled = true
-	elif (timer <= 0 and num_of_hits < hitspam_tol) || (timer <= hit_lag and num_of_hits >= hitspam_tol) || guy1.stun_time > 0:
+	elif (timer <= start_up_lag and num_of_hits == 0) || (timer <= 0 and num_of_hits < hitspam_tol and num_of_hits > 0) || (timer <= hit_lag and num_of_hits >= hitspam_tol) || guy1.stun_time > 0:
 		if num_of_hits >=  hitspam_tol:
 			num_of_hits = 0
-		
+			print("endlag")
+
+			
 
 		elif statemachine.old_state is not dash and statemachine.old_state is not jumpin and statemachine.old_state is not dive and statemachine.old_state is not block  and statemachine.old_state is not attack:
 			
@@ -68,10 +77,18 @@ func Process(_delta):
 	
 
 func hit_boxOn()->bool:
-	return timer <= 0.25 and  timer > 0.24
-	
+	if num_of_hits > 0:
+		return timer <= 0.25 and  timer > 0.24
+	else:
+	#e	print("start up time")
+		return timer <= 0.25 + start_up_lag and  timer > 0.24 + start_up_lag
+
 func hit_boxOff()->bool:
-	return timer <= 0.02 and  timer > 0.01
+	if num_of_hits > 0:
+		return timer <= 0.02 and  timer > 0.01
+	else:
+		return timer <= 0.02 + start_up_lag and  timer > 0.01  + start_up_lag
+
 func Exit():
 	
 
@@ -81,7 +98,7 @@ func Exit():
 
 func attack_movement(delta):
 	
-	if guy1.attack_shape.disabled || timer <= 0.05:
+	if guy1.attack_shape.disabled :
 		if guy1.direction.length() > 0.0:
 			guy1.move(guy1.direction,speed_mod)
 		elif (guy1.velocity.length()) > 1 :
