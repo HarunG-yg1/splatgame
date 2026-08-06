@@ -16,7 +16,7 @@ func Exit() ->void:
 
 
 func Process(_delta:float)->Enemy_State:
-	if enemy.stun > 0:
+	if enemy.stun_time > 0:
 		enemy.enemy_fov.get_child(0).disabled = true
 	#	enemy.enemy_fov.get_child(1).disabled = true
 		enemy.player = null
@@ -33,8 +33,8 @@ func Process(_delta:float)->Enemy_State:
 		enemy.hitter2.rotation = move_toward(enemy.hitter2.rotation ,enemy.get_angle_to(enemy.player.global_position),0.0099)
 	if enemy.player != null and (enemy.global_position - enemy.player.global_position).length() > 120 and (enemy.global_position - enemy.player.global_position).length() < 720 and abs(rad_to_deg(enemy.hitter2.rotation - enemy.get_angle_to(enemy.player.global_position))) <6:
 		if was_out_of_range:
-			time_for_hit[amount_hits-1].time += 0.3
-			RythmLoader.addTo_hitline(time_for_hit,enemy)
+			time_for_hit[amount_hits-1] += 0.3
+			RythmLoader.addTo_hitline(time_for_hit,color_for_hit,enemy)
 			
 			was_out_of_range =  false
 
@@ -61,8 +61,8 @@ func attack_now():
 		
 
 func attack_rythm(_delta):
-	time_for_hit[amount_hits-1].time -= _delta
-	if (time_for_hit[amount_hits-1].time < init_time * 0.75 and time_for_hit[amount_hits-1].time > init_time * 0.74)|| init_time < 0.6 and (time_for_hit[amount_hits-1].time < init_time and time_for_hit[amount_hits-1].time > init_time * 0.9):
+	time_for_hit[amount_hits-1] -= _delta
+	if (time_for_hit[amount_hits-1] < init_time * 0.75 and time_for_hit[amount_hits-1] > init_time * 0.74)|| init_time < 0.6 and (time_for_hit[amount_hits-1] < init_time and time_for_hit[amount_hits-1] > init_time * 0.9):
 		
 
 		enemy.animfx.rotation = enemy.hitter2.rotation
@@ -72,15 +72,15 @@ func attack_rythm(_delta):
 
 
 
-	elif (time_for_hit[amount_hits-1].time <= 0.3 and time_for_hit[amount_hits-1].time > 0.28):
+	elif (time_for_hit[amount_hits-1] <= 0.2 and time_for_hit[amount_hits-1] > 0.14):
 		enemy.animfx.rotation = enemy.hitter2.rotation
 
 		#enemy.animfx.play("shine1")
 
-	elif time_for_hit[amount_hits-1].time <= 0:
+	elif time_for_hit[amount_hits-1] <= 0:
 		enemy.animfx2.rotation = enemy.hitter2.rotation
 		#enemy.animfx.scale.y =1
-		enemy.animfx2.play("shine3")
+		enemy.animfx2.play("shine1")
 
 		enemy.animsprite.play("hit")
 		

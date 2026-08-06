@@ -15,7 +15,7 @@ func Enter():
 	dash_window = 0.25
 	boost = 5
 
-	print(RythmLoader.measure_similiar_color(guy1.curr_attk,Color.RED),"measureee")
+	
 	if  RythmLoader.find_attkType(Color.RED):
 		
 		RythmLoader.setHit_attkType(Color.RED)

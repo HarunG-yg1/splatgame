@@ -101,18 +101,11 @@ func Exit():
 func attack_movement(delta):
 	
 	if guy1.attack_shape.disabled and timer > 0:
-		if guy1.direction.length() > 0.0:
-			guy1.move(guy1.direction,speed_mod)
-		elif (guy1.velocity.length()) > 1 :
+	
+		guy1.move(guy1.direction,speed_mod)
 
-			guy1.velocity -= guy1.velocity/15  
-			if (guy1.velocity.length()) < 1:
-				guy1.velocity = Vector2(0,0)
 	else:
 		if hit_boxOn():
 			guy1.velocity += guy1.velocity.normalized() * 400
 		else:
-			if (guy1.velocity.length()) > 1 :
-				guy1.velocity -= guy1.velocity/20  
-			else:
-				guy1.velocity = Vector2(0,0)
+			guy1.move(guy1.direction,0.5)

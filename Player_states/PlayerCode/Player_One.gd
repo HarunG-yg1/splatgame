@@ -73,17 +73,17 @@ func _ready() -> void:
 
 func adjust_curr_attk(delta):
 	if curr_attk.r < 1:
-		curr_attk.r += delta/8
+		curr_attk.r += delta/6
 	else:
 		curr_attk.r = 1
 		
 	if curr_attk.g < 1:
-		curr_attk.g += delta/8
+		curr_attk.g += delta/6
 	else:
 		curr_attk.g = 1
 		
 	if curr_attk.b < 1:
-		curr_attk.b += delta/8
+		curr_attk.b += delta/6
 	else:
 		curr_attk.b = 1
 	color_att_sprite.modulate = curr_attk
@@ -111,13 +111,21 @@ func _process(delta: float) -> void:
 	else:
 		print("end",round(rad_to_deg(get_angle_to(global_position+last_dir))))
 		if statemachine.curr_state is not attack:
-			if round(rad_to_deg(get_angle_to(global_position+last_dir))) == -90 and round(rad_to_deg(attack_box.rotation)) > 90:
-				attack_box.rotation = deg_to_rad(-177)
-				#
+			if attack_box.rotation >= 0 and get_angle_to(global_position+last_dir) >= 0 || attack_box.rotation <= 0 and get_angle_to(global_position+last_dir) <= 0:
+				attack_box.rotation = move_toward(attack_box.rotation,get_angle_to(global_position+last_dir),0.06)
 			else:
-				
-				attack_box.rotation = move_toward(attack_box.rotation,get_angle_to(global_position+last_dir),0.1)
-	
+				if abs(rad_to_deg(attack_box.rotation))  + abs(rad_to_deg(get_angle_to(global_position+last_dir))) < 180:
+					attack_box.rotation = move_toward(attack_box.rotation,deg_to_rad(0),0.06)
+				elif rad_to_deg(attack_box.rotation) > 0:
+					attack_box.rotation = move_toward(attack_box.rotation,deg_to_rad(180),0.06)
+					if round(rad_to_deg(attack_box.rotation)) == 180:
+						attack_box.rotation =  deg_to_rad(-179)
+					
+				else:
+					attack_box.rotation = move_toward(attack_box.rotation,deg_to_rad(-179),0.06)
+					if round(rad_to_deg(attack_box.rotation)) == -179:
+						attack_box.rotation =  deg_to_rad(180)
+					
 	if i_time > 0:
 		i_time -= delta
 
@@ -223,7 +231,7 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 				
 				
 				body.damage(curr_attk,0,global_position)
-				body.parried(self,0.75,0.5)
+				body.parried(self,0.5,0.5)
 				
 			#	print(curr_attk, "check here" , body.name)
 			
@@ -233,20 +241,20 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 					
 					body.damage(curr_attk,5,global_position)
 					
-					body.parried(self,0.75,0.5)
+					body.parried(self,0.5,0.5)
 					
 				elif RythmLoader.check_similiar_colour(body.in_attk_type[body.in_attk_index],curr_attk):
 
 					if statemachine.curr_state is attack and (statemachine.old_state is moving || statemachine.old_state is idle):
 						body.damage( curr_attk,4,global_position)
+						body.parried(self,0.5,0.5)
 					else:
 						body.damage( curr_attk,7,global_position)
-					
-					body.parried(self,0.75,0.5)
+						body.parried(self,1,1)
 				else:
 
 					body.damage(curr_attk, 1,global_position)
-					body.parried(self,1.5,0.5)
+					body.parried(self,0.5,0.5)
 					
 				
 					
@@ -262,13 +270,6 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 				curr_out_attked = body
 				follow_up_time = 3
 
-
-
-
-
-
-
-	
 
 func damage(attker : Enemy, melee : bool, pwer : float):
 	if is_dead:

@@ -45,7 +45,7 @@ func Exit() ->void:
 
 func Process(_delta:float)->Enemy_State:
 	
-	if enemy.stun > 0 and timer.get_time_left() < 0.1:
+	if enemy.stun_time > 0 and timer.get_time_left() < 0.1:
 		print("stunned haha")
 		enemy.enemy_fov.get_child(0).disabled = true
 		timer.stop()
@@ -55,7 +55,7 @@ func Process(_delta:float)->Enemy_State:
 		enemy.chase = false
 		return stun_state 
 	else:
-		enemy.stun = 0
+		enemy.stun_time = 0
 	
 	if (enemy.player!= null and time_on_player < 0.25) || ( enemy.player!= null and (enemy.global_position - enemy.player.global_position + enemy.random_pt ).length() > 160):
 		if !was_out_of_range:

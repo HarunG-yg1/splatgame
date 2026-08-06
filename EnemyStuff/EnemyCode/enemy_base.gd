@@ -3,10 +3,10 @@ class_name Enemy extends CharacterBody2D
 @onready var enemy_fov = $enemy_fov
 @onready var hitter = $hitter/CollisionShape2D
 @onready var animfx = $AnimatedFX
-@onready var state_machine  = $statemachine
+@onready var state_machine : EnemyStateMachine = $statemachine
 @onready var g_timer  =  $general_timer
 @onready var label  =  $Label
-var stun : float = 0
+var stun_time : float = 0
 
 
 var was_last_hit : float
@@ -95,7 +95,7 @@ func Process(delta: float) -> void:
 	
 	was_last_hit += delta
 	
-	stun = move_toward(stun,0,delta)
+	stun_time = move_toward(stun_time,0,delta)
 	is_not_move = pos_check(delta)
 	if player != null and chase == true:
 		hitter.get_parent().look_at(player.position)
@@ -119,8 +119,10 @@ func UpdateAnimation(state : String) -> void:
 	
 func increment_in_attk_type(color : Color):
 	if in_attk_index < 7:
-		
-		if RythmLoader.measure_similiar_color(color,in_attk_type[in_attk_index]) < 1.3 and RythmLoader.check_similiar_colour(color,in_attk_type[in_attk_index]) :
+		print(color,"color measure1")
+		print(in_attk_type[in_attk_index],"color measure2")
+		print(RythmLoader.measure_similiar_color(color,in_attk_type[in_attk_index]), " measure")
+		if RythmLoader.measure_similiar_color(color,in_attk_type[in_attk_index]) <= 1.31 and RythmLoader.check_similiar_colour(color,in_attk_type[in_attk_index]) :
 			in_attk_type[in_attk_index+1] = RythmLoader.minus_color(in_attk_type[in_attk_index],color,true)
 			animfx.modulate =  in_attk_type[in_attk_index+1]
 			animfx.play("shine1")
@@ -219,23 +221,23 @@ func _on_enemy_fov_body_exited(body: CharacterBody2D) -> void:
 
 
 		
-func parried( from : Player ,pwer : float = 1,stun_time : float = 1):
+func parried( from : Player ,pwer : float = 1,_stun_time : float = 1):
 	if player == null:
 		player= from
-	if stun <= 0 and stun > -0.01:
+	if stun_time <= 0 and stun_time > -0.01:
 		hit_tol -= 1
 		if hit_tol <= 0 and state_machine.curr_state is not enemy_attack:
-			stun = stun_time
+			stun_time = _stun_time
 			hit_tol = hit_tol_max
 		else:
-			stun = 0.25
-
+			stun_time = 0.25
+	state_machine.stun_state.away_pwr = pwer
 
 	var vel : Vector2 =  (player.velocity.normalized() + secondary_vel.normalized()/2).normalized() * 600
 	if velocity.length() <= 450:
 		g_timer.start(0.08)
 		await g_timer.timeout
-		print("stun works")
+	
 
 		velocity = vel * pwer
 

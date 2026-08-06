@@ -8,11 +8,10 @@ func _ready() -> void:
 	#hitter = $RayCast2D
 	pass # Replace with function body.
 
-func _process(delta: float) -> void:
-	if stun < -0.05:
-		stun += delta
-	elif  stun < 0 and stun > -0.05:
-		stun = 0
+func Process(delta: float) -> void:
+	was_last_hit += delta
+	
+	stun_time = move_toward(stun_time,0,delta)
 		
 	if player != null and chase == true:
 		chase_dir = (player.position-position).normalized()
@@ -25,21 +24,6 @@ func _process(delta: float) -> void:
 
 	
 	
-func SetDirection() -> bool:
-	var new_dir : Vector2 = cardinal_direction
-	if direction == Vector2.ZERO:
-		
-		return false
-	if direction.y == 0:
-		new_dir = Vector2.LEFT if direction.x < 0 else Vector2.RIGHT
-	elif direction.x == 0:
-		new_dir = Vector2.UP if direction.y < 0 else Vector2.DOWN
-	if new_dir == cardinal_direction:
-		#print(cardinal_direction)
-		return false
-	cardinal_direction = new_dir
-	#sprite.scale.x = -1 if cardinal_direction == Vector2.LEFT else 1
-	return true
 
 func UpdateAnimation(state : String) -> void:
 	#animation_player.play(state + "_" + AnimDirect())

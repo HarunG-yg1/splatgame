@@ -28,7 +28,7 @@ func Exit() ->void:
 	
 #what happens during process in state
 func Process(_delta:float)->Enemy_State:
-	if enemy.stun > 0 and statemachine.old_state is not Enemy_State_Stun:
+	if enemy.stun_time > 0 and statemachine.old_state is not Enemy_State_Stun:
 		print("penis")
 		enemy.enemy_fov.get_child(0).disabled = true
 
@@ -36,7 +36,7 @@ func Process(_delta:float)->Enemy_State:
 		enemy.chase = false
 		return stun_state 
 	else:
-		enemy.stun = 0
+		enemy.stun_time = 0
 	if enemy is ranged:
 		enemy.hitter2.rotation += deg_to_rad(0.5)
 		if enemy.hitter2.get_collider() != null and  enemy.hitter2.get_collider() is Player and (enemy.global_position - enemy.hitter2.get_collider().global_position ).length()>180:

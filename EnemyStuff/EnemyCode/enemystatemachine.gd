@@ -4,7 +4,7 @@ var timer : float = 0.05
 var states : Array[Enemy_State] 
 var curr_state : Enemy_State
 var old_state : Enemy_State
-
+@onready var stun_state : Enemy_State_Stun = $stun
 @onready var enemy : Enemy =  $".."
 # Called when the node enters the scene tree for the first time.
 #func _ready() -> void:
