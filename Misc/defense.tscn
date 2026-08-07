@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://duuvve8h6scst"]
 
 [ext_resource type="Script" uid="uid://cotidht12k6bv" path="res://hit_liner.gd" id="1_lkpw5"]
-[ext_resource type="Texture2D" uid="uid://bsqmrunjbrmor" path="res://icon.svg" id="2_lkpw5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lkpw5"]
 radius = 45.0
@@ -12,13 +11,6 @@ z_as_relative = false
 y_sort_enabled = true
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_lkpw5")
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=513062976]
-z_index = -1
-z_as_relative = false
-scale = Vector2(1, 0.125)
-texture = ExtResource("2_lkpw5")
-offset = Vector2(39, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1129599481]
 shape = SubResource("CircleShape2D_lkpw5")

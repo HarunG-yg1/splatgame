@@ -14,6 +14,9 @@ var target : Enemy
 var timer :=0.4
 var num_of_hits : int = 0
 var speed_mod : float= 1
+var parent : bool = true
+
+
 func _init() -> void:
 	#hit_lag = player.hitlag
 	#hitspam_tol = player.hitspam_tol
@@ -53,7 +56,7 @@ func Process(_delta):
 		return stun_state
 	timer -= _delta
 
-	guy1.attack_box.look_at(guy1.global_position+guy1.last_dir)
+	#guy1.attack_box.look_at(guy1.global_position+guy1.last_dir)
 	attack_movement(_delta)
 
 	if hit_boxOn():
@@ -106,6 +109,18 @@ func attack_movement(delta):
 
 	else:
 		if hit_boxOn():
-			guy1.velocity += guy1.velocity.normalized() * 400
+			if Input.is_action_pressed("aim_to_mouse"):
+			
+				guy1.velocity = -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * 600
+		#
+			else:
+				
+				if guy1.follow_up_time <=0 || (target != null and ((target.global_position - guy1.global_position).normalized()-guy1.direction.normalized()).length() >= 1.5 and (guy1.global_position - target.global_position).length() < 100):
+					guy1.follow_up_time = 0
+					guy1.velocity = guy1.last_dir.normalized() * 600
+				
+				elif target != null:
+					print("following")
+					guy1.velocity = (target.global_position - guy1.global_position).normalized()*600
 		else:
-			guy1.move(guy1.direction,0.5)
+			guy1.move(guy1.direction,0.5,0.05)

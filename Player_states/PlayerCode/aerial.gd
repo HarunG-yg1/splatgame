@@ -3,7 +3,7 @@ var changed_dir : bool = false
 var prior_vel : Vector2
 
 func _init() -> void:
-	#hit_lag = player.hitlag
+	parent = false
 	#hitspam_tol = player.hitspam_tol
 	hit_lag = -0.3
 	hitspam_tol = 2

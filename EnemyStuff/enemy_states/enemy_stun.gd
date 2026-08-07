@@ -10,8 +10,9 @@ func init() -> void:
 func Enter() ->void:
 	enemy.set_collision_mask_value(2,false)
 	if enemy.player != null:
-		away_dir =  (enemy.player.velocity.normalized() + enemy.secondary_vel.normalized()/2).normalized() *600 
-		#enemy.player = null
+		away_dir =  (randi_range(-1,1) * enemy.secondary_vel.normalized()/2 + enemy.player.velocity.normalized()).normalized() *600 
+		if enemy.player.velocity.length() == 0:
+			away_dir =   ( randi_range(-1,1)*enemy.secondary_vel.normalized()/2 + enemy.player.last_dir.normalized()).normalized() *600 
 	init_stun_time = enemy.stun_time
 	
 	enemy.velocity *= 0
@@ -26,7 +27,7 @@ func Enter() ->void:
 	
 #what happens when player enters state
 func Exit() ->void:
-	
+	enemy.set_collision_mask_value(2,true)
 	index = 0
 	enemy.stun_time = 0
 	
@@ -59,15 +60,15 @@ func Process(_delta:float)->Enemy_State:
 		enemy.velocity = temp_prior_vel.normalized() * 400
 
 	
-	if timer.get_time_left() <= init_stun_time - 0.08 and enemy.velocity.length() == 0:
+	if timer.get_time_left() <= init_stun_time - 0.05 and  enemy.velocity.length() <= 1:
 		enemy.velocity = ( away_dir) * away_pwr
 		print("stun wnot")
 
-	elif timer.get_time_left() <= init_stun_time - 0.09 and enemy.velocity.length() > 1:
+	elif timer.get_time_left() < init_stun_time - 0.05 and enemy.velocity.length() > 1:
 		
 		
 		enemy.velocity *= 0.75
-	if timer.get_time_left() <= init_stun_time - 0.2:
+	if timer.get_time_left() <= init_stun_time - 0.3:
 		enemy.set_collision_mask_value(2,true)
 #	print(timer.get_time_left(),"timee")
 

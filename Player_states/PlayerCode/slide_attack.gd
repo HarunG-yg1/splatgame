@@ -5,7 +5,7 @@ var changed_dir := false
 
 	
 func _init() -> void:
-	#hit_lag = player.hitlag
+	parent = false
 	#hitspam_tol = player.hitspam_tol
 	hit_lag = -0.3
 	hitspam_tol = 2
@@ -21,7 +21,7 @@ func Enter():
 
 	print("SlideAttack")
 	
-	#guy1.velocity = guy1.velocity.normalized() * 300
+	guy1.velocity = guy1.velocity.normalized() * 400
 	prior_vel = guy1.velocity
 	
 	guy1.curr_attk = RythmLoader.add_color(Color.GREEN,guy1.curr_attk)

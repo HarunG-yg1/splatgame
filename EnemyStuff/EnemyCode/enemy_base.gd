@@ -192,7 +192,7 @@ func boids():
 
 
 func damage(color : Color,amount: int, from: Vector2 = Vector2.ZERO) -> void:
-	if was_last_hit >= 0.125:
+	if was_last_hit >= 0.15:
 		was_last_hit = 0
 		
 		increment_in_attk_type(color )
@@ -230,12 +230,14 @@ func parried( from : Player ,pwer : float = 1,_stun_time : float = 1):
 			stun_time = _stun_time
 			hit_tol = hit_tol_max
 		else:
-			stun_time = 0.25
+			stun_time = 0.3
 	state_machine.stun_state.away_pwr = pwer
-
-	var vel : Vector2 =  (player.velocity.normalized() + secondary_vel.normalized()/2).normalized() * 600
+	
+	var vel : Vector2 =  ( randi_range(-1,1)*secondary_vel.normalized()/2 + from.velocity.normalized()).normalized() *600 
+	if from.velocity.length() == 0:
+		vel =  ( randi_range(-1,1)*secondary_vel.normalized()/2 + from.last_dir.normalized()).normalized() *600 
 	if velocity.length() <= 450:
-		g_timer.start(0.08)
+		g_timer.start(0.05)
 		await g_timer.timeout
 	
 

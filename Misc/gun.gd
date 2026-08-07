@@ -46,7 +46,7 @@ func _process(delta: float) -> void:
 	else:
 		scale.y = 1
  
-	if Input.is_action_just_pressed("shoot") and can_fire and player.stun <= 0:
+	if Input.is_action_just_pressed("shoot") and can_fire and player.stun_time <= 0:
 		start_aiming()
 		
 	if Input.is_action_just_released("shoot"):
