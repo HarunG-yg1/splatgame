@@ -8,7 +8,7 @@ var index : int = 0
 func init() -> void:
 	pass
 func Enter() ->void:
-	enemy.set_collision_mask_value(2,false)
+	
 	if enemy.player != null:
 		away_dir =  (randi_range(-1,1) * enemy.secondary_vel.normalized()/2 + enemy.player.velocity.normalized()).normalized() *600 
 		if enemy.player.velocity.length() == 0:
@@ -27,7 +27,7 @@ func Enter() ->void:
 	
 #what happens when player enters state
 func Exit() ->void:
-	enemy.set_collision_mask_value(2,true)
+	
 	index = 0
 	enemy.stun_time = 0
 	
@@ -68,8 +68,8 @@ func Process(_delta:float)->Enemy_State:
 		
 		
 		enemy.velocity *= 0.75
-	if timer.get_time_left() <= init_stun_time - 0.3:
-		enemy.set_collision_mask_value(2,true)
+
+		
 #	print(timer.get_time_left(),"timee")
 
 	if timer.get_time_left() <= 0.05 and (enemy.stun_time <= 0 || init_stun_time >= 0.75):

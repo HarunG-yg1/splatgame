@@ -94,7 +94,9 @@ func Process(delta: float) -> void:
 	
 	
 	was_last_hit += delta
-	
+	if was_last_hit >= 0.25 and !get_collision_mask_value(2):
+
+		set_collision_mask_value(2,true)
 	stun_time = move_toward(stun_time,0,delta)
 	is_not_move = pos_check(delta)
 	if player != null and chase == true:
@@ -194,7 +196,7 @@ func boids():
 func damage(color : Color,amount: int, from: Vector2 = Vector2.ZERO) -> void:
 	if was_last_hit >= 0.15:
 		was_last_hit = 0
-		
+		set_collision_mask_value(2,false)
 		increment_in_attk_type(color )
 		health -= amount
 		label.text = str(health)
