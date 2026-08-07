@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cotidht12k6bv" path="res://hit_liner.gd" id="1_lkpw5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lkpw5"]
-radius = 45.0
+radius = 60.0
 
 [node name="defense" type="Area2D" unique_id=1369056149]
 z_index = -1
