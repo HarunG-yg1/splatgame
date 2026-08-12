@@ -1,10 +1,14 @@
 class_name RangeNMeleeEnemy extends ranged
 
-func _process(delta: float) -> void:
-	if stun < -0.05:
-		stun += delta
-	elif  stun < 0 and stun > -0.05:
-		stun = 0
+func Process(delta: float) -> void:
+	
+	
+	was_last_hit += delta
+	if was_last_hit >= 0.25 and !get_collision_mask_value(2):
+
+		set_collision_mask_value(2,true)
+	stun_time = move_toward(stun_time,0,delta)
+	is_not_move = pos_check(delta)
 		
 	if player != null and chase == true:
 		chase_dir = (player.position-position).normalized()

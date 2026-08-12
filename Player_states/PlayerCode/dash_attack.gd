@@ -23,6 +23,7 @@ func Enter():
 	guy1.animfx.modulate = guy1.curr_attk
 	guy1.animfx.play("shine1")
 	timer = 0.7
+	guy1.statemachine.last_attk_time = -0.7
 
 	if  RythmLoader.find_attkType(Color.RED):
 		RythmLoader.setHit_attkType(Color.RED)
@@ -94,3 +95,7 @@ func attack_movement(delta):
 			speed_mod = 1.2
 	else:
 		guy1.move(guy1.direction,0.5)
+
+func knockback(hitted_enemy : Enemy):
+
+	hitted_enemy.parried(guy1,0.75,0.7)

@@ -124,3 +124,9 @@ func attack_movement(delta):
 					guy1.velocity = (target.global_position - guy1.global_position).normalized()*600
 		else:
 			guy1.move(guy1.direction,0.5,0.05)
+
+func knockback(hitted_enemy : Enemy):
+	if num_of_hits >= hitspam_tol:
+		hitted_enemy.parried(guy1)
+	else:
+		hitted_enemy.parried(guy1,0.6,0.4)

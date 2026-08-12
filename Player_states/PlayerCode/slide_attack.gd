@@ -28,6 +28,7 @@ func Enter():
 	guy1.animfx.modulate = guy1.curr_attk
 	guy1.animfx.play("shine1")
 	timer = 0.6
+	guy1.statemachine.last_attk_time = -0.6
 
 
 
@@ -93,3 +94,7 @@ func attack_movement(delta):
 		guy1.velocity = (prior_vel + guy1.direction*200)
 	else:
 		guy1.velocity = (prior_vel + guy1.direction*200).normalized() * 300
+
+func knockback(hitted_enemy : Enemy):
+
+	hitted_enemy.parried(guy1,0.6,0.7)

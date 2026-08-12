@@ -29,7 +29,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_5vw27"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2nwgi"]
-size = Vector2(60, 60)
+size = Vector2(65, 65)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_11tvd"]
 atlas = ExtResource("15_3osvf")
@@ -281,7 +281,7 @@ shape = SubResource("CircleShape2D_5vw27")
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox" unique_id=1504445]
-position = Vector2(7, 0.5)
+position = Vector2(7, 0)
 shape = SubResource("RectangleShape2D_2nwgi")
 disabled = true
 

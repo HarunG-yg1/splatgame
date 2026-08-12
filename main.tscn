@@ -23,6 +23,7 @@ size = Vector2(1156, 20)
 size = Vector2(1171, 14)
 
 [node name="Node2D" type="Node2D" unique_id=1267132106]
+texture_filter = 1
 script = ExtResource("1_4c57u")
 
 [node name="enemy2" parent="." unique_id=969408239 instance=ExtResource("2_4c57u")]

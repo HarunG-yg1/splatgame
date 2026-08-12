@@ -16,7 +16,7 @@ func Enter():
 	guy1.curr_out_attked = null
 	guy1.jump()
 	changed_dir = false
-
+	guy1.statemachine.last_attk_time = -0.7
 
 	print("AirAttack")
 
@@ -93,3 +93,7 @@ func attack_movement(delta):
 			speed_mod = 1
 	else:
 		guy1.move(guy1.direction,0.4)
+
+func knockback(hitted_enemy : Enemy):
+
+	hitted_enemy.parried(guy1,0.75,0.7)

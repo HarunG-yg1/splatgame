@@ -2,8 +2,9 @@ class_name Enemy_State_Stun extends Enemy_State
 @onready var timer = $"../../StateTimer"
 @onready var idle_state = $"../idle"
 var init_stun_time : float
+var delay : float
 var away_dir : Vector2
-var away_pwr : float = 1
+var away_pwr : float = 0.75
 var index : int = 0
 func init() -> void:
 	pass
@@ -60,14 +61,14 @@ func Process(_delta:float)->Enemy_State:
 		enemy.velocity = temp_prior_vel.normalized() * 400
 
 	
-	if timer.get_time_left() <= init_stun_time - 0.05 and  enemy.velocity.length() <= 1:
-		enemy.velocity = ( away_dir) * away_pwr
-		print("stun wnot")
+	if timer.get_time_left() <= init_stun_time - delay and  enemy.velocity.length() <= 1:
+		enemy.velocity = ( away_dir) 
+		#print("stun wnot")
 
-	elif timer.get_time_left() < init_stun_time - 0.05 and enemy.velocity.length() > 1:
+	elif timer.get_time_left() < init_stun_time - delay and enemy.velocity.length() > 1:
 		
 		
-		enemy.velocity *= 0.75
+		enemy.velocity  *=  away_pwr
 
 		
 #	print(timer.get_time_left(),"timee")

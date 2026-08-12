@@ -20,8 +20,7 @@ var cardinal_direction : Vector2 = Vector2.DOWN
 var direction : Vector2 = Vector2.ZERO
 var last_hit_from: Vector2 = Vector2.ZERO
 
-@export var hit_tol : int = 3
-var hit_tol_max : int
+
 
 
 @export var in_attk_type : Array[Color]
@@ -84,7 +83,7 @@ func _ready() -> void:
 
 	label.text = str(health)
 	in_attk_type_copy = in_attk_type
-	hit_tol_max = hit_tol
+
 	state_machine.init()
 	enemy_color = puddle_color
 	#direction.y = 1
@@ -94,7 +93,7 @@ func Process(delta: float) -> void:
 	
 	
 	was_last_hit += delta
-	if was_last_hit >= 0.25 and !get_collision_mask_value(2):
+	if was_last_hit >= 0.4 and !get_collision_mask_value(2):
 
 		set_collision_mask_value(2,true)
 	stun_time = move_toward(stun_time,0,delta)
@@ -223,27 +222,24 @@ func _on_enemy_fov_body_exited(body: CharacterBody2D) -> void:
 
 
 		
-func parried( from : Player ,pwer : float = 1,_stun_time : float = 1):
+func parried( from : Player ,pwer : float = 0.75,_stun_time : float = 1, knockback_delay : float = 0.01, dir : int = 1):
 	if player == null:
 		player= from
 	if stun_time <= 0 and stun_time > -0.01:
-		hit_tol -= 1
-		if hit_tol <= 0 and state_machine.curr_state is not enemy_attack:
-			stun_time = _stun_time
-			hit_tol = hit_tol_max
-		else:
-			stun_time = 0.3
+
+		stun_time = _stun_time
+		
 	state_machine.stun_state.away_pwr = pwer
-	
+	state_machine.stun_state.delay = knockback_delay
 	var vel : Vector2 =  ( randi_range(-1,1)*secondary_vel.normalized()/2 + from.velocity.normalized()).normalized() *600 
 	if from.velocity.length() == 0:
 		vel =  ( randi_range(-1,1)*secondary_vel.normalized()/2 + from.last_dir.normalized()).normalized() *600 
 	if velocity.length() <= 450:
-		g_timer.start(0.05)
+		g_timer.start(knockback_delay)
 		await g_timer.timeout
 	
 
-		velocity = vel * pwer
+		velocity = vel * dir
 
 	
 	
