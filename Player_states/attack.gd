@@ -123,7 +123,7 @@ func attack_movement(delta):
 					print("following")
 					guy1.velocity = (target.global_position - guy1.global_position).normalized()*600
 		else:
-			guy1.move(guy1.direction,0.5,0.05)
+			guy1.move(guy1.direction,0.3,0.05)
 
 func knockback(hitted_enemy : Enemy):
 	if num_of_hits >= hitspam_tol:

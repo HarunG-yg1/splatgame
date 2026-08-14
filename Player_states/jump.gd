@@ -9,7 +9,7 @@ class_name jumpin extends state_class
 @onready var shoot_state = $"../shoot"
 @onready var stun_state = $"../stun"
 func Enter():
-
+	
 	guy1.velocity *= 0.75
 	guy1.set_collision_mask_value(7,false)
 	pass

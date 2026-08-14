@@ -73,17 +73,17 @@ func _ready() -> void:
 
 func adjust_curr_attk(delta):
 	if curr_attk.r < 1:
-		curr_attk.r += delta/8
+		curr_attk.r += delta/10
 	else:
 		curr_attk.r = 1
 		
 	if curr_attk.g < 1:
-		curr_attk.g += delta/8
+		curr_attk.g += delta/10
 	else:
 		curr_attk.g = 1
 		
 	if curr_attk.b < 1:
-		curr_attk.b += delta/8
+		curr_attk.b += delta/10
 	else:
 		curr_attk.b = 1
 	color_att_sprite.modulate = curr_attk
@@ -157,7 +157,7 @@ func _input(event: InputEvent) -> void:
 		crouch = true
 	elif  event.is_action_released("crouch"):
 		crouch = false 
-	if event.is_action_pressed("dash") and dash_cd <= 0.15 and dash_num > 0 and (statemachine.curr_state is not stun) and !dashing:
+	if event.is_action_pressed("dash") and dash_cd <= 0.15 and dash_num > 0 and (statemachine.curr_state is not stun and (statemachine.curr_state is not dive)) and !dashing:
 		dashing = true
 		dash_num -= 1
 		dash_cd = 0.75
@@ -236,7 +236,8 @@ func _on_attack_box_body_entered(body: Enemy) -> void:
 				
 				
 				body.damage(curr_attk,0,global_position)
-				statemachine.curr_state.knockback(body)
+				body.parried(self,0.5,0.2,0.01)
+				#statemachine.curr_state.knockback(body)
 				
 
 			

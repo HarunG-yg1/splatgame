@@ -193,7 +193,7 @@ func boids():
 
 
 func damage(color : Color,amount: int, from: Vector2 = Vector2.ZERO) -> void:
-	if was_last_hit >= 0.15:
+	if was_last_hit >= 0.25:
 		was_last_hit = 0
 		set_collision_mask_value(2,false)
 		increment_in_attk_type(color )
