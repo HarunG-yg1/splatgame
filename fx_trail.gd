@@ -9,7 +9,6 @@ func _ready() -> void:
 	for i : Object in get_children():
 		if i is Sprite2D:
 			sprites.append(i)
-			
 
 func init( plyr:Player , emit : bool = false):
 	
@@ -19,11 +18,11 @@ func init( plyr:Player , emit : bool = false):
 
 func get_frame(sprite : Sprite2D):
 	sprite.modulate = player.curr_attk
-	sprite.scale.x = 1
-	sprite.scale.y = 1.5
-	sprite.modulate.a = 0.3
+	sprite.scale.x = 1.6
+	sprite.scale.y = 1
+	sprite.modulate.a = 0.2
 	sprite.global_position = player.global_position
-	sprite.rotation = player.attack_box.rotation + deg_to_rad(90)
+	sprite.rotation = player.attack_box.rotation
 	var frameIndex: int = player.sprite.get_frame()
 	var animationName: String = player.sprite.animation
 	var spriteFrames: SpriteFrames = player.sprite.get_sprite_frames()

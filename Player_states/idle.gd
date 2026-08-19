@@ -9,7 +9,10 @@ class_name idle extends state_class
 @onready var stun_state = $"../stun"
 
 func Enter():
-	#print("idle")
+	if (guy1.velocity.length() > 50 || statemachine.old_state is jumpin):
+		guy1.sprite.play("idle")
+	else:
+		guy1.sprite.play("default")
 	pass
 func Process(_delta):
 	if guy1.blocking  and guy1.stun_time < 0.75:
@@ -28,7 +31,7 @@ func Process(_delta):
 	elif guy1.jumping:
 		return jump_state
 	elif guy1.dashing:
-		guy1.velocity -= guy1.last_dir * 300
+	
 		print(guy1.last_dir)
 		return dash_state 
 	elif guy1.is_shoot :

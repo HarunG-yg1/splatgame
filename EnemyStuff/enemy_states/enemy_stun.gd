@@ -11,12 +11,12 @@ func init() -> void:
 func Enter() ->void:
 	
 	if enemy.player != null:
-		away_dir =  (randi_range(-1,1) * enemy.secondary_vel.normalized()/2 + enemy.player.velocity.normalized()).normalized() *600 
-		if enemy.player.velocity.length() == 0:
-			away_dir =   ( randi_range(-1,1)*enemy.secondary_vel.normalized()/2 + enemy.player.last_dir.normalized()).normalized() *600 
+		Vector2(enemy.player.last_dir.y, enemy.player.last_dir.x).normalized()
+	
+		away_dir =   ( randf_range(-0.5,0.5)*Vector2(enemy.player.last_dir.y, enemy.player.last_dir.x).normalized()+ enemy.player.last_dir.normalized()) *750 
 	init_stun_time = enemy.stun_time
 	
-	enemy.velocity *= 0
+	#enemy.velocity *= 0
 	
 	timer.start(enemy.stun_time)
 	
@@ -42,7 +42,7 @@ func Exit() ->void:
 		enemy.animfx.modulate = Color.WHITE
 		enemy.animfx.play("default")
 	
-	
+		enemy.was_last_hit = 0
 	pass
 	
 #what happens during process in state
@@ -74,8 +74,8 @@ func Process(_delta:float)->Enemy_State:
 #	print(timer.get_time_left(),"timee")
 
 	if timer.get_time_left() <= 0.05 and (enemy.stun_time <= 0 || init_stun_time >= 0.75):
-		if enemy.velocity.length() < 160:
-			return idle_state
+		enemy.velocity =  enemy.velocity.normalized() * 160
+		return idle_state
 	elif timer.get_time_left() <= 0.05 and enemy.stun_time >= 0.25:
 		
 		Enter()

@@ -4,7 +4,7 @@ class_name crouch_move extends crouch_idle
 
 func Enter():
 #	print("crouch move")
-	
+	guy1.sprite.play("crouch")
 	
 	guy1.set_collision_mask_value(8,false)
 	pass

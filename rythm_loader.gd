@@ -50,16 +50,13 @@ func check_similiar_colour(color_in : Color, color_in2 : Color)-> bool:
 func measure_similiar_color(color_in : Color, color_in2 : Color)-> float:
 	
 	#print(check_light_level(color_in),"light lvl",color_in)
-	var new_color : Color = add_color(color_in,color_in2)
-	var vec_3_1 : Vector3 = Vector3(color_in.r,color_in.g,color_in.b)
-	var vec_3_3 : Vector3 = Vector3(color_in2.r,color_in2.g,color_in2.b)
+	var new_color : Color = minus_color(color_in,color_in2,false,false)
+
 	var vec_3_2 : Vector3 = Vector3(new_color.r,new_color.g,new_color.b)
 	
 	
-	var enabler : float =(vec_3_1.normalized() - Vector3(1,1,1).normalized()).length() * (vec_3_3.normalized() - Vector3(1,1,1).normalized()).length()
-	if enabler > 0:
-		enabler = 1
-	return min(4,0.01 * round(enabler *100/( 0.1+ (vec_3_1.normalized() - vec_3_2.normalized()).length() + (vec_3_3.normalized() - vec_3_2.normalized()).length())))
+	#print("color_len", vec_3_2.length(), new_color,color_in , color_in2)
+	return vec_3_2.length()
 	
 func add_color(color_in : Color, color_in2 : Color)->Color:
 	var color_arr_1 : Array[float] = [
@@ -80,8 +77,8 @@ func add_color(color_in : Color, color_in2 : Color)->Color:
 
 	return Color(color_arr_1[0],color_arr_1[1],color_arr_1[2],1)
 
-func minus_color(color_in : Color, color_in2 : Color, biggest_to_one : bool = false)->Color:
-	
+func minus_color(color_in : Color, color_in2 : Color, biggest_to_one : bool = false, avoid_black : bool = true)->Color:
+	#print(find_smallest_rgb(color_in),color_in,"find_smallest_rgb(color_in)")
 	for  i : int in find_smallest_rgb(color_in):
 		if i == 0:
 			color_in.r = 0
@@ -89,7 +86,7 @@ func minus_color(color_in : Color, color_in2 : Color, biggest_to_one : bool = fa
 			color_in.g = 0
 		elif i == 2:
 			color_in.b = 0
-	print(color_in,"color_in")
+#	print(find_smallest_rgb(color_in2),color_in2,"find_smallest_rgb(color_in2)")
 	for  i : int in find_smallest_rgb(color_in2):
 		if i == 0:
 			color_in2.r = 0
@@ -97,11 +94,11 @@ func minus_color(color_in : Color, color_in2 : Color, biggest_to_one : bool = fa
 			color_in2.g = 0
 		elif i == 2:
 			color_in2.b = 0
-	print(color_in2,"color_in2")
+
 	var color_arr_1 : Array[float] = [
-	color_in.r - color_in2.r,
-	color_in.g - color_in2.g,
-	color_in.b -  color_in2.b,
+	abs(color_in.r - color_in2.r),
+	abs(color_in.g - color_in2.g),
+	abs(color_in.b -  color_in2.b),
 	]
 	var vec_3_1 : Vector3 = Vector3(color_in.r,color_in.g,color_in.b)
 	var vec_3_2 : Vector3 = Vector3(color_in2.r,color_in2.g,color_in2.b)
@@ -111,12 +108,13 @@ func minus_color(color_in : Color, color_in2 : Color, biggest_to_one : bool = fa
 		return color_in2
 	elif vec_3_2.normalized() == Vector3(1,1,1).normalized():
 		return color_in
-
+	
+	var smallest_newcolor_list = find_smallest_rgb(Color(color_arr_1[0],color_arr_1[1],color_arr_1[2],1))
 	for i : int in range(color_arr_1.size()):
 		color_arr_1[i] = abs(color_arr_1[i])
 		if color_arr_1[biggest] < color_arr_1[i]:
 			biggest = i
-		if color_arr_1[i] < 0.5:
+		elif i in smallest_newcolor_list:
 			color_arr_1[i] = 0
 		
 			
@@ -127,7 +125,7 @@ func minus_color(color_in : Color, color_in2 : Color, biggest_to_one : bool = fa
 			if color_arr_1[i] > 0:
 				color_arr_1[i] /= color_arr_1[biggest]
 
-	if color_arr_1[0] < 0.05 and color_arr_1[1]  < 0.05 and color_arr_1[2] < 0.05:
+	if avoid_black and color_arr_1[0] < 0.05 and color_arr_1[1]  < 0.05 and color_arr_1[2] < 0.05:
 		color_arr_1[biggest] = 1
 
 	return Color(color_arr_1[0],color_arr_1[1],color_arr_1[2],1)

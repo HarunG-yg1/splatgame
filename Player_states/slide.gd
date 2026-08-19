@@ -9,6 +9,7 @@ var timer : float = 0.4
 
 
 func Enter():
+	guy1.sprite.play("slide")
 	timer = 0.4
 	if RythmLoader.find_attkType(Color.GREEN) :
 		RythmLoader.setHit_attkType(Color.GREEN)
@@ -43,7 +44,7 @@ func Process(_delta):
 #	print("sliding")
 	prior_vel_dir *= 0.98
 	guy1.velocity = prior_vel_dir + guy1.direction*150
-	if (guy1.last_dir -prior_vel_dir.normalized()).length() > 1.4:
+	if (guy1.last_dir -prior_vel_dir.normalized()).length() > 1.4 || guy1.velocity.length() < 200:
 
 		guy1.velocity= guy1.velocity.normalized() *150
 		
@@ -68,7 +69,8 @@ func Process(_delta):
 		guy1.set_collision_mask_value(8,true)
 		return crouch_state.block_state
 	elif guy1.is_attack:
-		if RythmLoader.measure_similiar_color(guy1.curr_attk,Color.GREEN) < 1:
+		if RythmLoader.measure_similiar_color(guy1.curr_attk,Color.GREEN) >= 1:
+			print(RythmLoader.measure_similiar_color(guy1.curr_attk,Color.GREEN),"slide")
 			return crouch_state.slide_attack_state
 		else:
 			return crouch_state.attack_state

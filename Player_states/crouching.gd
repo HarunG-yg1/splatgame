@@ -23,7 +23,7 @@ func _init() -> void:
 	
 
 func Enter():
-
+	guy1.sprite.play("crouch")
 	guy1.set_collision_mask_value(8,false)
 	had_prior_vel = (guy1.velocity).normalized() * (guy1.velocity.length() + abs(guy1.jump_vel)*1.6)
 	guy1.jump_vel = 0

@@ -10,10 +10,12 @@ var dash_window : float
 var boost : float
 var remove_endlag := false
 func Enter():
+	
+	guy1.sprite.play("dash")
 	remove_endlag = false
-	print("dash")
+
 	dash_window = 0.25
-	boost = 5
+	boost = 4
 
 	
 	if  RythmLoader.find_attkType(Color.RED):
@@ -39,7 +41,9 @@ func Process(delta):
 		RythmLoader.setHit_attkType(Color.WHITE)
 
 	if dash_window > 0:
-		guy1.move(guy1.direction,boost)
+		if guy1.velocity.length() < 100:
+			guy1.velocity = guy1.last_dir * 350
+		guy1.move(guy1.last_dir,boost)
 		boost -= delta * 16
 		dash_window -= delta
 	else:
@@ -47,8 +51,9 @@ func Process(delta):
 		return move_state
 		
 	if guy1.is_attack and dash_window < 0.15 :
-		if RythmLoader.measure_similiar_color(guy1.curr_attk,Color.RED) < 1:
+		if RythmLoader.measure_similiar_color(guy1.curr_attk,Color.RED) >= 1:
 			guy1.dash_num -= 1
+		#	print(RythmLoader.measure_similiar_color(guy1.curr_attk,Color.RED),"measured")
 			return dash_attack_state
 		else:
 			return attack_state

@@ -7,11 +7,11 @@ class_name attack extends state_class
 @onready var dash_state = $"../dash"
 @onready var crouch_state = $"../crouching"
 @onready var stun_state = $"../stun"
-var hitspam_tol : int = 4
+var hitspam_tol : int = 5
 var hit_lag : float = -0.3
-var start_up_lag : float = -0.2
+
 var target : Enemy
-var timer :=0.4
+var timer : float
 var num_of_hits : int = 0
 var speed_mod : float= 1
 var parent : bool = true
@@ -25,6 +25,7 @@ func _init() -> void:
 		i.statemachine = self.statemachine
 
 func Enter():
+	guy1.velocity *= 0.25
 	if guy1.statemachine.last_attk_time < 1:
 		num_of_hits += 1
 	else:
@@ -40,14 +41,23 @@ func Enter():
 	guy1.animfx.modulate = guy1.curr_attk
 	guy1.animfx.play("shine1")
 	if num_of_hits > 0:
-		
+		guy1.sprite.stop()
 		guy1.sprite.play("BasicATK")
+		timer = get_anim_length("BasicATK")
 	else:
-		guy1.sprite.play("BasicATK") # make this slower later
-	timer = 0.4
+		guy1.sprite.stop()
+		guy1.sprite.play("BasicATK_startlag")
+		timer = get_anim_length("BasicATK_startlag")
+	print("time", timer)
 
-
-
+func get_anim_length(anim_name : String)->float:
+	var sprite_frames : SpriteFrames = guy1.sprite.sprite_frames
+	if !sprite_frames.has_animation(anim_name):
+		return 0
+	var accumm : float = 0
+	for i : int in range(sprite_frames.get_frame_count(anim_name)):
+		accumm += sprite_frames.get_frame_duration(anim_name,i)/sprite_frames.get_animation_speed(anim_name)
+	return accumm
 func Process(_delta):
 	
 	#print(guy1.out_attk_time)
@@ -56,6 +66,7 @@ func Process(_delta):
 		return stun_state
 	timer -= _delta
 
+		
 	#guy1.attack_box.look_at(guy1.global_position+guy1.last_dir)
 	attack_movement(_delta)
 
@@ -63,7 +74,7 @@ func Process(_delta):
 		guy1.attack_shape.disabled = false 
 	if hit_boxOff():
 		guy1.attack_shape.disabled = true
-	elif (timer <= start_up_lag and num_of_hits == 0) || (timer <= 0 and num_of_hits < hitspam_tol and num_of_hits > 0) || (timer <= hit_lag and num_of_hits >= hitspam_tol) || guy1.stun_time > 0:
+	elif (timer <= 0 and num_of_hits < hitspam_tol) || (timer <= hit_lag and num_of_hits >= hitspam_tol) || guy1.stun_time > 0:
 		if num_of_hits >=  hitspam_tol:
 			num_of_hits = 0
 		#	print("endlag")
@@ -82,17 +93,15 @@ func Process(_delta):
 	
 
 func hit_boxOn()->bool:
-	if num_of_hits > 0:
-		return timer <= 0.25 and  timer > 0.24
-	else:
-	#e	print("start up time")
-		return timer <= 0.25 + start_up_lag and  timer > 0.24 + start_up_lag
+	
+	return guy1.sprite.frame == 4
+
 
 func hit_boxOff()->bool:
 	if num_of_hits > 0:
-		return timer <= 0.02 and  timer > 0.01
+		return guy1.sprite.frame == 6
 	else:
-		return timer <= 0.02 + start_up_lag and  timer > 0.01  + start_up_lag
+		return guy1.sprite.frame == 8
 
 func Exit():
 	
@@ -101,32 +110,34 @@ func Exit():
 	guy1.is_attack = false
 	guy1.set_collision_layer_value(2,true)
 
+
 func attack_movement(delta):
 	
+
 	if guy1.attack_shape.disabled and timer > 0:
-	
+
 		guy1.move(guy1.direction,speed_mod)
 
 	else:
 		if hit_boxOn():
 			if Input.is_action_pressed("aim_to_mouse"):
 			
-				guy1.velocity = -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * 600
+				guy1.velocity = -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * 450
 		#
 			else:
 				
 				if guy1.follow_up_time <=0 || (target != null and ((target.global_position - guy1.global_position).normalized()-guy1.direction.normalized()).length() >= 1.5 and (guy1.global_position - target.global_position).length() < 100):
 					guy1.follow_up_time = 0
-					guy1.velocity = guy1.last_dir.normalized() * 600
+					guy1.velocity = guy1.last_dir.normalized() * 450
 				
 				elif target != null:
 					print("following")
-					guy1.velocity = (target.global_position - guy1.global_position).normalized()*600
+					guy1.velocity = (target.global_position - guy1.global_position).normalized()*450
 		else:
-			guy1.move(guy1.direction,0.3,0.05)
+			guy1.move(guy1.direction,0.5,0.01)
 
 func knockback(hitted_enemy : Enemy):
 	if num_of_hits >= hitspam_tol:
-		hitted_enemy.parried(guy1)
+		hitted_enemy.parried(guy1,0.85,1)
 	else:
-		hitted_enemy.parried(guy1,0.6,0.4)
+		hitted_enemy.parried(guy1,0.7,0.4)

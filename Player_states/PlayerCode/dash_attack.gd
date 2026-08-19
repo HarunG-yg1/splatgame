@@ -13,6 +13,7 @@ func _init() -> void:
 		i.statemachine = self.statemachine
 
 func Enter():
+	guy1.sprite.play("dash_attk")
 	changed_dir = false
 	target = guy1.curr_out_attked
 	guy1.curr_out_attked = null
@@ -22,9 +23,9 @@ func Enter():
 	guy1.curr_attk = RythmLoader.add_color(Color.RED,guy1.curr_attk)
 	guy1.animfx.modulate = guy1.curr_attk
 	guy1.animfx.play("shine1")
-	timer = 0.7
-	guy1.statemachine.last_attk_time = -0.7
-
+	timer = get_anim_length("dash_attk")
+	guy1.statemachine.last_attk_time = -get_anim_length("dash_attk")
+	print(timer, "timer dash_attk")
 	if  RythmLoader.find_attkType(Color.RED):
 		RythmLoader.setHit_attkType(Color.RED)
 		guy1.i_time = 0.25
@@ -35,16 +36,16 @@ func Enter():
 
 
 func hit_boxOn()->bool:
-	return timer <=0.45 and  timer > 0.44
+	return guy1.sprite.frame == 7
 
 func hit_boxOff()->bool:
-	return timer <=0.2 and  timer > 0.19
+	return guy1.sprite.frame == 11
 
 func attack_movement(delta):
 	if hit_boxOn():
 		guy1.set_collision_layer_value(2,false)
 		guy1.start_trail.emit(guy1)
-		guy1.i_time = 0.2
+		guy1.i_time = 0.1
 		if Input.is_action_pressed("aim_to_mouse"):
 			prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * guy1.velocity.length()
 			guy1.velocity = prior_vel
@@ -57,7 +58,7 @@ func attack_movement(delta):
 				print("mooo")
 				prior_vel = (target.global_position - guy1.global_position).normalized()*guy1.velocity.length()
 	
-		guy1.sprite.play("BasicATK")
+		
 
 
 
@@ -98,4 +99,4 @@ func attack_movement(delta):
 
 func knockback(hitted_enemy : Enemy):
 
-	hitted_enemy.parried(guy1,0.75,0.7)
+	hitted_enemy.parried(guy1,0.8,0.7)

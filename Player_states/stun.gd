@@ -9,6 +9,7 @@ func Enter() ->void:
 	init_stun_time = guy1.stun_time
 
 	timer.start(guy1.stun_time)
+	guy1.sprite.play("idle")
 	guy1.stun_time = 0
 
 
@@ -18,7 +19,7 @@ func Enter() ->void:
 func Exit() ->void:
 	#guy1.set_collision_mask_value(2,true)
 	
-	guy1.i_time = 0.1
+	guy1.i_time = 0.2
 	
 #what happens during process in state
 func Process(_delta:float)->state_class:

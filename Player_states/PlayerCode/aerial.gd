@@ -14,7 +14,7 @@ func _init() -> void:
 func Enter():
 	target = guy1.curr_out_attked
 	guy1.curr_out_attked = null
-	guy1.jump()
+	guy1.jump(1.5)
 	changed_dir = false
 	guy1.statemachine.last_attk_time = -0.7
 
@@ -26,33 +26,37 @@ func Enter():
 	guy1.curr_attk = RythmLoader.add_color(Color.BLUE,guy1.curr_attk)
 	guy1.animfx.modulate = guy1.curr_attk
 	guy1.animfx.play("shine1")
-	timer = 0.7
+	
+	guy1.statemachine.last_attk_time = -get_anim_length("dash_attk")
 	if RythmLoader.find_attkType(Color.BLUE):
 		RythmLoader.setHit_attkType(Color.BLUE)
 		guy1.i_time = 0.25
 	if  RythmLoader.check_similiar_colour(statemachine.last_defend,Color.BLUE) and  RythmLoader.find_attkType(Color.WHITE):
 		RythmLoader.setHit_attkType(Color.WHITE)
-
+	guy1.sprite.play("aerial")
+	timer = get_anim_length("aerial")
 
 func hit_boxOn()->bool:
-	return timer <=0.45 and  timer > 0.44
+	return guy1.sprite.frame == 8
 
 func hit_boxOff()->bool:
-	return timer <=0.2 and  timer > 0.19
+	return guy1.sprite.frame == 12
 func attack_movement(delta):
 	if hit_boxOn():
 		guy1.set_collision_layer_value(2,false)
 		guy1.start_trail.emit(guy1)
-		guy1.i_time = 0.2
-		guy1.sprite.play("BasicATK")
+		guy1.i_time = 0.1
+		
 		if Input.is_action_pressed("aim_to_mouse"):
-				prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * guy1.velocity.length()
+				prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * 400
 				guy1.velocity = prior_vel
 
 		else:
 			if guy1.follow_up_time <=0 || (target != null and ((target.global_position - guy1.global_position).normalized()-guy1.direction.normalized()).length() > 1.41):
 				guy1.follow_up_time = 0
-				prior_vel = guy1.velocity
+				
+				
+				prior_vel = guy1.last_dir * 400
 			elif target != null:
 				print("mooo")
 				prior_vel = (target.global_position - guy1.global_position).normalized()*guy1.velocity.length()
@@ -86,7 +90,7 @@ func attack_movement(delta):
 			RythmLoader.setHit_attkType(Color.WHITE)
 			
 		
-		guy1.velocity = (prior_vel.normalized() + guy1.direction).normalized() * guy1.MAX_SPEED *speed_mod
+		guy1.velocity = (prior_vel.normalized() + guy1.last_dir).normalized() * guy1.MAX_SPEED *speed_mod
 		if speed_mod > 1:
 			speed_mod -= delta* 16
 		else:

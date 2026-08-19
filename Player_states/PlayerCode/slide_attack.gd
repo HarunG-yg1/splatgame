@@ -14,6 +14,7 @@ func _init() -> void:
 		i.statemachine = self.statemachine
 	
 func Enter():
+	guy1.sprite.play("slide_attk")
 	target = guy1.curr_out_attked
 	guy1.curr_out_attked = null
 	changed_dir = false
@@ -21,43 +22,44 @@ func Enter():
 
 	print("SlideAttack")
 	
-	guy1.velocity = guy1.velocity.normalized() * 400
+	guy1.velocity = guy1.velocity.normalized() * 500
 	prior_vel = guy1.velocity
 	
 	guy1.curr_attk = RythmLoader.add_color(Color.GREEN,guy1.curr_attk)
 	guy1.animfx.modulate = guy1.curr_attk
 	guy1.animfx.play("shine1")
-	timer = 0.6
-	guy1.statemachine.last_attk_time = -0.6
-
+	timer = get_anim_length("slide_attk")
+	guy1.statemachine.last_attk_time = -get_anim_length("slide_attk")
+	print(timer, "timer slide_attk")
 
 
 func hit_boxOn()->bool:
-	return timer <=0.35 and  timer > 0.34
+	return guy1.sprite.frame == 3
 
 func hit_boxOff()->bool:
-	return timer <=0.1 and  timer > 0.09
+	return guy1.sprite.frame == 10
+
 func attack_movement(delta):
 	if hit_boxOn():
 		guy1.set_collision_layer_value(2,false)
 		guy1.start_trail.emit(guy1)
-		guy1.i_time = 0.24
+		guy1.i_time = 0.1
 		if Input.is_action_pressed("aim_to_mouse"):
-			prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * 450
+			prior_vel =  -(guy1.global_position - guy1.get_global_mouse_position()).normalized() * 500
 			guy1.velocity = prior_vel
 	#
 		else:
-			if guy1.follow_up_time <=0 || (target != null and ((target.global_position - guy1.global_position).normalized()-guy1.direction.normalized()).length() > 1.41):
+			if guy1.follow_up_time <=0 || (target != null and ((target.global_position - guy1.global_position).normalized()-guy1.direction.normalized()).length() > 1.5):
 				guy1.follow_up_time = 0
 		
-				prior_vel = guy1.velocity.normalized() * 450
+				prior_vel = guy1.velocity.normalized() * 500
 
 			elif target != null:
 				print("mooo")
-				prior_vel = (target.global_position - guy1.global_position).normalized()*450
+				prior_vel = (target.global_position - guy1.global_position).normalized()*500
 
 
-		guy1.sprite.play("BasicATK")
+		
 
 
 	guy1.attack_box.look_at(guy1.position+guy1.velocity)
@@ -66,7 +68,7 @@ func attack_movement(delta):
 	if guy1.get_last_slide_collision() != null and guy1.get_last_slide_collision() != Enemy and !changed_dir:
 	
 	
-		var temp_prior_vel = (prior_vel.normalized() + 2*guy1.get_last_slide_collision().get_normal()).normalized() * 450
+		var temp_prior_vel = (prior_vel.normalized() + 2*guy1.get_last_slide_collision().get_normal()).normalized() * 500
 		if( guy1.get_last_slide_collision().get_normal().x >0) :
 			prior_vel.x = abs(temp_prior_vel.x)
 		else:
@@ -97,4 +99,4 @@ func attack_movement(delta):
 
 func knockback(hitted_enemy : Enemy):
 
-	hitted_enemy.parried(guy1,0.6,0.7)
+	hitted_enemy.parried(guy1,0.75,0.7)

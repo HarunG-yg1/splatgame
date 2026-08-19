@@ -9,7 +9,7 @@ class_name jumpin extends state_class
 @onready var shoot_state = $"../shoot"
 @onready var stun_state = $"../stun"
 func Enter():
-	
+	guy1.sprite.play("jump")
 	guy1.velocity *= 0.75
 	guy1.set_collision_mask_value(7,false)
 	pass
@@ -41,7 +41,7 @@ func Process(_delta):
 		
 		return block_state
 	elif guy1.is_attack and guy1.jump_vel >=-20 :
-		if RythmLoader.measure_similiar_color(guy1.curr_attk,Color.BLUE) < 1:
+		if RythmLoader.measure_similiar_color(guy1.curr_attk,Color.BLUE) >= 1:
 			
 			return aerial_attack_state
 		else:

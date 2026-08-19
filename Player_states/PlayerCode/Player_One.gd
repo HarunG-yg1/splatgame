@@ -46,7 +46,7 @@ var curr_in_attker : Enemy
 var dashing = false
 
 const INITIAL_SPEED = 55.0
-const MAX_SPEED = 320
+const MAX_SPEED = 350
 var direction : Vector2
 
 var last_puddle : blood_puddle
@@ -73,17 +73,17 @@ func _ready() -> void:
 
 func adjust_curr_attk(delta):
 	if curr_attk.r < 1:
-		curr_attk.r += delta/10
+		curr_attk.r += delta/12
 	else:
 		curr_attk.r = 1
 		
 	if curr_attk.g < 1:
-		curr_attk.g += delta/10
+		curr_attk.g += delta/12
 	else:
 		curr_attk.g = 1
 		
 	if curr_attk.b < 1:
-		curr_attk.b += delta/10
+		curr_attk.b += delta/12
 	else:
 		curr_attk.b = 1
 	color_att_sprite.modulate = curr_attk
@@ -91,7 +91,7 @@ func _process(delta: float) -> void:
 
 	if follow_up_time > 0:
 		follow_up_time -= delta
-	else:
+	elif curr_out_attked != null and (curr_out_attked.position - position).length() > 260:
 		follow_up_time = 0
 		curr_out_attked = null
 	adjust_curr_attk(delta)
@@ -198,7 +198,7 @@ func move(direct,modifier=1,delta=0.1):
 	velocity = lerp(velocity, direct*MAX_SPEED* modifier,delta)
 	
 
-func jump()->void:
+func jump(time_scale : float = 1)->void:
 	para_in_sinwave = 0
 	jump_vel  =(-80)
 	
@@ -206,9 +206,9 @@ func jump()->void:
 	var tween = get_tree().create_tween()
 
 	
-	tween.tween_property(sprite, "scale", Vector2(2,2), 0.25)
+	tween.tween_property(sprite, "scale", Vector2(1.2,1.2), 0.25 * time_scale)
 
-	tween.tween_property(sprite, "scale", Vector2(1,1), 0.25)
+	tween.tween_property(sprite, "scale", Vector2(0.75,0.75), 0.25 * time_scale)
 
 func _physics_process(_delta: float) -> void:
 	if is_dead:

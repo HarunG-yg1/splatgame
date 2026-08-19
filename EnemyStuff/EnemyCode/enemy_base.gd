@@ -194,7 +194,7 @@ func boids():
 
 func damage(color : Color,amount: int, from: Vector2 = Vector2.ZERO) -> void:
 	if was_last_hit >= 0.25:
-		was_last_hit = 0
+		
 		set_collision_mask_value(2,false)
 		increment_in_attk_type(color )
 		health -= amount
@@ -223,23 +223,21 @@ func _on_enemy_fov_body_exited(body: CharacterBody2D) -> void:
 
 		
 func parried( from : Player ,pwer : float = 0.75,_stun_time : float = 1, knockback_delay : float = 0.01, dir : int = 1):
-	if player == null:
-		player= from
-	if stun_time <= 0 and stun_time > -0.01:
+	if was_last_hit >= 0.25:
+		if player == null:
+			player= from
+		if stun_time <= 0 and stun_time > -0.01:
 
-		stun_time = _stun_time
-		
-	state_machine.stun_state.away_pwr = pwer
-	state_machine.stun_state.delay = knockback_delay
-	var vel : Vector2 =  ( randi_range(-1,1)*secondary_vel.normalized()/2 + from.velocity.normalized()).normalized() *600 
-	if from.velocity.length() == 0:
-		vel =  ( randi_range(-1,1)*secondary_vel.normalized()/2 + from.last_dir.normalized()).normalized() *600 
-	if velocity.length() <= 450:
-		g_timer.start(knockback_delay)
-		await g_timer.timeout
+			stun_time = _stun_time
+			
+		state_machine.stun_state.away_pwr = pwer
+		state_machine.stun_state.delay = knockback_delay
+		var vel : Vector2 =  ( randf_range(-0.5,0.5)*Vector2(from.last_dir.y, from.last_dir.x).normalized()+ from.last_dir.normalized()) *750
 	
-
-		velocity = vel * dir
+		if velocity.length() <= 450:
+			g_timer.start(knockback_delay)
+			await g_timer.timeout
+			velocity = vel * dir
 
 	
 	
