@@ -77,17 +77,16 @@ func _on_area_exited(area: arrow) -> void:
 		current_arrows.erase(area)
 	check_empty()
 	if player.i_time <= 0 and !area.hit and area.alive and area.visible:
-		area.animSprite.play("miss")
+	#	area.animSprite.play("miss")
 
-		area.modulate = Color.WHITE
-		#player.velocity -=  (area.enemy_Owner.global_position - player.global_position)
+	
 		player.missed = true
 
 	elif area.alive and area.visible:
 		player.missed = false
-		area.modulate = Color.WHITE
-		area.animSprite.play("hit")
+		
+
 	area.alive = false
-	#area.process_mode = Node.PROCESS_MODE_DISABLED
+	area.visible  = false
+	area.process_mode = Node.PROCESS_MODE_DISABLED
 	
-	#pass # Replace with function body.

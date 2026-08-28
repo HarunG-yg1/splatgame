@@ -52,7 +52,7 @@ func _on_timer_timeout() -> void:
 		get_box(coll_arr[index])
 		index += 1
 		timer.start(0.1)
-	else:
+	elif player.attack_shape.disabled:
 		for coll : CollisionShape2D in coll_arr:
 			coll.disabled = true
 			player = null

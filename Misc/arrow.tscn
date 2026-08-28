@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://byp2qmxhs46uy" path="res://Misc/arrow.gd" id="1_sdt85"]
 [ext_resource type="Texture2D" uid="uid://bka8ruyptlus8" path="res://Assets/communityIcon_oi1dus1jkkvb1.png" id="3_b8spp"]
-[ext_resource type="Texture2D" uid="uid://ci0mpvjc0ux73" path="res://Assets/memes.png" id="4_tk230"]
+[ext_resource type="Texture2D" uid="uid://bvvq83ucea03" path="res://Assets/bullet lol.png" id="4_bfm2l"]
 [ext_resource type="Texture2D" uid="uid://dojsan8dtpoe1" path="res://Assets/Bone.png" id="7_0gwhe"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4jcdm"]
@@ -16,20 +16,26 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 6.0,
 "texture": ExtResource("3_b8spp")
+}, {
+"duration": 1.0,
+"texture": null
 }],
-"loop": 1,
+"loop": 0,
 "name": &"hit",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
+"duration": 6.0,
+"texture": ExtResource("4_bfm2l")
+}, {
 "duration": 1.0,
-"texture": ExtResource("4_tk230")
+"texture": null
 }],
 "loop": 0,
 "name": &"miss",
-"speed": 5.0
+"speed": 12.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kl0as"]
@@ -39,9 +45,11 @@ process_mode = 4
 script = ExtResource("1_sdt85")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=550202556]
+modulate = Color(1, 1, 1, 0.43137255)
 z_index = 4
 position = Vector2(0.9999962, -1.1444092e-05)
 sprite_frames = SubResource("SpriteFrames_4jcdm")
+animation = &"hit"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1003357557]
 shape = SubResource("CircleShape2D_kl0as")

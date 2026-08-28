@@ -1,6 +1,6 @@
 class_name arrow extends Node2D
 var enemy_Owner : Enemy
-
+var hittime : float
 var enemy_attk_type : Color
 var alive : bool = false
 var hit : bool = false
@@ -11,6 +11,7 @@ var melee : bool
 func init(enemy : Enemy, attk_color : Color , hit_time : float, is_melee : bool = true):
 #	position.y = 0
 	if  hit_time > 0.05:
+		hittime = hit_time
 		enemy_Owner = enemy
 		enemy_attk_type = attk_color
 		modulate = attk_color
@@ -19,21 +20,27 @@ func init(enemy : Enemy, attk_color : Color , hit_time : float, is_melee : bool 
 		alive = true
 		hit = false
 		melee = is_melee
-		position.y = -((get_viewport_rect().size.y)*hit_time)*1.5
+		global_position = get_parent().global_position + ((enemy.global_position - enemy.player.global_position).normalized()) * 100 * (hit_time) **3
 		process_mode = Node.PROCESS_MODE_INHERIT
 	else:
 		visible  = false
 		alive = false
 		hit = false
 		process_mode = Node.PROCESS_MODE_DISABLED
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+# Called every f9rame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if enemy_Owner == null:
 		visible  = false
 		alive = false
 		hit = false
 		process_mode = Node.PROCESS_MODE_DISABLED
-	position.y += (get_viewport_rect().size.y * delta) * 1.5
+	hittime -= delta
+	if hittime > 0:
+		global_position  = get_parent().global_position +  (enemy_Owner.global_position - enemy_Owner.player.global_position).normalized()  * 100 * (hittime) *abs(hittime) 
+	else:
+		global_position  = get_parent().global_position +  (enemy_Owner.global_position - enemy_Owner.player.global_position).normalized()  * 300 * (hittime) 
+	if hit and animSprite.animation != "hit":
+		animSprite.play("hit")
 	pass
 	
 
